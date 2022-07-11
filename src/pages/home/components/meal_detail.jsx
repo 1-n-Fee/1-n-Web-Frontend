@@ -1,4 +1,4 @@
-import React, { useLayoutEffect } from "react";
+import React, { useRef, useEffect } from "react";
 
 const MealDetail = ({ meal, handleClose }) => {
   const detail = useRef();

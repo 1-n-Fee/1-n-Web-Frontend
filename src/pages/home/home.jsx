@@ -1,7 +1,7 @@
 import React from "react";
-import SideBar from "../components/sideBar";
-import Map from "../components/map";
-import styles from "../components/home.module.css";
+import SideBar from "./components/sideBar";
+import Map from "./components/map";
+import styles from "./components/home.module.css";
 import { useState } from "react";
 const Home = (props) => {
   const [meals, setMeals] = useState([
