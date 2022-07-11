@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const PwDupInput = ({ pw, dupCheckKey, setData }) => {
   const [pwDup, setPwDup] = useState("");
@@ -6,8 +6,13 @@ const PwDupInput = ({ pw, dupCheckKey, setData }) => {
     const value = e.target.value;
     setData((cur) => ({ ...cur, [dupCheckKey]: value === pw }));
     setPwDup(value);
-    console.log(pwDup);
   };
+
+  useEffect(() => {
+    if (pw === "") {
+      setPwDup("");
+    }
+  }, [pw]);
 
   return (
     <>
