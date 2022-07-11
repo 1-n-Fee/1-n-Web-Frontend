@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 const PwDupInput = ({ pw, dupCheckKey, setData }) => {
   const [pwDup, setPwDup] = useState("");
@@ -11,7 +11,12 @@ const PwDupInput = ({ pw, dupCheckKey, setData }) => {
 
   return (
     <>
-      <input type="password" value={pwDup} onChange={onChange} />
+      <input
+        type="password"
+        value={pwDup}
+        onChange={onChange}
+        disabled={pw === ""}
+      />
       <span>{pwDup !== pw || pwDup === "" ? "🔴" : "🟢"}</span>
     </>
   );
