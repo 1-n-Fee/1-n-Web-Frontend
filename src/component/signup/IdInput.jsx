@@ -27,6 +27,7 @@ const IdInput = ({ idKey, authCheckKey, setData }) => {
   return (
     <>
       <input type="text" onChange={onChange} value={id} />
+      <span>@konkuk.ac.kr</span>
       <button onClick={onClick}>인증하기</button>
       {isAuthChecked ? <span>인증 완료!✅</span> : null}
     </>
