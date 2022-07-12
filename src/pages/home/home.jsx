@@ -138,17 +138,16 @@ const Home = (props) => {
 
   return (
     <div className={styles.home}>
+      <SideBar
+        meals={meals}
+        onMealClick={setSelectedMeal}
+        selectedMeal={selectedMeal}
+      />
       <Map
         className={styles.map}
         markers={markers}
         selectedMarker={selectedMarker}
         onMarkerClick={setMeals}
-      />
-      <SideBar
-        className={styles.sidebar}
-        meals={meals}
-        selectedMeal={selectedMeal}
-        onMealClick={setSelectedMeal}
       />
     </div>
   );

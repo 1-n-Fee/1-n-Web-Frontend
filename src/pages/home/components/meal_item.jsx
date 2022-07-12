@@ -1,33 +1,14 @@
 import React from "react";
 
-const MealItem = ({ meal, onMealClick }) => {
-  const [isOpen, setOpen] = useState(false);
-  const [xPosition, setX] = useState(280);
-
-  const toggleMenu = () => {
-    if (xPosition > 0) {
-      setX(0);
-      setOpen(true);
-    } else {
-      setX(280);
-      setOpen(false);
-    }
-  };
-
-  const handleClose = async (e) => {
-    let sideArea = detail.current;
-    let sideCildren = detail.current.contains(e.target);
-    if (isOpen && (!sideArea || !sideCildren)) {
-      await setX(280);
-      await setOpen(false);
-    }
-  };
-
+const MealItem = ({ meal, onMealClick, ToggleDetailBar, isDetailOpen }) => {
   return (
     <li
       onClick={() => {
+        console.log("onCLick");
         onMealClick(meal);
-        toggleMenu();
+        if (!isDetailOpen) {
+          ToggleDetailBar();
+        }
       }}
     >
       <div>
