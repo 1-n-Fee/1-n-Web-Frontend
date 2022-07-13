@@ -19,10 +19,12 @@ const MealDetail = ({
       <button>정보</button>
       <button>메뉴</button>
       <ul>
-        <li>마감시간: {meal && meal.endTime}</li>
-        <li>참여현황: {meal && meal.party}</li>
-        <li>장소: {meal && meal.loc}</li>
-        <li>설명: {meal && meal.des}</li>
+        {meal && <li>마감시간: {meal.endTime}</li>}
+        <li>
+          참여현황: {meal && meal.curParty} / {meal && meal.maxParty}
+        </li>
+        <li>장소: {meal && meal.meetup}</li>
+        <li>설명: {meal && meal.description}</li>
         <li>참여 시 배달비: {meal && meal.deliveryCost}</li>
       </ul>
     </div>

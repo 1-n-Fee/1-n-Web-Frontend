@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { useRef } from "react";
 
-const Map = ({ markers, selectedMarker, onMarkerClick }) => {
+const Map = ({ markers, selectedMarker, setSelectedMarker, onMarkerClick }) => {
   const mapRef = useRef();
   const options = {
     center: new kakao.maps.LatLng(37.54184788997097, 127.07700613166341),
@@ -27,7 +27,7 @@ const Map = ({ markers, selectedMarker, onMarkerClick }) => {
       marker.setMap(map);
       const content =
         '<div class="customoverlay">' +
-        '  <a href="https://map.kakao.com/link/map/11394059" target="_blank">' +
+        '  <a  target="_blank">' +
         `    <span class="title">${item.cnt}</span>` +
         "  </a>" +
         "</div>";
@@ -42,6 +42,23 @@ const Map = ({ markers, selectedMarker, onMarkerClick }) => {
       });
       kakao.maps.event.addListener(marker, "mouseout", function () {
         overlay.setMap(null);
+      });
+      kakao.maps.event.addListener(marker, "click", function () {
+        console.log("clicked marker");
+        for (let i = 0; i < markers.length; i++) {
+          // 서버 통신
+          if (
+            marker.getPosition().getLat() === markers[i].lat &&
+            marker.getPosition().getLng() === markers[i].lng
+          ) {
+            console.log("found marker");
+            console.log(markers[i]);
+            const selMarker = { ...markers[i] };
+            //setSelectedMarker(selMarker);
+            onMarkerClick(i);
+            break;
+          }
+        }
       });
       /*
       const iwContent = `<div style="padding:5px;">${item.cnt}</div>`;

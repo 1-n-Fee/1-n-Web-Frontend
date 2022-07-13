@@ -4,9 +4,15 @@ import React, { useState } from "react";
 import MealList from "./meal_list";
 //import styles from "./sideBar.module.css";
 
-const SideBar = ({ meals, onMealClick, selectedMeal }) => {
+const SideBar = ({
+  meals,
+  onMealClick,
+  selectedMeal,
+  isDetailOpen,
+  setIsDetailOpen,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isDetailOpen, setIsDetailOpen] = useState(false);
+  //const [isDetailOpen, setIsDetailOpen] = useState(false);
   const ToggleSidebar = () => {
     isOpen === true ? setIsOpen(false) : setIsOpen(true);
   };
