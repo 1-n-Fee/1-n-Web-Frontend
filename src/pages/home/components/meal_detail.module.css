@@ -1,0 +1,13 @@
+.sidebar {
+  padding: 0;
+  background-color: white;
+  border-right: 4px solid #202020;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  transition: 0.4s ease;
+  color: #202020;
+  height: 100%;
+  z-index: 98;
+}
