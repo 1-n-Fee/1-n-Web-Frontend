@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 import AlarmMenu from "./AlarmMenu";
 import Icon from "./Icon";
 import MyPageMenu from "./MyPageMenu";
@@ -8,15 +9,16 @@ const Key = { ALARM: "alarm", MY_PAGE: "myPage" };
 Object.freeze(Key);
 
 const Icons = () => {
+  const navigate = useNavigate();
   const [isMenuOpened, setIsMenuOpened] = useState({
     [Key.ALARM]: false,
     [Key.MY_PAGE]: false,
   });
   const onAddRoomClick = () => {
-    window.location.href = "/creating-room";
+    navigate("creating-room");
   };
   const onChatRoomClick = () => {
-    window.location.href = "/chat";
+    navigate("chat");
   };
   const onAlarmMenuClick = useCallback(() => {
     console.log("isAlarmClicked");
