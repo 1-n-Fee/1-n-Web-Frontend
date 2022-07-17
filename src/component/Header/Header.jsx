@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Icons from "./Icons";
 import SearchBar from "../common/SearchBar";
 import Tag from "../common/Tag";
 
 const Header = () => {
+  const navigate = useNavigate();
   const [tagData, setTagData] = useState([
     { name: "한식", isClicked: true },
     { name: "양식", isClicked: true },
@@ -14,6 +16,9 @@ const Header = () => {
     { name: "기타", isClicked: true },
   ]);
 
+  const onLogoClick = () => {
+    navigate("/");
+  };
   const onTagClick = (e) => {
     const idx = parseInt(e.target.dataset.key);
     setTagData((cur) =>
@@ -30,7 +35,7 @@ const Header = () => {
   return (
     <div>
       <HeaderWrapper>
-        <ImgWrapper>
+        <ImgWrapper onClick={onLogoClick}>
           <img src="#" alt="logo" />
         </ImgWrapper>
 
