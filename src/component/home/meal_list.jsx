@@ -3,7 +3,6 @@ import MealDetail from "./meal_detail";
 import MealItem from "./meal_item";
 //import MealDetail from "./meal_detail";
 import styled from "styled-components";
-
 const MealList = ({
   meals,
   onMealClick,

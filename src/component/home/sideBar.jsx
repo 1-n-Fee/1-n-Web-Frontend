@@ -33,7 +33,7 @@ const SideBar = ({
           onMealClick={onMealClick}
           selectedMeal={selectedMeal}
         />
-      </SideBarWrapper>
+        </SideBarWrapper>
     </>
   );
 };
