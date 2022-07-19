@@ -2,7 +2,7 @@ import React from "react";
 import MealDetail from "./meal_detail";
 import MealItem from "./meal_item";
 //import MealDetail from "./meal_detail";
-import styles from "./meal_list.module.css";
+import styled from "styled-components";
 const MealList = ({
   meals,
   onMealClick,
@@ -13,17 +13,19 @@ const MealList = ({
 }) => {
   return (
     <>
-      <ul className={styles.list}>
-        {meals.map((meal) => (
-          <MealItem
-            meal={meal}
-            isDetailOpen={isDetailOpen}
-            setIsDetailOpen={setIsDetailOpen}
-            onMealClick={onMealClick}
-            ToggleDetailBar={ToggleDetailBar}
-          />
-        ))}
-      </ul>
+      <MealListWrapper>
+        <ul>
+          {meals.map((meal) => (
+            <MealItem
+              meal={meal}
+              isDetailOpen={isDetailOpen}
+              setIsDetailOpen={setIsDetailOpen}
+              onMealClick={onMealClick}
+              ToggleDetailBar={ToggleDetailBar}
+            />
+          ))}
+        </ul>
+      </MealListWrapper>
       <MealDetail
         meal={selectedMeal}
         isDetailOpen={isDetailOpen}
@@ -35,3 +37,15 @@ const MealList = ({
 };
 
 export default MealList;
+
+const MealListWrapper = styled.div`
+  display: flexbox;
+  flex-direction: row;
+  justify-content: center;
+  padding: 2rem;
+  position: relative;
+  width: 100%;
+  height: 90vh;
+  overflow: auto;
+  padding: 0;
+`;
