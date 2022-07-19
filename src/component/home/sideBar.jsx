@@ -17,7 +17,9 @@ const SideBar = ({
   };
   return (
     <>
-      <SideBarButton onClick={ToggleSidebar}>열기</SideBarButton>
+      <ButtonWrapper>
+        <SideBarButton onClick={ToggleSidebar}>열기</SideBarButton>
+      </ButtonWrapper>
       <SideBarWrapper isOpen={isOpen}>
         <SideBarHeader>
           <SideBarButton onClick={ToggleSidebar}>닫기</SideBarButton>
@@ -64,4 +66,10 @@ const SideBarButton = styled.button`
   border-radius: 0.3em;
   color: #fff;
   padding: 0.5em;
+`;
+const ButtonWrapper = styled.div`
+  z-index: 99;
+  position: fixed;
+  top: 5rem;
+  left: 1rem;
 `;
