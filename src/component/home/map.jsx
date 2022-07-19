@@ -1,7 +1,7 @@
 /*global kakao*/
 import React, { useEffect } from "react";
 import { useRef } from "react";
-
+import styled from "styled-components";
 const Map = ({ markers, selectedMarker, setSelectedMarker, onMarkerClick }) => {
   const mapRef = useRef();
   const options = {
@@ -86,18 +86,15 @@ const Map = ({ markers, selectedMarker, setSelectedMarker, onMarkerClick }) => {
     */
   }, []);
 
-  return (
-    <div>
-      <div
-        ref={mapRef}
-        id="map"
-        style={{
-          width: "100vw",
-          height: "100vh",
-        }}
-      ></div>
-    </div>
-  );
+  return <MapWrapper ref={mapRef} id="map"></MapWrapper>;
 };
 
 export default Map;
+
+const MapWrapper = styled.div`
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+`;
