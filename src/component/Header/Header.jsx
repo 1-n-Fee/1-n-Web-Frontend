@@ -75,6 +75,11 @@ const HeaderWrapper = styled.div`
   flex-direction: row;
   align-items: stretch;
   justify-content: space-between;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  background-color: white;
+  z-index: 99;
 `;
 
 const SearchBarWrapper = styled.div`
