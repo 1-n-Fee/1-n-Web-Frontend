@@ -1,7 +1,6 @@
 import React from "react";
 import SideBar from "../component/home/sideBar";
 import Map from "../component/home/map";
-//import styles from "./components/home.module.css";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
 const Home = (props) => {

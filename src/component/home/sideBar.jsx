@@ -56,8 +56,6 @@ const SideBarWrapper = styled.div`
 `;
 const SideBarHeader = styled.div`
   display: flex;
-  align-items: center;
-  justify-content: space-between;
   padding: 15px 0px 0px 15px;
 `;
 const SideBarButton = styled.button`
