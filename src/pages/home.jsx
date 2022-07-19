@@ -1,8 +1,9 @@
 import React from "react";
-import SideBar from "./home/components/sideBar";
-import Map from "./home/components/map";
-import styles from "./components/home.module.css";
+import SideBar from "../component/home/sideBar";
+import Map from "../component/home/map";
+import styled from "styled-components";
 import { useState, useEffect } from "react";
+
 const Home = (props) => {
   const [meals, setMeals] = useState([
     [
@@ -277,7 +278,7 @@ const Home = (props) => {
   };
 
   return (
-    <div className={styles.home}>
+    <HomeWrapper>
       <SideBar
         meals={mealListEntry}
         onMealClick={setSelectedMeal}
@@ -286,13 +287,17 @@ const Home = (props) => {
         setIsDetailOpen={setIsDetailOpen}
       />
       <Map
-        className={styles.map}
         markers={markers}
         //setSelectedMarker={setSelectedMarker}
         onMarkerClick={findEntry}
       />
-    </div>
+    </HomeWrapper>
   );
 };
 
 export default Home;
+
+const HomeWrapper = styled.div`
+  box-sizing: border-box;
+  margin: 0;
+`;
