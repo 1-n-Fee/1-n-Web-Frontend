@@ -60,4 +60,5 @@ const DetailButton = styled.button`
   border: none;
   border-radius: 0.3em;
   color: #fff;
+  padding: 0.5em;
 `;
