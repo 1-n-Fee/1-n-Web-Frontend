@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import { useRef } from "react";
 import styled from "styled-components";
+
 const Map = ({ markers, selectedMarker, setSelectedMarker, onMarkerClick }) => {
   const mapRef = useRef();
   const options = {

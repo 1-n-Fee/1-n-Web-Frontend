@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import MealList from "./meal_list";
 import styled, { css } from "styled-components";
+
 const SideBar = ({
   meals,
   onMealClick,

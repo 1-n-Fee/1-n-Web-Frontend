@@ -3,6 +3,7 @@ import SideBar from "../component/home/sideBar";
 import Map from "../component/home/map";
 import styled from "styled-components";
 import { useState, useEffect } from "react";
+
 const Home = (props) => {
   const [meals, setMeals] = useState([
     [
