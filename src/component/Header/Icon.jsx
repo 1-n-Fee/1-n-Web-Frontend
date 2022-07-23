@@ -20,6 +20,10 @@ const IconWrapper = styled.div`
   margin: 3px 4px;
   background-color: white;
   text-align: center;
+  &:hover {
+    background-color: #ecf0f1;
+    cursor: pointer;
+  }
 `;
 
 const Span = styled.span`
