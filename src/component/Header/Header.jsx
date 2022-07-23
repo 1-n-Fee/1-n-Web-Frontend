@@ -82,6 +82,7 @@ const HeaderWrapper = styled.div`
   width: 100vw;
   background-color: #ffc15c;
   z-index: 99;
+  height: 120px;
 `;
 
 const SearchBarWrapper = styled.div`
