@@ -54,4 +54,5 @@ export default Icons;
 
 const IconsWrapper = styled.div`
   position: relative;
+  margin: auto 5px;
 `;
