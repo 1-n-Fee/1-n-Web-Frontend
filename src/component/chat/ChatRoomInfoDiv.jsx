@@ -18,6 +18,7 @@ const ChatRoomInfoDiv = ({
   state,
   isChief,
   feePerOne,
+  location,
 }) => {
   return (
     <div>
@@ -33,6 +34,7 @@ const ChatRoomInfoDiv = ({
       <div>
         <span>👤{targetNum} </span>
         <span>{` 💵1인당 배달비 : ${feePerOne}원`}</span>
+        <span>{`📍${location}`}</span>
       </div>
     </div>
   );
