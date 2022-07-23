@@ -46,8 +46,4 @@ const SearchBtn = styled.button`
   width: 50px;
   border: none;
   border-left: 0.5px dashed #ced6e0;
-  &:hover {
-    cursor: pointer;
-    background-color: #a4b0be;
-  }
 `;
