@@ -1,5 +1,5 @@
 import { BrowserRouter } from "react-router-dom";
-import GlobalStyle from "./component/common/GlobalStyles";
+import GlobalStyle from "./component/style/GlobalStyles";
 import Router from "./routes/Router";
 
 function App() {
