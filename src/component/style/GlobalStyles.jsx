@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 
-const GlobalStyle = createGlobalStyle`
+const GlobalStyles = createGlobalStyle`
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -26,4 +26,4 @@ button{
 }
 `;
 
-export default GlobalStyle;
+export default GlobalStyles;
