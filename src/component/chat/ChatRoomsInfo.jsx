@@ -10,6 +10,7 @@ const ChatRoomsInfo = () => {
       isChief: false,
       targetNum: 3,
       totalFee: 3000,
+      location: "신공학관 정문",
     },
     {
       storeName: "이삭 토스트",
@@ -18,6 +19,7 @@ const ChatRoomsInfo = () => {
       isChief: true,
       targetNum: 6,
       totalFee: 5000,
+      location: "건대 후문",
     },
     {
       storeName: "한솥 도시락",
@@ -26,6 +28,7 @@ const ChatRoomsInfo = () => {
       isChief: false,
       targetNum: 4,
       totalFee: 4000,
+      location: "상허기념도서관 정문",
     },
   ]);
 
@@ -44,6 +47,7 @@ const ChatRoomsInfo = () => {
               isChief={data.isChief}
               targetNum={data.targetNum}
               feePerOne={parseInt(data.totalFee / data.targetNum)}
+              location={data.location}
             />
           </li>
         ))}
