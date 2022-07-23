@@ -14,6 +14,15 @@ li{
     padding: 0;
     margin:0;
 }
+button{
+    outline:none;
+    border:none;
+    &:hover{
+        cursor:pointer;
+        background-color: #a4b0be;
+    }
+    
+}
 `;
 
 export default GlobalStyle;
