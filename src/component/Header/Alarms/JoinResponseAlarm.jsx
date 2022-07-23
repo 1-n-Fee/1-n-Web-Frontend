@@ -1,5 +1,8 @@
 import React from "react";
 import AlarmDelBtn from "../../common/AlarmDelBtn";
+import styled from "styled-components";
+import AlarmSubInfoStyle from "../../style/AlarmSubInfoStyle";
+import AlarmWrapperStyle from "../../style/AlarmWrapperStyle";
 
 const JoinResponseAlarm = ({
   storeName,
@@ -10,7 +13,7 @@ const JoinResponseAlarm = ({
   isAccepted,
 }) => {
   return (
-    <div>
+    <AlarmWrapperStyle>
       <div>
         <div>
           <span>
@@ -22,16 +25,16 @@ const JoinResponseAlarm = ({
             되었습니다.
           </span>
         </div>
-        <div>
+        <AlarmSubInfoStyle>
           <span>
-            👤{totalMems} / {targetNum}
+            👤{totalMems}/{targetNum}
           </span>
-        </div>
+        </AlarmSubInfoStyle>
       </div>
       <div>
         <AlarmDelBtn id={alarmId} />
       </div>
-    </div>
+    </AlarmWrapperStyle>
   );
 };
 
