@@ -51,6 +51,38 @@ const AlarmMenu = () => {
       alarmId: 2354,
       hasChecked: true,
     },
+    {
+      type: Key.CHAT_CREATED_ALARM,
+      storeName: "길이식당",
+      storeId: 30,
+      targetNum: 4,
+      alarmId: 2354,
+      hasChecked: true,
+    },
+    {
+      type: Key.CHAT_CREATED_ALARM,
+      storeName: "길이식당",
+      storeId: 30,
+      targetNum: 4,
+      alarmId: 2354,
+      hasChecked: true,
+    },
+    {
+      type: Key.CHAT_CREATED_ALARM,
+      storeName: "길이식당",
+      storeId: 30,
+      targetNum: 4,
+      alarmId: 2354,
+      hasChecked: true,
+    },
+    {
+      type: Key.CHAT_CREATED_ALARM,
+      storeName: "길이식당",
+      storeId: 30,
+      targetNum: 4,
+      alarmId: 2354,
+      hasChecked: true,
+    },
   ]);
 
   useEffect(() => {
