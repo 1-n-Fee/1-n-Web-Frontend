@@ -1,6 +1,8 @@
 import React from "react";
 import ChatStateTag from "./ChatStateTag";
 import StateTag from "../common/StateTag";
+import AlarmSubInfoStyle from "../style/AlarmSubInfoStyle";
+import styled from "styled-components";
 
 const Color = {
   YELLOW: "#fa983a",
@@ -21,23 +23,57 @@ const ChatRoomInfoDiv = ({
   location,
 }) => {
   return (
-    <div>
-      <div>
-        <strong>{roomName}</strong>
+    <ChatRoomInfoWrapper>
+      <TitleWrapper>
+        <RoomName>{roomName}</RoomName>
 
         <ChatStateTag state={state} />
 
         {isChief && (
           <StateTag string="방장 " bg={Color.NAVY} color={Color.WHITE} />
         )}
-      </div>
-      <div>
-        <span>👤{targetNum} </span>
-        <span>{` 💵1인당 배달비 : ${feePerOne}원`}</span>
-        <span>{`📍${location}`}</span>
-      </div>
-    </div>
+        {/* <MemNumSpan>👤{targetNum}</MemNumSpan> */}
+      </TitleWrapper>
+      <AlarmSubInfoStyle>
+        {/* <MemNumSpan>👤{targetNum}</MemNumSpan> */}
+        {/* <SubInfoSpan width={"10%"}>👤{targetNum}</SubInfoSpan> */}
+        <SubInfoSpan
+          width={"40%"}
+        >{` 💵1인당 배달비 : ${feePerOne}원`}</SubInfoSpan>
+        <SubInfoSpan width={"40%"}>{`📍${location}`}</SubInfoSpan>
+        <SubInfoSpan width={"20%"}>👤{targetNum}</SubInfoSpan>
+      </AlarmSubInfoStyle>
+    </ChatRoomInfoWrapper>
   );
 };
 
 export default ChatRoomInfoDiv;
+const ChatRoomInfoWrapper = styled.div`
+  width: 100%;
+`;
+
+const TitleWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+`;
+
+const RoomName = styled.div`
+  display: inline-block;
+  font-size: 20px;
+  font-weight: bold;
+  padding: 8px 8px 4px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+`;
+
+const SubInfoSpan = styled.span`
+  display: inline-block;
+  width: ${({ width }) => width};
+`;
+
+const MemNumSpan = styled.span`
+  display: inline-block;
+  padding-right: 4px;
+`;
