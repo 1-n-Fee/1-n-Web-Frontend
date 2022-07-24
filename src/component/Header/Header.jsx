@@ -68,9 +68,11 @@ export default Header;
 const ImgWrapper = styled.div`
   width: 20%;
   border: 1px solid orange;
+  background-color: white;
 `;
 
 const HeaderWrapper = styled.div`
+  padding: 15px 30px;
   display: flex;
   flex-direction: row;
   align-items: stretch;
@@ -78,8 +80,9 @@ const HeaderWrapper = styled.div`
   position: fixed;
   top: 0;
   width: 100vw;
-  background-color: white;
+  background-color: #ffc15c;
   z-index: 99;
+  height: 120px;
 `;
 
 const SearchBarWrapper = styled.div`
