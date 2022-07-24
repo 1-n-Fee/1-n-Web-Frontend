@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
 import ChatRoomInfoDiv from "./ChatRoomInfoDiv";
 
 const ChatRoomsInfo = () => {
@@ -40,7 +41,7 @@ const ChatRoomsInfo = () => {
     <div>
       <ul>
         {chatRoomsData.map((data, key) => (
-          <li key={key}>
+          <ChatRoomInfoLi key={key}>
             <ChatRoomInfoDiv
               roomName={`${data.storeName}-${data.roomId}`}
               state={data.state}
@@ -49,7 +50,7 @@ const ChatRoomsInfo = () => {
               feePerOne={parseInt(data.totalFee / data.targetNum)}
               location={data.location}
             />
-          </li>
+          </ChatRoomInfoLi>
         ))}
       </ul>
     </div>
@@ -57,3 +58,16 @@ const ChatRoomsInfo = () => {
 };
 
 export default ChatRoomsInfo;
+
+const ChatRoomInfoLi = styled.li`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 90px;
+  border-bottom: 0.3px solid #ced6e0;
+  padding: 15px 10px 10px 20px;
+  &:hover {
+    cursor: pointer;
+    background-color: #ecf0f1;
+  }
+`;
