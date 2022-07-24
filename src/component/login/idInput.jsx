@@ -9,7 +9,7 @@ const IdInput = (props) => {
     setIdText(value);
   };
   return (
-    <input
+    <IdWrapper
       type="text"
       value={idText}
       onChange={onChange}
@@ -20,3 +20,11 @@ const IdInput = (props) => {
 };
 
 export default IdInput;
+
+const IdWrapper = styled.input`
+  width: 10rem;
+  margin: 1.5rem;
+  border: none;
+  border-bottom: solid rgba(1, 1, 1, 0.2);
+  border-width: 0.1em;
+`;
