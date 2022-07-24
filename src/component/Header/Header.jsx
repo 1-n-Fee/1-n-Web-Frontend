@@ -32,7 +32,7 @@ const Header = () => {
 
   return (
     <div>
-      <HeaderWrapper>
+      <HeaderWrapper isHome={window.location.pathname === "/"}>
         <ImgWrapper onClick={onLogoClick}>
           <img src="#" alt="logo" />
         </ImgWrapper>
@@ -75,7 +75,7 @@ const HeaderWrapper = styled.div`
   flex-direction: row;
   align-items: stretch;
   justify-content: space-between;
-  position: fixed;
+  position: ${({ isHome }) => (isHome ? "fixed" : "static")};
   top: 0;
   width: 100vw;
   background-color: #ffc15c;
