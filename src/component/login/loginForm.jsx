@@ -13,16 +13,29 @@ const LoginInput = (props) => {
   };
   return (
     <>
-      <div>
+      <FormContainer>
         <IdInput />
         <PwInput />
         <LoginButton onClick={() => console.log("로그인 제출")} />
         <KakaoButton />
-      </div>
-      <div>
+      </FormContainer>
+      <SpanContainer>
         <span onClick={onFindClick}>아이디 찾기</span>
         <span onClick={onFindClick}>비밀번호 찾기</span>
-      </div>
+      </SpanContainer>
     </>
   );
 };
+
+const FormContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10rem;
+`;
+const SpanContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 2rem;
+`;
