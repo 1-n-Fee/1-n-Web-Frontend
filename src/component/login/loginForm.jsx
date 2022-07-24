@@ -5,7 +5,7 @@ import LoginButton from "./loginButton";
 import KakaoButton from "./kakaoButton";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-const LoginInput = (props) => {
+const LoginForm = (props) => {
   const navigate = useNavigate();
   const [data, setData] = useState({ id: "" }, { pw: "" });
   const onFindClick = () => {
@@ -26,6 +26,8 @@ const LoginInput = (props) => {
     </>
   );
 };
+
+export default LoginForm;
 
 const FormContainer = styled.div`
   display: flex;
