@@ -11,12 +11,16 @@ const LoginForm = (props) => {
   const onFindClick = () => {
     navigate("/find");
   };
+  const onLogin = () => {
+    navigate("/");
+    // 유저가 로그인 되었는지 판단 필요
+  };
   return (
     <>
       <FormContainer>
         <IdInput />
         <PwInput />
-        <LoginButton onClick={() => console.log("로그인 제출")} />
+        <LoginButton onClick={onLogin} />
         <KakaoButton />
       </FormContainer>
       <SpanContainer>
