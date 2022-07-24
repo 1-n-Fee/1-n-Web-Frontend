@@ -9,7 +9,7 @@ const PwInput = (props) => {
     setPw(val);
   };
   return (
-    <input
+    <PwWrapper
       type="password"
       value={pw}
       onChange={onChange}
@@ -20,3 +20,11 @@ const PwInput = (props) => {
 };
 
 export default PwInput;
+
+const PwWrapper = styled.input`
+  width: 10rem;
+  margin-bottom: 3rem;
+  border: none;
+  border-bottom: solid rgba(1, 1, 1, 0.2);
+  border-width: 0.1em;
+`;
