@@ -21,10 +21,12 @@ export default ChatPage;
 const ChatPageWrapper = styled.div`
   display: flex;
   flex-direction: row;
+  height: 80vh;
 `;
 
 const SideNavWrapper = styled.div`
   width: 30%;
+  border-right: 1px solid #ced6e0;
 `;
 
 const ChatRoomWrapper = styled.div`
