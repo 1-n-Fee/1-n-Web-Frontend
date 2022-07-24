@@ -72,8 +72,3 @@ const SubInfoSpan = styled.span`
   display: inline-block;
   width: ${({ width }) => width};
 `;
-
-const MemNumSpan = styled.span`
-  display: inline-block;
-  padding-right: 4px;
-`;
