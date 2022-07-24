@@ -26,8 +26,6 @@ const Header = () => {
     );
   };
 
-  const [pathname, setPathname] = useState(window.location.pathname);
-
   const onSearch = (keyword) => {
     // keyword 서버로 넘겨주기
   };
@@ -39,7 +37,7 @@ const Header = () => {
           <img src="#" alt="logo" />
         </ImgWrapper>
 
-        {pathname === "/" ? (
+        {window.location.pathname === "/" ? (
           <SearchBarWrapper>
             <SearchBar onSearchListener={onSearch} />
 
