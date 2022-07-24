@@ -51,16 +51,52 @@ const AlarmMenu = () => {
       alarmId: 2354,
       hasChecked: true,
     },
+    {
+      type: Key.CHAT_CREATED_ALARM,
+      storeName: "길이식당",
+      storeId: 30,
+      targetNum: 4,
+      alarmId: 2354,
+      hasChecked: true,
+    },
+    {
+      type: Key.CHAT_CREATED_ALARM,
+      storeName: "길이식당",
+      storeId: 30,
+      targetNum: 4,
+      alarmId: 2354,
+      hasChecked: true,
+    },
+    {
+      type: Key.CHAT_CREATED_ALARM,
+      storeName: "길이식당",
+      storeId: 30,
+      targetNum: 4,
+      alarmId: 2354,
+      hasChecked: true,
+    },
+    {
+      type: Key.CHAT_CREATED_ALARM,
+      storeName: "길이식당",
+      storeId: 30,
+      targetNum: 4,
+      alarmId: 2354,
+      hasChecked: true,
+    },
   ]);
 
   useEffect(() => {
     // 동적으로 알람 받아오기 - 소켓통신으로
   }, []);
   return (
-    <AlarmWrapper>
+    <AlarmsWrapper>
       <ul>
         {alarms.map((a, key) => (
-          <li hasChecked={a.hasChecked} key={`alarm_${key}`}>
+          <AlarmLi
+            hasChecked={a.hasChecked}
+            key={`alarm_${key}`}
+            hasUnderline={key !== alarms.length - 1}
+          >
             {a.type === Key.JOIN_REQ_ALARM ? (
               <JoinRequestAlarm
                 requester={a.requester}
@@ -87,19 +123,35 @@ const AlarmMenu = () => {
                 alarmId={a.alarmId}
               />
             )}
-          </li>
+          </AlarmLi>
         ))}
       </ul>
-    </AlarmWrapper>
+    </AlarmsWrapper>
   );
 };
 
 export default AlarmMenu;
 
-const AlarmWrapper = styled.div`
+const AlarmsWrapper = styled.div`
   position: absolute;
   right: 30px;
   z-index: 10;
-  width: 350px;
+  width: 400px;
+  max-height: 480px;
   background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+  overflow: auto;
+`;
+
+const AlarmLi = styled.li`
+  font-size: 14px;
+  line-height: 150%;
+  padding: 12px 0px 5px 0;
+  border-bottom: ${({ hasUnderline }) =>
+    hasUnderline ? "0.3px solid #ced6e0;" : "none"} 
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 `;
