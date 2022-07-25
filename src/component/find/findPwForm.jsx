@@ -1,4 +1,9 @@
 import React from "react";
+import {
+  InputContainer,
+  InputWrapper,
+  FindButton,
+} from "../style/findFormStyle";
 
 const FindPwForm = ({
   id,
@@ -11,27 +16,27 @@ const FindPwForm = ({
 }) => {
   return (
     <>
-      <div>
-        <input
+      <InputContainer>
+        <InputWrapper
           type="text"
           value={id}
           onChange={onIdChange}
           placeholder="아이디"
         />
-        <input
+        <InputWrapper
           type="text"
           value={name}
           onChange={onNameChange}
           placeholder="이름"
         />
-        <input
+        <InputWrapper
           type="tel"
           value={tel}
           onChange={onTelChange}
           placeholder="전화번호"
         />
-      </div>
-      <button onClick={findPw}>비밀번호 찾기</button>
+      </InputContainer>
+      <FindButton onClick={findPw}>비밀번호 찾기</FindButton>
     </>
   );
 };
