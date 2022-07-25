@@ -25,10 +25,10 @@ const FindPwPage = (props) => {
     setTel(val);
   };
   const onIdClick = () => {
-    navigate("/find-id");
+    navigate("/find/id");
   };
   const onPwClick = () => {
-    navigate("/find-pw");
+    navigate("/find/pw");
   };
   const findPw = () => {
     // TODO: 서버와 통신
