@@ -1,6 +1,8 @@
 import React from "react";
-import FindPwForm from "../component/find/findPwForm";
 import { useNavigate } from "react-router-dom";
+import { PageWrapper, FindPageHeader } from "../component/style/findPageStyle";
+import { useState } from "react";
+import FindPwForm from "../component/find/findPwForm";
 
 const FindPwPage = (props) => {
   const navigate = useNavigate();
@@ -32,12 +34,12 @@ const FindPwPage = (props) => {
     // TODO: 서버와 통신
   };
   return (
-    <>
+    <PageWrapper>
       <h1>아이디 / 비밀번호 찾기</h1>
-      <div>
+      <FindPageHeader>
         <span onClick={onIdClick}>아이디 찾기</span>
         <span onClick={onPwClick}>비밀번호 찾기</span>
-      </div>
+      </FindPageHeader>
       <FindPwForm
         id={id}
         name={name}
@@ -47,7 +49,7 @@ const FindPwPage = (props) => {
         onTelChange={onTelChange}
         findPw={findPw}
       />
-    </>
+    </PageWrapper>
   );
 };
 
