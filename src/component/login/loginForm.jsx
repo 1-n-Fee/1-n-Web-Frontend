@@ -8,8 +8,11 @@ import { useNavigate } from "react-router-dom";
 const LoginForm = (props) => {
   const navigate = useNavigate();
   const [data, setData] = useState({ id: "" }, { pw: "" });
-  const onFindClick = () => {
-    navigate("/find");
+  const onFindIdClick = () => {
+    navigate("/find/id");
+  };
+  const onFindPwClick = () => {
+    navigate("/find/pw");
   };
   const onLogin = () => {
     navigate("/");
@@ -24,8 +27,8 @@ const LoginForm = (props) => {
         <KakaoButton />
       </FormContainer>
       <SpanContainer>
-        <span onClick={onFindClick}>아이디 찾기</span>
-        <span onClick={onFindClick}>비밀번호 찾기</span>
+        <span onClick={onFindIdClick}>아이디 찾기</span>
+        <span onClick={onFindPwClick}>비밀번호 찾기</span>
       </SpanContainer>
     </>
   );
