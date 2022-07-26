@@ -10,6 +10,11 @@ const UserInfoAccordion = (props) => {
     type: "password",
     visible: false,
   });
+  const [gender, setGender] = useState("공개 안 함");
+  const handleChange = (e) => {
+    const { value } = e.target;
+    setGender(value);
+  };
   const switchPwType = () => {
     setPwType(() => {
       return !pwType.visible
@@ -17,6 +22,7 @@ const UserInfoAccordion = (props) => {
         : { type: "password", visible: false };
     });
   };
+  const genderList = ["남성", "여성", "공개 안 함"];
   return (
     <PageWrapper>
       <AccordionWrapper>
@@ -71,6 +77,58 @@ const UserInfoAccordion = (props) => {
           <ButtonContainer>
             <ButtonWrapper>비밀번호 변경</ButtonWrapper>
           </ButtonContainer>
+        </AccordionLayout>
+
+        <AccordionLayout
+          title="학과"
+          index={3}
+          activeIndex={activeIndex}
+          setActiveIndex={setActiveIndex}
+        >
+          <div>
+            <div>
+              <SubTitle>학과</SubTitle>
+              <select>
+                <option value="">학과</option>
+              </select>
+              {/*TODO: 회원가입 페이지 select box 가져오기*/}
+            </div>
+          </div>
+          <div>
+            <ButtonWrapper>취소</ButtonWrapper>
+            <ButtonWrapper>저장</ButtonWrapper>
+          </div>
+        </AccordionLayout>
+
+        <AccordionLayout
+          title="성별"
+          index={4}
+          activeIndex={activeIndex}
+          setActiveIndex={setActiveIndex}
+        >
+          <div>
+            <div>
+              <SubTitle>성별</SubTitle>
+              <ul>
+                {genderList.map((item, index) => (
+                  <li>
+                    <input
+                      type="radio"
+                      name="gender"
+                      value={item}
+                      onChange={handleChange}
+                      checked={gender === item}
+                    />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          <div>
+            <ButtonWrapper>취소</ButtonWrapper>
+            <ButtonWrapper>저장</ButtonWrapper>
+          </div>
         </AccordionLayout>
       </AccordionWrapper>
     </PageWrapper>
