@@ -5,6 +5,7 @@ import ChatPage from "../pages/chat/ChatPage";
 import SignUpPage from "../pages/SignUpPage";
 import Home from "../pages/home";
 import LoginPage from "../pages/loginPage";
+import UserInfoAccordion from "../component/userInfo/userInfoAccordion";
 const Router = () => {
   return (
     <div>
@@ -15,6 +16,7 @@ const Router = () => {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/user" element={<UserInfoAccordion />} />
       </Routes>
     </div>
   );
