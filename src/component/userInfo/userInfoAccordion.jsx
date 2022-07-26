@@ -5,7 +5,7 @@ import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import AccordionLayout from "./accordionLayout";
 
 const UserInfoAccordion = (props) => {
-  const [activeIndex, setActiveIndex] = useState(1);
+  const [activeIndex, setActiveIndex] = useState();
   const [pwType, setPwType] = useState({
     type: "password",
     visible: false,
@@ -116,8 +116,8 @@ const UserInfoAccordion = (props) => {
                       type="radio"
                       name="gender"
                       value={item}
-                      onChange={handleChange}
                       checked={gender === item}
+                      onChange={handleChange}
                     />
                     <span>{item}</span>
                   </li>
@@ -145,8 +145,7 @@ const AccordionWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  border: solid rgba(1, 2, 1, 0.2);
+  border-radius: 5px;
 `;
 const PageWrapper = styled.div`
   width: 100%;
