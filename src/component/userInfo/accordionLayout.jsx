@@ -10,7 +10,7 @@ const AccordionLayout = ({
   setActiveIndex,
 }) => {
   const handleSetIndex = (index) =>
-    activeIndex !== index && setActiveIndex(index);
+    activeIndex !== index ? setActiveIndex(index) : setActiveIndex();
 
   return (
     <LayoutWrapper>
