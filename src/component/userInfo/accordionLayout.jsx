@@ -7,11 +7,8 @@ const AccordionLayout = ({
   activeIndex,
   index,
   children,
-  setActiveIndex,
+  handleSetIndex,
 }) => {
-  const handleSetIndex = (index) =>
-    activeIndex !== index ? setActiveIndex(index) : setActiveIndex();
-
   return (
     <LayoutWrapper>
       <TitleWrapper onClick={() => handleSetIndex(index)}>
@@ -29,12 +26,15 @@ const AccordionLayout = ({
 
 export default AccordionLayout;
 
-const TitleWrapper = styled.div`
+export const TitleWrapper = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
   padding: 5px;
   border-bottom: solid rgba(1, 1, 1, 0.2);
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
 `;
 const LayoutWrapper = styled.div`
   width: 600px;
