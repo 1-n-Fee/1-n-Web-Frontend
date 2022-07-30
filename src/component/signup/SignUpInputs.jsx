@@ -9,7 +9,7 @@ import MajorSelect from "./MajorSelect";
 import GenderRadioBtn from "./GenderRadioBtn";
 import styled from "styled-components";
 
-const Key = {
+export const Key = {
   ID: "id",
   PW: "pw",
   IS_ID_AUTH_CHECKED: "isIdAuthChecked",
