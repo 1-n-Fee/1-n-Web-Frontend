@@ -3,7 +3,9 @@ import { TitleWrapper } from "../component/userInfo/accordionLayout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { useNavigate } from "react-router-dom";
-
+import NewPwInput from "../component/pwChange/newPwInput";
+import DupPwInput from "../component/pwChange/dupPwInput";
+import { Key } from "../component/signup/SignUpInputs";
 const PwChange = (props) => {
   const navigate = useNavigate();
   const [inputs, setInputs] = useState({
@@ -20,13 +22,7 @@ const PwChange = (props) => {
     type: "password",
     visible: false,
   });
-  const onChange = (e) => {
-    const { value, name } = e.target;
-    setInputs({
-      ...inputs,
-      [name]: value,
-    });
-  };
+
   const switchPwType = (pw, func) => {
     func(() => {
       return !pw.visible
@@ -37,6 +33,7 @@ const PwChange = (props) => {
 
   const onSubmit = () => {
     // TODO: 서버에 비밀번호 전달
+    // TODO: dup비밀번호와 일치 여부 판단 (signUp 컴포넌트 참고)
     console.log(inputs);
   };
   return (
@@ -52,36 +49,27 @@ const PwChange = (props) => {
           />
         </div>
       </TitleWrapper>
-      <span>새 비밀번호</span>
-      <input type={newPwType.type} name="newPw" onChange={onChange} />
-      {newPwType.visible ? (
-        <FontAwesomeIcon
-          icon={solid("eye")}
-          onClick={() => switchPwType(newPwType, setNewPwType)}
-        />
-      ) : (
-        <FontAwesomeIcon
-          icon={solid("eye-slash")}
-          onClick={() => switchPwType(newPwType, setNewPwType)}
-        />
-      )}
+      <NewPwInput
+        pwKey={Key.PW}
+        setNewPw={setNewPw}
+        newPwType={newPwType}
+        setNewPwType={setNewPwType}
+        switchPwType={switchPwType}
+        setInputs={setInputs}
+      />
       <div>
         <span>비밀번호 안정성:</span>
         <span>비밀번호 규칙입력 칸입니다</span>
       </div>
-      <span>새 비밀번호 확인</span>
-      <input type={dupPwType.type} name="dupPw" onChange={onChange} />
-      {dupPwType.visible ? (
-        <FontAwesomeIcon
-          icon={solid("eye")}
-          onClick={() => switchPwType(dupPwType, setDupPwType)}
-        />
-      ) : (
-        <FontAwesomeIcon
-          icon={solid("eye-slash")}
-          onClick={() => switchPwType(dupPwType, setDupPwType)}
-        />
-      )}
+      <DupPwInput
+        pw={newPw}
+        setDupPw={setDupPw}
+        dupPwType={dupPwType}
+        setDupPwType={setDupPwType}
+        setInputs={setInputs}
+        dupCheckKey={Key.IS_PW_DUP_CHECKED}
+        switchPwType={switchPwType}
+      />
       <button onClick={() => navigate("/user")}>취소</button>
       <button onClick={onSubmit}>비밀번호 변경</button>
     </div>
