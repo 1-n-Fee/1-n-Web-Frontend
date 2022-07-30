@@ -3,18 +3,16 @@ import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import AccordionLayout from "./accordionLayout";
-
-const UserInfoAccordion = (props) => {
+import { useNavigate } from "react-router-dom";
+import MajorSelect from "../signup/MajorSelect";
+import GenderRadioBtn from "../signup/GenderRadioBtn";
+const UserInfoAccordion = ({ Key, data, setData, orgData }) => {
+  const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState();
   const [pwType, setPwType] = useState({
     type: "password",
     visible: false,
   });
-  const [gender, setGender] = useState("공개 안 함");
-  const handleChange = (e) => {
-    const { value } = e.target;
-    setGender(value);
-  };
   const switchPwType = () => {
     setPwType(() => {
       return !pwType.visible
@@ -22,7 +20,21 @@ const UserInfoAccordion = (props) => {
         : { type: "password", visible: false };
     });
   };
-  const genderList = ["남성", "여성", "공개 안 함"];
+  const onCancel = () => {
+    console.log("cancel");
+    setData({ ...orgData });
+    setActiveIndex();
+  };
+  const onSubmit = () => {
+    console.log("submit");
+    //서버에 바뀐 값을 전송
+    // 200 OK 전달되면 클라이언트의 data와 orgData도 변경
+    console.log(data);
+    setData((cur) => ({ ...cur }));
+  };
+  const handleSetIndex = (index) => {
+    activeIndex !== index ? setActiveIndex(index) : setActiveIndex();
+  };
   return (
     <PageWrapper>
       <AccordionWrapper>
@@ -31,13 +43,14 @@ const UserInfoAccordion = (props) => {
           index={1}
           activeIndex={activeIndex}
           setActiveIndex={setActiveIndex}
+          handleSetIndex={handleSetIndex}
         >
           <NameContainer>
             <div>
               <SubTitle>닉네임</SubTitle>
               <NickNameWrapper>
-                <span>닉네임 정보</span>
-                <div>
+                <span>{data[Key.NICKNAME]}</span>
+                <div onClick={() => navigate("/user/nickname")}>
                   <FontAwesomeIcon icon={solid("pencil")} />
                 </div>
               </NickNameWrapper>
@@ -45,25 +58,22 @@ const UserInfoAccordion = (props) => {
             <div>
               <SubTitle>이름</SubTitle>
               <NameWrapper>
-                <span>이름 정보</span>
+                <span>{data[Key.NAME]}</span>
               </NameWrapper>
             </div>
           </NameContainer>
-          <div>
-            <ButtonWrapper>취소</ButtonWrapper>
-            <ButtonWrapper>저장</ButtonWrapper>
-          </div>
         </AccordionLayout>
         <AccordionLayout
           title="비밀번호"
           index={2}
           activeIndex={activeIndex}
           setActiveIndex={setActiveIndex}
+          handleSetIndex={handleSetIndex}
         >
           <div>
             <SubTitle>비밀번호</SubTitle>
             <div>
-              <input type={pwType.type} value="asdf@" disabled />
+              <input type={pwType.type} value={data[Key.PW]} disabled />
               {pwType.visible ? (
                 <FontAwesomeIcon icon={solid("eye")} onClick={switchPwType} />
               ) : (
@@ -75,7 +85,9 @@ const UserInfoAccordion = (props) => {
             </div>
           </div>
           <ButtonContainer>
-            <ButtonWrapper>비밀번호 변경</ButtonWrapper>
+            <ButtonWrapper onClick={() => navigate("/user/pw")}>
+              비밀번호 변경
+            </ButtonWrapper>
           </ButtonContainer>
         </AccordionLayout>
 
@@ -83,20 +95,19 @@ const UserInfoAccordion = (props) => {
           title="학과"
           index={3}
           activeIndex={activeIndex}
-          setActiveIndex={setActiveIndex}
+          handleSetIndex={handleSetIndex}
         >
           <div>
             <div>
               <SubTitle>학과</SubTitle>
-              <select>
-                <option value="">학과</option>
-              </select>
-              {/*TODO: 회원가입 페이지 select box 가져오기*/}
+              <MajorSelect majorKey={Key.MAJOR} setData={setData} />
+              {/*TODO: data에 저장된 major 값이 있으면 default로 해당 값 설정하기 : MajorSelect 컴포넌트 수정 필요*/}
             </div>
           </div>
           <div>
-            <ButtonWrapper>취소</ButtonWrapper>
-            <ButtonWrapper>저장</ButtonWrapper>
+            <ButtonWrapper onClick={onCancel}>취소</ButtonWrapper>
+            {/*값이 변하지 않으면 저장 버튼 비활성화*/}
+            <ButtonWrapper onClick={onSubmit}>저장</ButtonWrapper>
           </div>
         </AccordionLayout>
 
@@ -104,30 +115,24 @@ const UserInfoAccordion = (props) => {
           title="성별"
           index={4}
           activeIndex={activeIndex}
-          setActiveIndex={setActiveIndex}
+          handleSetIndex={handleSetIndex}
         >
           <div>
             <div>
               <SubTitle>성별</SubTitle>
               <ul>
-                {genderList.map((item, index) => (
-                  <li>
-                    <input
-                      type="radio"
-                      name="gender"
-                      value={item}
-                      checked={gender === item}
-                      onChange={handleChange}
-                    />
-                    <span>{item}</span>
-                  </li>
-                ))}
+                <GenderRadioBtn
+                  genderKey={Key.GENDER}
+                  genderData={Key.GENDER_DATA}
+                  setData={setData}
+                  data={data}
+                />
               </ul>
             </div>
           </div>
           <div>
-            <ButtonWrapper>취소</ButtonWrapper>
-            <ButtonWrapper>저장</ButtonWrapper>
+            <ButtonWrapper onClick={onCancel}>취소</ButtonWrapper>
+            <ButtonWrapper onClick={onSubmit}>저장</ButtonWrapper>
           </div>
         </AccordionLayout>
       </AccordionWrapper>
