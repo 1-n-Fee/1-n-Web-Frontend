@@ -12,7 +12,7 @@ const ChatRoom = () => {
         targetNum={5}
         isChief={true}
         usersInfo={[
-          { name: "김OO" },
+          { name: "김나라나라날나라라라리" },
           { name: "최OO" },
           { name: "박OO" },
           { name: "구OO" },

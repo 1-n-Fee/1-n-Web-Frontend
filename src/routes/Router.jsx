@@ -5,9 +5,11 @@ import ChatPage from "../pages/chat/ChatPage";
 import SignUpPage from "../pages/SignUpPage";
 import Home from "../pages/home";
 import LoginPage from "../pages/loginPage";
+
 import PwChange from "../pages/pwChange";
 import NNameChange from "../pages/nNameChange";
 import UserInfo from "../pages/userInfo";
+
 import FindIdPage from "../pages/findIdPage";
 import FindPwPage from "../pages/findPwPage";
 const Router = () => {
@@ -20,9 +22,11 @@ const Router = () => {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/login" element={<LoginPage />} />
+
         <Route path="/user" element={<UserInfo />} />
         <Route path="/user/nickname" element={<NNameChange />} />
         <Route path="/user/pw" element={<PwChange />} />
+
         <Route path="/find/id" element={<FindIdPage />} />
         <Route path="/find/pw" element={<FindPwPage />} />
       </Routes>
