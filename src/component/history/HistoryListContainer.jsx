@@ -81,6 +81,7 @@ const HistoryListContainer = () => {
           <li key={`history_${key}`}>
             <HistoryListHeader
               roomName={`${h.roomName}-${h.id}`}
+              roomId={h.id}
               totalMems={h.totalMems}
               targetNum={h.targetNum}
               state={h.state}
