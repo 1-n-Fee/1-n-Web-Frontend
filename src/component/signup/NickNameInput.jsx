@@ -48,7 +48,7 @@ const NickNameInput = ({ nicknameKey, isDupKey, setData, min, max }) => {
       </button>
       {nickname.length < 2 || nickname.length > 8 ? (
         <span>
-          닉네임은 {min}자 이상 {max}자 이하로 지어주세요✨
+          {min}자 이상 {max}자 이하로 입력해주세요✨
         </span>
       ) : null}
 
