@@ -3,6 +3,8 @@ import AlarmSubInfoStyle from "../style/AlarmSubInfoStyle";
 import styled from "styled-components";
 import UserStateTag from "../common/UserStateTag";
 import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import historyDataAtom from "../../recoil/historyData/atom";
 
 const HistoryListHeader = ({
   roomName,
@@ -16,12 +18,21 @@ const HistoryListHeader = ({
   location,
 }) => {
   const navigate = useNavigate();
+
+  const setHistoryDataAtom = useSetRecoilState(historyDataAtom);
+
   const onChatClick = () => {
     navigate("/chat");
     // param으로든 뭐든 채팅방 아이디 보내기
   };
+
+  const onClick = (e) => {
+    setHistoryDataAtom((cur) => ({ ...cur, isPopUpOpen: true }));
+    // id 로 검색 후 set Recoil에 넣어주기
+  };
+
   return (
-    <HistoryHeaderWrapper>
+    <HistoryHeaderWrapper onClick={onClick}>
       <div>
         <TitleWrapper>
           <div>
