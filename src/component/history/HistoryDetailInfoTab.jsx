@@ -10,9 +10,10 @@ const HistoryDetailInfoTab = () => {
     totalMems: 3,
     targetNum: 5,
   });
+
   return (
     <div>
-      <table border={true}>
+      <table>
         <tr>
           <td>🍕 방 이름</td>
           <td>{`${historyInfo.roomName}-${historyInfo.roomId}`}</td>
