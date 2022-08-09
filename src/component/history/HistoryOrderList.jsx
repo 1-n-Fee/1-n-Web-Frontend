@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const HistoryOrderList = () => {
+const HistoryOrderList = ({ orderData, isPartySection = false }) => {
   const [orderList, setOrderList] = useState([
     { foodName: "참치 김밥", price: 3500 },
     { foodName: "우동", price: 6000 },
@@ -19,11 +19,15 @@ const HistoryOrderList = () => {
     setTotalFee(totalFoodPrice + deliveryFee);
   }, [orderList, deliveryFee]);
 
+  useEffect(() => {
+    if (isPartySection) setOrderList(orderData);
+  }, [orderData, isPartySection]);
+
   return (
     <div>
       <ul>
         {orderList.map((o, key) => (
-          <li>
+          <li key={`order_${key}`}>
             <strong>{o.foodName}</strong>
             <span>{o.price.toLocaleString()}원</span>
           </li>
