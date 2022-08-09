@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import HistoryOrderList from "./HistoryOrderList";
 
 const HistoryPartyList = () => {
   const [users, setUsers] = useState([
     {
-      username: "닉닉넴",
+      userName: "닉닉넴",
       orderList: [
         { foodName: "참치 김밥", price: 3500 },
         { foodName: "우동", price: 6000 },
@@ -11,39 +13,68 @@ const HistoryPartyList = () => {
       ],
     },
     {
-      username: "닉네힘",
+      userName: "닉네힘",
       orderList: [
         { foodName: "안심돈까스", price: 10000 },
         { foodName: "냉모밀", price: 7000 },
       ],
     },
     {
-      username: "닉네네",
+      userName: "닉네네",
       orderList: [{ foodName: "야채 김밥", price: 3000 }],
     },
   ]);
+  const [didSelect, setDidSelect] = useState(false);
+  const [targetUser, setTargetUser] = useState({
+    userName: null,
+    orderList: [],
+  });
 
   const onMouseEnter = (e) => {
-    const targetName = e.target.dataset.name;
-    console.log(targetName);
+    if (didSelect) return;
+
+    const targetData = findTargetData(e.target.dataset.name);
+    setTargetUser(targetData);
   };
 
   const onMouseLeave = () => {
-    console.log("ousts");
+    if (didSelect) return;
+
+    setTargetUser((curData) => ({ ...curData, userName: null }));
   };
+
+  const findTargetData = (userName) =>
+    users.find((u) => u.userName === userName);
+
+  const onClick = (e) => {
+    setDidSelect((curState) => !curState);
+    setTargetUser(findTargetData(e.target.dataset.name));
+  };
+
   return (
     <div>
       <ul>
         {users.map((u, key) => (
-          <li
+          <Li
             key={`user_${key}`}
-            data-name={u.username}
+            data-name={u.userName}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
+            onClick={onClick}
           >
-            <span data-name={u.username}>🍕</span>
-            <strong data-name={u.username}>{u.username}</strong>
-          </li>
+            <span data-name={u.userName}>🍕</span>
+            <strong data-name={u.userName}>{u.userName}</strong>
+
+            {/* mouse hover 또는 클릭하면 등장하는 order 정보 */}
+            {targetUser.userName === u.userName && (
+              <OrderListWrapper key={`target_${key}`}>
+                <HistoryOrderList
+                  isPartySection={true}
+                  orderData={targetUser.orderList}
+                />
+              </OrderListWrapper>
+            )}
+          </Li>
         ))}
       </ul>
     </div>
@@ -51,3 +82,14 @@ const HistoryPartyList = () => {
 };
 
 export default HistoryPartyList;
+
+const Li = styled.li`
+  position: relative;
+`;
+
+const OrderListWrapper = styled.div`
+  position: absolute;
+  background-color: white;
+  top: 0px;
+  right: 0px;
+`;
