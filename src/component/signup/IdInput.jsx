@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
+import styled from "styled-components";
 import EmailSelector from "./ownerSignUp/EmailSelector";
 
 const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
   const [id, setId] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
   const [isAuthChecked, setIsAuthChecked] = useState(false);
+  const [isIdDup, setIsIdDup] = useState(false);
   const onChange = (e) => {
     setId(e.target.value);
     setIsAuthChecked(false);
@@ -47,9 +49,19 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
       <button onClick={onClick} disabled={id.length === 0}>
         인증하기
       </button>
-      {isAuthChecked ? <span>인증 완료!✅</span> : null}
+      <AuthCheckTextWrapper>
+        {isAuthChecked && !isIdDup ? (
+          <span>인증 완료!✅</span>
+        ) : isAuthChecked && isIdDup ? (
+          <span>사용할 수 없는 아이디입니다🚫</span>
+        ) : null}
+      </AuthCheckTextWrapper>
     </>
   );
 };
 
 export default IdInput;
+
+const AuthCheckTextWrapper = styled.div`
+  text-align: center;
+`;
