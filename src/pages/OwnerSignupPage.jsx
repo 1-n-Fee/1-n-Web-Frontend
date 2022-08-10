@@ -19,6 +19,7 @@ const SignUpPageWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 50px auto;
 `;
 
 const DetailInfo = styled.span`
