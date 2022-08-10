@@ -1,19 +1,26 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 const menuName = ["참여 현황", "개인정보 변경하기"];
 const MyPageMenu = () => {
+  const navigate = useNavigate();
+  const onHistoryClick = () => {
+    navigate("/history");
+  };
+
+  const onMyPageClick = () => {
+    navigate("/user");
+  };
   return (
     <MenuWrappper>
       <ul>
-        {menuName.map((m, key) => (
-          <MenuLi
-            key={`menuName_${key}`}
-            isFirst={key === 0}
-            isLast={key === menuName.length - 1}
-          >
-            {m}
-          </MenuLi>
-        ))}
+        <MenuLi isFirst={true} isLast={false} onClick={onHistoryClick}>
+          {menuName[0]}
+        </MenuLi>
+
+        <MenuLi isFirst={false} isLast={true} onClick={onMyPageClick}>
+          {menuName[1]}
+        </MenuLi>
       </ul>
     </MenuWrappper>
   );
