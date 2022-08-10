@@ -99,7 +99,7 @@ const OwnerSignUpInputs = () => {
   };
 
   return (
-    <div>
+    <SignUpInputsWrapper>
       <div>
         <Title>*이메일</Title>
         <IdInput
@@ -152,15 +152,26 @@ const OwnerSignUpInputs = () => {
         />
       </div>
 
-      <div>
-        <button onClick={onSignUpBtnClick}>회원 가입하기</button>
-      </div>
-    </div>
+      <SignUpBtn onClick={onSignUpBtnClick}>회원 가입하기</SignUpBtn>
+    </SignUpInputsWrapper>
   );
 };
 
 export default OwnerSignUpInputs;
-
+const SignUpInputsWrapper = styled.div`
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
 const Title = styled.h4`
   display: inline-block;
+  width: 250px;
+  text-align: right;
+  padding-right: 20px;
+`;
+
+const SignUpBtn = styled.button`
+  width: 500px;
+  align-self: center;
 `;
