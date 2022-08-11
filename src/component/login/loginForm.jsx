@@ -3,6 +3,8 @@ import IdInput from "./idInput";
 import PwInput from "./pwInput";
 import LoginButton from "./loginButton";
 import KakaoButton from "./kakaoButton";
+import NaverButton from "./naverButton";
+import GoogleButton from "./googleButton";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 const LoginForm = (props) => {
@@ -25,10 +27,12 @@ const LoginForm = (props) => {
         <PwInput />
         <LoginButton onClick={onLogin} />
         <KakaoButton />
+        <NaverButton />
+        <GoogleButton />
       </FormContainer>
       <SpanContainer>
-        <span onClick={onFindIdClick}>아이디 찾기</span>
-        <span onClick={onFindPwClick}>비밀번호 찾기</span>
+        <SpanWrapper onClick={onFindIdClick}>아이디 찾기</SpanWrapper>
+        <SpanWrapper onClick={onFindPwClick}>비밀번호 찾기</SpanWrapper>
       </SpanContainer>
     </>
   );
@@ -47,4 +51,12 @@ const SpanContainer = styled.div`
   flex-direction: column;
   align-items: center;
   margin-top: 2rem;
+`;
+const SpanWrapper = styled.div`
+  cursor: pointer;
+  &:hover {
+    border-radius: 0.2rem;
+    background-color: rgba(1, 1, 1, 0.2);
+  }
+  margin-bottom: 0.5rem;
 `;
