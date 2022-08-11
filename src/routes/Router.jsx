@@ -12,7 +12,11 @@ import UserInfo from "../pages/userInfo";
 
 import FindIdPage from "../pages/findIdPage";
 import FindPwPage from "../pages/findPwPage";
-import HistoryPage from "../pages/HistoryPage";
+
+import OauthGoogle from "../component/login/oauthGoogle";
+import OauthKakao from "../component/login/oauthKakao";
+import OauthNaver from "../component/login/oauthNaver";
+
 const Router = () => {
   return (
     <div>
@@ -23,15 +27,14 @@ const Router = () => {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/login" element={<LoginPage />} />
-
         <Route path="/user" element={<UserInfo />} />
         <Route path="/user/nickname" element={<NNameChange />} />
         <Route path="/user/pw" element={<PwChange />} />
-
         <Route path="/find/id" element={<FindIdPage />} />
         <Route path="/find/pw" element={<FindPwPage />} />
-
-        <Route path="/history" element={<HistoryPage />} />
+        <Route path="/auth/kakao" element={<OauthKakao />} />
+        <Route path="/auth/naver" element={<OauthNaver />} />
+        <Route path="/auth/google" element={<OauthGoogle />} />
       </Routes>
     </div>
   );
