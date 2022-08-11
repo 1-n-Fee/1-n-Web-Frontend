@@ -13,9 +13,9 @@ import UserInfo from "../pages/userInfo";
 import FindIdPage from "../pages/findIdPage";
 import FindPwPage from "../pages/findPwPage";
 
-import OauthGoogle from "../component/login/oauthGoogle";
-import OauthKakao from "../component/login/oauthKakao";
-import OauthNaver from "../component/login/oauthNaver";
+import OauthGoogle from "../pages/oauthGoogle";
+import OauthKakao from "../pages/oauthKakao";
+import OauthNaver from "../pages/oauthNaver";
 
 const Router = () => {
   return (
