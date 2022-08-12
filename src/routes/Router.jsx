@@ -13,6 +13,7 @@ import UserInfo from "../pages/userInfo";
 import FindIdPage from "../pages/findIdPage";
 import FindPwPage from "../pages/findPwPage";
 import OwnerSignupPage from "../pages/OwnerSignupPage";
+import HistoryPage from "../pages/HistoryPage";
 const Router = () => {
   return (
     <div>
@@ -30,7 +31,10 @@ const Router = () => {
 
         <Route path="/find/id" element={<FindIdPage />} />
         <Route path="/find/pw" element={<FindPwPage />} />
+
         <Route path="/signup/owner" element={<OwnerSignupPage />} />
+        <Route path="/history" element={<HistoryPage />} />
+
       </Routes>
     </div>
   );
