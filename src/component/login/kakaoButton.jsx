@@ -18,6 +18,6 @@ const ButtonWrapper = styled.a`
   margin: 5px;
 `;
 const ImgWrapper = styled.img`
-  width: 240px;
-  height: 60px;
+  width: 11.5rem;
+  height: auto;
 `;
