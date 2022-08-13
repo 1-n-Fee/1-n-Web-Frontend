@@ -26,7 +26,7 @@ export const Key = {
 };
 Object.freeze(Key);
 
-const SignUpInputs = () => {
+const SignUpInputs = ({ isOAuth }) => {
   const [data, setData] = useState({
     [Key.ID]: "",
     [Key.PW]: "",
@@ -54,11 +54,11 @@ const SignUpInputs = () => {
         return;
 
       case data[Key.PW] === "":
-        alert("비밀번호를 입력해주세요.");
+        isOAuth || alert("비밀번호를 입력해주세요.");
         return;
 
       case !data[Key.IS_PW_DUP_CHECKED]:
-        alert("비밀번호와 비밀번호 중복체크가 불일치 합니다.");
+        isOAuth || alert("비밀번호와 비밀번호 중복체크가 불일치 합니다.");
         return;
 
       case data[Key.PHONE_FIRST] === "":
@@ -102,21 +102,23 @@ const SignUpInputs = () => {
           setData={setData}
         />
       </div>
+      {isOAuth || (
+        <>
+          <div>
+            <Title>*비밀번호</Title>
+            <PwInput pwKey={Key.PW} setData={setData} />
+          </div>
 
-      <div>
-        <Title>*비밀번호</Title>
-        <PwInput pwKey={Key.PW} setData={setData} />
-      </div>
-
-      <div>
-        <Title>*비밀번호 중복 확인</Title>
-        <PwDupInput
-          pw={data.pw}
-          dupCheckKey={Key.IS_PW_DUP_CHECKED}
-          setData={setData}
-        />
-      </div>
-
+          <div>
+            <Title>*비밀번호 중복 확인</Title>
+            <PwDupInput
+              pw={data.pw}
+              dupCheckKey={Key.IS_PW_DUP_CHECKED}
+              setData={setData}
+            />
+          </div>
+        </>
+      )}
       <div>
         <Title>*이름</Title>
         <NameInput nameKey={Key.NAME} setData={setData} />
@@ -156,7 +158,9 @@ const SignUpInputs = () => {
         />
       </div>
       <div>
-        <button onClick={onSignUpBtnClick}>회원 가입하기</button>
+        <button onClick={onSignUpBtnClick}>
+          {isOAuth ? `제출하기` : `회원 가입하기`}
+        </button>
       </div>
     </div>
   );
