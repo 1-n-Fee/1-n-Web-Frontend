@@ -1,13 +1,22 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
+import GoogleButton from "../component/login/googleButton";
+import KakaoButton from "../component/login/kakaoButton";
+import NaverButton from "../component/login/naverButton";
 
 const BeforeSignUpPage = () => {
+  const navigate = useNavigate();
+  const onSelfSignUpClick = () => {
+    navigate("/signup");
+  };
+
   return (
     <div>
       <h4>회원가입</h4>
-      {/* 용재 컴포넌트 활용하기  */}
-      {/* 카카오버튼 */}
-      {/* 네이버버튼 */}
-      {/* 구글버튼 */}
+      <button onClick={onSelfSignUpClick}>직접 회원가입</button>
+      <KakaoButton />
+      <NaverButton />
+      <GoogleButton />
     </div>
   );
 };
