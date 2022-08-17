@@ -19,6 +19,7 @@ import OauthNaver from "../pages/oauthNaver";
 
 import OwnerSignupPage from "../pages/OwnerSignupPage";
 import HistoryPage from "../pages/HistoryPage";
+import BeforeSignUpPage from "../pages/BeforeSignUpPage";
 
 const Router = () => {
   return (
@@ -26,8 +27,9 @@ const Router = () => {
       <Header />
       <Routes>
         {/* 페이지 추가하기 */}
-        <Route path="/" element={<Home />} />
+        <Route path="/before-signup" element={<BeforeSignUpPage />} />
         <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/signup/oauth/:site" element={<SignUpPage />} />
         <Route path="/chat" element={<ChatPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/user" element={<UserInfo />} />
@@ -40,10 +42,9 @@ const Router = () => {
         <Route path="/auth/naver" element={<OauthNaver />} />
         <Route path="/auth/google" element={<OauthGoogle />} />
 
-
         <Route path="/signup/owner" element={<OwnerSignupPage />} />
         <Route path="/history" element={<HistoryPage />} />
-
+        <Route path="/*" element={<Home />} />
       </Routes>
     </div>
   );

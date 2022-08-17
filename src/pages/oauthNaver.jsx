@@ -2,9 +2,12 @@ import React from "react";
 import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import oauthDataAtom from "./../recoil/oauthData/atom";
 
 const OauthNaver = (props) => {
   const navigate = useNavigate();
+  const setAuthCode = useSetRecoilState(oauthDataAtom);
 
   let code = new URL(window.location.href).searchParams.get("code");
   //let state = new URL(window.location.href).searchParams.get("state");
@@ -42,10 +45,12 @@ const OauthNaver = (props) => {
             }
           });
       } catch (e) {
-        console.log("error");
+        alert("가입되어있지 않은 회원입니다. 회원가입 페이지로 이동합니다.");
         console.log(e.response);
-        alert("로그인 실패");
-        navigate("/login");
+        setAuthCode(code);
+        navigate("/signup/oauth/naver");
+        // alert("로그인 실패");
+        // navigate("/login");
       }
     };
     fetchId();

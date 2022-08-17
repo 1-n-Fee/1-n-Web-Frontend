@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import PhoneNumInput from "./PhoneNumInput";
 import IdInput from "./IdInput";
 import PwDupInput from "./PwDupInput";
@@ -8,6 +8,8 @@ import NameInput from "./NameInput";
 import MajorSelect from "./MajorSelect";
 import GenderRadioBtn from "./GenderRadioBtn";
 import styled from "styled-components";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export const Key = {
   ID: "id",
@@ -20,13 +22,15 @@ export const Key = {
   NAME: "name",
   NICKNAME: "nickname",
   IS_NICK_DUP_CHECKED: "isNickDupChecked",
+  IS_NICK_DUP: "isDuplicated",
   MAJOR: "major",
   GENDER: "gender",
-  GENDER_DATA: { male: "male", female: "female" },
+  GENDER_DATA: { male: "man", female: "woman" },
 };
 Object.freeze(Key);
 
-const SignUpInputs = () => {
+const SignUpInputs = ({ authCode = null, accountType = "password" }) => {
+  const navigate = useNavigate();
   const [data, setData] = useState({
     [Key.ID]: "",
     [Key.PW]: "",
@@ -38,60 +42,94 @@ const SignUpInputs = () => {
     [Key.NAME]: "",
     [Key.NICKNAME]: "",
     [Key.IS_NICK_DUP_CHECKED]: false,
+    [Key.IS_NICK_DUP]: false,
     [Key.MAJOR]: "",
     [Key.GENDER]: "",
   });
 
   const onSignUpBtnClick = () => {
+    console.log(data);
+    if (!isProperForm()) return;
+
+    // form 규칙 통과 - 서버로 데이터 보내기
+    const userData = {
+      accountType: accountType,
+      name: data[Key.NAME],
+      phone: data[Key.PHONE_FIRST] + data[Key.PHONE_MID] + data[Key.PHONE_LAST],
+      role: "student",
+      nickname: data[Key.NICKNAME],
+      email: `${data[Key.ID]}@konkuk.ac.kr`,
+      password: data[Key.PW],
+      code: null,
+      sexType:
+        data[Key.GENDER] === Key.GENDER.male
+          ? Key.GENDER.male
+          : data[Key.GENDER] === Key.GENDER.female
+          ? Key.GENDER.female
+          : null,
+      major: data[Key.MAJOR],
+    };
+
+    if (authCode === null) {
+      axios
+        .post("http://localhost:8080/user/signup", userData)
+        .then((response) => console.log(response))
+        .catch((err) => console.log(err));
+    } else {
+      const oauthUserData = { ...userData, password: null, code: authCode };
+      console.log("ㄱㄱ");
+      axios
+        .post("http://localhost:8080/user/signup", oauthUserData)
+        .then((response) => navigate("/login"))
+        .catch((err) => alert("오류가 발생했습니다."));
+    }
+  };
+
+  const isProperForm = useCallback(() => {
     // 입력 form 검증
     switch (true) {
       case data[Key.ID] === "":
         alert("아이디를 입력해주세요.");
-        return;
+        return false;
 
       case !data[Key.IS_ID_AUTH_CHECKED]:
         alert("아이디 인증이 필요합니다.");
-        return;
+        return false;
 
-      case data[Key.PW] === "":
+      case data[Key.PW] === "" && authCode === null:
         alert("비밀번호를 입력해주세요.");
-        return;
+        return false;
 
-      case !data[Key.IS_PW_DUP_CHECKED]:
+      case !data[Key.IS_PW_DUP_CHECKED] && authCode === null:
         alert("비밀번호와 비밀번호 중복체크가 불일치 합니다.");
-        return;
+        return false;
 
       case data[Key.PHONE_FIRST] === "":
       case data[Key.PHONE_MID].length !== 4:
       case data[Key.PHONE_LAST].length !== 4:
         alert("휴대폰 번호가 000-0000-0000 의 형태를 따르는지 확인해주세요.");
-        return;
+        return false;
 
       case data[Key.NAME] === "":
         alert("이름을 입력해주세요.");
-        return;
+        return false;
 
       case data[Key.NICKNAME] === "":
         alert("닉네임을 입력해주세요.");
-        return;
+        return false;
 
-      case data[Key.IS_NICK_DUP_CHECKED] === null:
+      case !data[Key.IS_NICK_DUP_CHECKED]:
         alert("닉네임 중복 확인이 필요합니다.");
-        return;
+        return false;
 
-      case data[Key.IS_NICK_DUP_CHECKED] !== null &&
-        !data[Key.IS_NICK_DUP_CHECKED]:
-        alert("닉네임을 새로 설정해주세요.");
-        return;
+      case data[Key.IS_NICK_DUP]:
+        alert("중복된 닉네임입니다. 다시 설정해주세요");
+        return false;
+
+      default:
+        return true;
     }
-
-    // form 규칙 통과 - 서버로 데이터 보내기
-  };
-
-  useEffect(() => {
-    console.log(data);
-  }, [data]);
-
+  }, [data, authCode]);
   return (
     <div>
       <div>
@@ -102,21 +140,23 @@ const SignUpInputs = () => {
           setData={setData}
         />
       </div>
+      {authCode === null && (
+        <>
+          <div>
+            <Title>*비밀번호</Title>
+            <PwInput pwKey={Key.PW} setData={setData} />
+          </div>
 
-      <div>
-        <Title>*비밀번호</Title>
-        <PwInput pwKey={Key.PW} setData={setData} />
-      </div>
-
-      <div>
-        <Title>*비밀번호 중복 확인</Title>
-        <PwDupInput
-          pw={data.pw}
-          dupCheckKey={Key.IS_PW_DUP_CHECKED}
-          setData={setData}
-        />
-      </div>
-
+          <div>
+            <Title>*비밀번호 중복 확인</Title>
+            <PwDupInput
+              pw={data.pw}
+              dupCheckKey={Key.IS_PW_DUP_CHECKED}
+              setData={setData}
+            />
+          </div>
+        </>
+      )}
       <div>
         <Title>*이름</Title>
         <NameInput nameKey={Key.NAME} setData={setData} />
@@ -153,10 +193,13 @@ const SignUpInputs = () => {
           genderKey={Key.GENDER}
           genderData={Key.GENDER_DATA}
           setData={setData}
+          data={data}
         />
       </div>
       <div>
-        <button onClick={onSignUpBtnClick}>회원 가입하기</button>
+        <button onClick={onSignUpBtnClick}>
+          {authCode === null ? `회원 가입하기` : `제출하기`}
+        </button>
       </div>
     </div>
   );

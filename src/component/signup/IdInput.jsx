@@ -13,11 +13,13 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
   };
 
   const onClick = (e) => {
-    // 서버에 데이터 보내기
+    // 서버에 데이터 보내기 전 예외처리
     if (id === "") {
       alert("이메일 앞부분을 입력해주세요!");
       return;
-    } else if (emailAddress === "") {
+    }
+
+    if (emailAddress === "" && isOwner) {
       alert("이메일 주소를 선택해주세요!");
       return;
     }

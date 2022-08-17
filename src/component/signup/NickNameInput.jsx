@@ -1,48 +1,61 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import axios from "axios";
 
-const NickNameInput = ({ nicknameKey, isDupKey, setData, min, max }) => {
+const NickNameInput = ({
+  nicknameKey,
+  isDupCheckKey,
+  isDupKey,
+  setData,
+  min,
+  max,
+}) => {
   const [nickname, setNickname] = useState("");
-  const [isDupChecked, setIsDupChecked] = useState(null);
-  //   const [isExist,setIsExist] = useState(f)
+  const [isDupChecked, setIsDupChecked] = useState(false);
+  const [isDuplicated, setIsDuplicated] = useState(false);
 
   const onChange = (e) => {
     let value = e.target.value;
     value = value.replace(/ /g, "");
     value = value.substr(0, 8);
     setNickname(value);
+    setIsDupChecked(false);
   };
 
-  const onClick = () => {
+  const onClick = async () => {
     // 서버로 중복 여부 정보 보내기
-    // 중복이면
-    // 중복이 아니면
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/user/duplication/nickname/${nickname}`
+      );
+      setIsDuplicated(response.data.isDuplication);
+      // console.log(response);
+    } catch (err) {
+      console.log(err);
+      alert("중복 확인에서 오류가 발생했습니다. 다시 시도해주세요.");
+      setIsDuplicated(true);
+    } finally {
+      setIsDupChecked(true);
+    }
   };
-
-  useEffect(() => {
-    setData((cur) => ({
-      ...cur,
-      [nicknameKey]: nickname,
-    }));
-  }, [nickname]);
 
   useEffect(() => {
     // 중복 검사 통과 시
-    if (isDupChecked) {
-      setData((cur) => ({
-        ...cur,
-        [isDupKey]: isDupChecked,
-      }));
-    }
-  }, [isDupChecked]);
+    setData((cur) => ({
+      ...cur,
+      [isDupCheckKey]: isDupChecked,
+      [isDupKey]: isDuplicated,
+      [nicknameKey]: nickname,
+    }));
+  }, [isDuplicated, isDupChecked]);
 
   return (
     <>
       <input type="text" value={nickname} onChange={onChange} maxLength={max} />
       <button
         onClick={onClick}
-        disabled={nickname.length < 2 || nickname.length > 8}
+        disabled={nickname.length < 2 || nickname.length > 8 || isDupChecked}
       >
         중복 확인
       </button>
@@ -52,11 +65,11 @@ const NickNameInput = ({ nicknameKey, isDupKey, setData, min, max }) => {
         </span>
       ) : null}
 
-      {isDupChecked ? (
+      {isDupChecked && !isDuplicated ? (
         <span>사용가능한 닉네임입니다</span>
-      ) : isDupChecked === null ? null : (
+      ) : isDupChecked && isDuplicated ? (
         <span>이미 존재하는 닉네임입니다.</span>
-      )}
+      ) : null}
     </>
   );
 };
