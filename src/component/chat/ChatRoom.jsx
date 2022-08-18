@@ -1,5 +1,6 @@
 import React from "react";
 import ChatRoomHeader from "./ChatRoomHeader";
+import Chatting from "./Chatting";
 import ChattingInput from "./ChattingInput";
 
 const ChatRoom = () => {
@@ -21,7 +22,9 @@ const ChatRoom = () => {
         feePerOne={500}
         location={"신공학관 정문"}
       />
-      <div></div>
+      <div>
+        <Chatting />
+      </div>
       <ChattingInput isDelivered={true} />
     </div>
   );
