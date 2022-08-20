@@ -18,6 +18,13 @@ const ChattingInput = ({ isDelivered, setMessage }) => {
     setChatText("");
   };
 
+  const onKeyDown = (e) => {
+    console.log(e);
+    if (e.code === "Enter") {
+      onSend();
+    }
+  };
+
   return (
     <ChatInputWrapper>
       {isDelivered && (
@@ -26,7 +33,12 @@ const ChattingInput = ({ isDelivered, setMessage }) => {
         </div>
       )}
       <InputNBtnDiv>
-        <Input type="text" onChange={onChange} value={chatText} />
+        <Input
+          type="text"
+          onChange={onChange}
+          value={chatText}
+          onKeyDown={onKeyDown}
+        />
         <SendBtn disabled={chatText.length === 0} onClick={onSend}>
           보내기
         </SendBtn>
