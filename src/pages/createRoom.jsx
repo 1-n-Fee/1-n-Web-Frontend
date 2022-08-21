@@ -1,6 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { locData } from "../locData";
+import { useNavigate } from "react-router";
 import styled from "styled-components";
-const locData = [];
+import axios from "axios";
+import { useRecoilState } from "recoil";
+import { createDataAtom, roomDataAtom } from "../recoil/createroomData/atom";
+import CreateRoomPopup from "../component/createRoom/createRoomPopup";
 const restaurantData = [
   // TODO: 서버에서 음식점 리스트 GET
   "영심이",
@@ -9,6 +14,7 @@ const restaurantData = [
   "김밥집",
 ];
 const CreateRoom = (props) => {
+  const navigate = useNavigate();
   const [isManual, setIsManual] = useState(false);
   const [menuInput, setMenuInput] = useState({
     id: "",
@@ -16,15 +22,12 @@ const CreateRoom = (props) => {
     menuPrice: "",
   });
   const [menuList, setMenuList] = useState([]);
-  const [roomData, setRoomData] = useState({
-    restaurant: "",
-    loc: "",
-    delivery: "",
-    maxNum: "",
-  });
+
+  const [roomData, setRoomData] = useRecoilState(roomDataAtom);
+
   const onRestaurantChange = (e) => {
     const value = e.target.value;
-    setRoomData((cur) => ({ ...cur, restaurant: value }));
+    setRoomData((cur) => ({ ...cur, storeId: value }));
   };
   const onManualCheck = (checked) => {
     if (checked) {
@@ -53,21 +56,72 @@ const CreateRoom = (props) => {
     });
   };
   const onRoomCreate = () => {
-    // TODO: HTTP POST 요청
-    // TODO: 어디로 navigate ?
+    const auth = localStorage.getItem("Authorization");
+    const arr = [];
+    arr.push(roomData.closeTime.year);
+    arr.push(roomData.closeTime.month);
+    arr.push(roomData.closeTime.day);
+    arr.push(roomData.closeTime.hour);
+    arr.push(roomData.closeTime.min);
+
+    const closeTime = arr.join(".");
+    console.log(closeTime);
+    const { spotId, content, storeId, limitNumber } = roomData;
+    console.log(roomData);
+    axios
+      .post(
+        "http://localhost:8080/post",
+        {
+          spotId,
+          content,
+          limitNumber,
+          storeId,
+          closeTime,
+        },
+        {
+          headers: {
+            Authorization: auth,
+          },
+        }
+      )
+      .then((res) => {
+        // TODO: 방 생성 성공 후 이동 페이지 지정
+        navigate("/");
+        console.log(res);
+      })
+      .catch((e) => {
+        console.log(e.response.data);
+        if (e.response.data.errorCode === "T001") {
+          // TODO: 유효기간 지난 토큰 재발급 수행
+          // or 로그인 페이지로 이동?
+        }
+      });
   };
 
   const nextId = useRef(0);
+  const [createData, setCreateData] = useRecoilState(createDataAtom);
+
+  useEffect(() => setCreateData((cur) => ({ ...cur, isPopUpOpen: false })), []);
+
   return (
     <RoomContainer>
+      {createData.isPopUpOpen && <CreateRoomPopup />}
       <RoomWrapper>
         <h1>방 만들기</h1>
         <div>
           <span>음식점 이름</span>
+          <input type="text" value={roomData.storeName} disabled />
+          <button
+            onClick={() =>
+              setCreateData((cur) => ({ ...cur, isPopUpOpen: true }))
+            }
+          >
+            검색
+          </button>
           <select onChange={onRestaurantChange}>
             <option name="placeholder" defaultValue={true}></option>
             {restaurantData.map((rd, rdKey) => (
-              <option key={`restaurant_${rdKey}`} value={rd}>
+              <option key={`restaurant_${rdKey}`} value={rdKey}>
                 {rd}
               </option>
             ))}
@@ -122,13 +176,13 @@ const CreateRoom = (props) => {
             <SelectWrapper
               name="location"
               onChange={(e) =>
-                setRoomData((cur) => ({ ...cur, loc: e.target.value }))
+                setRoomData((cur) => ({ ...cur, spotId: e.target.value }))
               }
             >
               <option name="placeholder" defaultValue={true}></option>
               {locData.map((ld) => (
                 <option key={`location${ld.id}`} value={ld.id}>
-                  {ld.name}
+                  {ld.loc}
                 </option>
               ))}
             </SelectWrapper>
@@ -138,6 +192,7 @@ const CreateRoom = (props) => {
             <label htmlFor="delivery">배달비</label>
             <TextWrapper
               name="delivery"
+              value={roomData.delivery}
               onChange={(e) =>
                 setRoomData((cur) => ({ ...cur, delivery: e.target.value }))
               }
@@ -148,8 +203,57 @@ const CreateRoom = (props) => {
             <TextWrapper
               name="maxNum"
               onChange={(e) =>
-                setRoomData((cur) => ({ ...cur, maxNum: e.target.value }))
+                setRoomData((cur) => ({ ...cur, limitNumber: e.target.value }))
               }
+            />
+          </InputWrapper>
+          <InputWrapper>
+            <label htmlFor="content">설명</label>
+            <TextWrapper
+              type="text"
+              name="content"
+              onChange={(e) =>
+                setRoomData((cur) => ({ ...cur, content: e.target.value }))
+              }
+            />
+          </InputWrapper>
+          <InputWrapper>
+            <label htmlFor="closeTime">모집 마감 시간</label>
+            <input
+              type="date"
+              onChange={(e) => {
+                console.log(e.target.value);
+                const date = e.target.value.split("-");
+                console.log(date);
+                setRoomData((cur) => ({
+                  ...cur,
+                  closeTime: {
+                    ...roomData.closeTime,
+                    year: date[0],
+                    month: date[1],
+                    day: date[2],
+                  },
+                }));
+                console.log(roomData.closeTime);
+              }}
+            />
+            <input
+              type="time"
+              name="closeTime"
+              onChange={(e) => {
+                console.log(e.target.value);
+                const time = e.target.value.split(":");
+                console.log(time);
+                setRoomData((cur) => ({
+                  ...cur,
+                  closeTime: {
+                    ...roomData.closeTime,
+                    hour: time[0],
+                    min: time[1],
+                  },
+                }));
+                console.log(roomData.closeTime);
+              }}
             />
           </InputWrapper>
           <ButtonWrapper onClick={onRoomCreate}>방 생성하기</ButtonWrapper>
