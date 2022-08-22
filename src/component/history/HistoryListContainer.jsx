@@ -1,79 +1,40 @@
 import React, { useEffect, useState } from "react";
 import HistoryListHeader from "./HistoryListHeader";
+import axios from "axios";
+import { useNavigate } from "react-router";
 
 const HistoryListContainer = () => {
-  const [history, setHistory] = useState([
-    {
-      roomName: "새로이",
-      id: 574,
-      totalMems: 3,
-      targetNum: 5,
-      state: 4,
-      isChief: true,
-      feePerOne: 1500,
-      totalFee: 12400,
-      location: "신공학관 정문",
-    },
-    {
-      roomName: "시홍쓰",
-      id: 55,
-      totalMems: 2,
-      targetNum: 3,
-      state: 4,
-      isChief: false,
-      feePerOne: 1500,
-      totalFee: 12400,
-      location: "동생대 정문",
-    },
-    {
-      roomName: "새로이",
-      id: 324,
-      totalMems: 3,
-      targetNum: 5,
-      state: 5,
-      isChief: false,
-      feePerOne: 1500,
-      totalFee: 12400,
-      location: "신공학관 정문",
-    },
-    {
-      roomName: "부리또피아",
-      id: 22,
-      totalMems: 4,
-      targetNum: 4,
-      state: 1,
-      isChief: true,
-      feePerOne: 1500,
-      totalFee: 12400,
-      location: "신공학관 정문",
-    },
-    {
-      roomName: "불떡",
-      id: 12,
-      totalMems: 4,
-      targetNum: 4,
-      state: 1,
-      isChief: true,
-      feePerOne: 1500,
-      totalFee: 12400,
-      location: "신공학관 정문",
-    },
-    {
-      roomName: "포크포크",
-      id: 87,
-      totalMems: 3,
-      targetNum: 3,
-      state: 0,
-      isChief: false,
-      feePerOne: 1500,
-      totalFee: 12400,
-      location: "신공학관 정문",
-    },
-  ]);
+  const navigate = useNavigate();
+  const [history, setHistory] = useState([]);
 
   useEffect(() => {
-    // 데이터 받아오기
+    getHistoryData();
   }, []);
+
+  const getHistoryData = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/history", {
+        headers: { Authorization: localStorage.getItem("Authorization") },
+      });
+
+      await setHistory(
+        response.data.map((d) => ({
+          roomName: d.storeName,
+          id: d.postId,
+          totalMems: d.currentNumber,
+          targetNum: d.limitNumber,
+          state: d.state,
+          isChief: d.owner,
+          feePerOne: d.deliveryFeePerPerson,
+          totalFee: d.totalAmountForUser,
+          location: d.spotName,
+        }))
+      );
+    } catch (err) {
+      alert("로그인 후 이용해주세요.");
+      navigate("/login");
+    }
+  };
   return (
     <div>
       <ul>
