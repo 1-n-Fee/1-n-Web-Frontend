@@ -6,12 +6,12 @@ import {
 } from "../style/findFormStyle";
 
 const FindPwForm = ({
-  id,
+  email,
   name,
-  tel,
-  onIdChange,
+  phone,
+  onEmailChange,
   onNameChange,
-  onTelChange,
+  onPhoneChange,
   findPw,
 }) => {
   return (
@@ -19,9 +19,9 @@ const FindPwForm = ({
       <InputContainer>
         <InputWrapper
           type="text"
-          value={id}
-          onChange={onIdChange}
-          placeholder="아이디"
+          value={email}
+          onChange={onEmailChange}
+          placeholder="이메일"
         />
         <InputWrapper
           type="text"
@@ -31,8 +31,8 @@ const FindPwForm = ({
         />
         <InputWrapper
           type="tel"
-          value={tel}
-          onChange={onTelChange}
+          value={phone}
+          onChange={onPhoneChange}
           placeholder="전화번호"
         />
       </InputContainer>
