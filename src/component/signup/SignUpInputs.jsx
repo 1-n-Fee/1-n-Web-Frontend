@@ -175,7 +175,8 @@ const SignUpInputs = ({ authCode = null, accountType = "password" }) => {
         <Title>*닉네임</Title>
         <NickNameInput
           nicknameKey={Key.NICKNAME}
-          isDupKey={Key.IS_NICK_DUP_CHECKED}
+          isDupCheckKey={Key.IS_NICK_DUP_CHECKED}
+          isDupKey={Key.IS_NICK_DUP}
           setData={setData}
           min={2}
           max={8}
