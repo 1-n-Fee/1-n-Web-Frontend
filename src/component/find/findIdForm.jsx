@@ -5,7 +5,7 @@ import {
   FindButton,
 } from "../style/findFormStyle";
 
-const FindIdForm = ({ name, tel, onNameChange, onTelChange, findId }) => {
+const FindIdForm = ({ name, phone, onNameChange, onPhoneChange, findId }) => {
   return (
     <>
       <InputContainer>
@@ -16,9 +16,9 @@ const FindIdForm = ({ name, tel, onNameChange, onTelChange, findId }) => {
           placeholder="이름"
         />
         <InputWrapper
-          type="tel"
-          value={tel}
-          onChange={onTelChange}
+          type="phone"
+          value={phone}
+          onChange={onPhoneChange}
           placeholder="전화번호"
         />
       </InputContainer>
