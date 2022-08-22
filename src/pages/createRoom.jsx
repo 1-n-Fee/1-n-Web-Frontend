@@ -6,13 +6,7 @@ import axios from "axios";
 import { useRecoilState } from "recoil";
 import { createDataAtom, roomDataAtom } from "../recoil/createroomData/atom";
 import CreateRoomPopup from "../component/createRoom/createRoomPopup";
-const restaurantData = [
-  // TODO: 서버에서 음식점 리스트 GET
-  "영심이",
-  "ㅇ라ㅓ",
-  "샐러드",
-  "김밥집",
-];
+
 const CreateRoom = (props) => {
   const navigate = useNavigate();
   const [isManual, setIsManual] = useState(false);
@@ -55,6 +49,19 @@ const CreateRoom = (props) => {
       menuPrice: "",
     });
   };
+  const checkRoomData = () => {
+    switch (true) {
+      case roomData.closeTime === "":
+      case roomData.content === "":
+      case roomData.delivery === "":
+      case roomData.limitNumber === "":
+      case roomData.spotId === "":
+      case roomData.storeId === "":
+        return false;
+      default:
+        return true;
+    }
+  };
   const onRoomCreate = () => {
     const auth = localStorage.getItem("Authorization");
     const arr = [];
@@ -68,6 +75,11 @@ const CreateRoom = (props) => {
     console.log(closeTime);
     const { spotId, content, storeId, limitNumber } = roomData;
     console.log(roomData);
+    const check = checkRoomData();
+    if (!check) {
+      alert("모든 입력란을 입력해 주세요");
+      return;
+    }
     axios
       .post(
         "http://localhost:8080/post",
@@ -85,7 +97,7 @@ const CreateRoom = (props) => {
         }
       )
       .then((res) => {
-        // TODO: 방 생성 성공 후 이동 페이지 지정
+        // TODO: 방 생성 성공 후 이동 페이지 지정: 히스토리 vs Home 페이지?
         navigate("/");
         console.log(res);
       })
@@ -94,6 +106,8 @@ const CreateRoom = (props) => {
         if (e.response.data.errorCode === "T001") {
           // TODO: 유효기간 지난 토큰 재발급 수행
           // or 로그인 페이지로 이동?
+          alert("로그아웃 되었습니다. 로그인 페이지로 이동합니다");
+          navigate("/login");
         }
       });
   };
@@ -118,14 +132,7 @@ const CreateRoom = (props) => {
           >
             검색
           </button>
-          <select onChange={onRestaurantChange}>
-            <option name="placeholder" defaultValue={true}></option>
-            {restaurantData.map((rd, rdKey) => (
-              <option key={`restaurant_${rdKey}`} value={rdKey}>
-                {rd}
-              </option>
-            ))}
-          </select>
+
           <input
             type="checkbox"
             name="isManual"
