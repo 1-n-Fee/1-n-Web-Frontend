@@ -32,7 +32,7 @@ const LoginForm = (props) => {
   };
   const checkData = (email, password) => {
     if (email && password) return true;
-    console.log("didnt pass check");
+    alert("이메일과 비밀번호를 모두 입력해주세요");
     return false;
   };
   const login = async () => {
