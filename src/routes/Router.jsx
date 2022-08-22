@@ -20,6 +20,7 @@ import OauthNaver from "../pages/oauthNaver";
 import OwnerSignupPage from "../pages/OwnerSignupPage";
 import HistoryPage from "../pages/HistoryPage";
 import BeforeSignUpPage from "../pages/BeforeSignUpPage";
+import CreateRoom from "../pages/createRoom";
 
 const Router = () => {
   return (
@@ -42,6 +43,7 @@ const Router = () => {
         <Route path="/auth/naver" element={<OauthNaver />} />
         <Route path="/auth/google" element={<OauthGoogle />} />
 
+        <Route path="/creating-room" element={<CreateRoom />} />
         <Route path="/signup/owner" element={<OwnerSignupPage />} />
         <Route path="/history" element={<HistoryPage />} />
         <Route path="/*" element={<Home />} />
