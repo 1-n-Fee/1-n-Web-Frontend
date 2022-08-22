@@ -1,19 +1,21 @@
 import React from "react";
 import { useState } from "react";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
+import loginDataAtom from "../../recoil/loginData/atom";
 const IdInput = (props) => {
-  const [idText, setIdText] = useState("");
-
+  const [loginData, setLoginData] = useRecoilState(loginDataAtom);
+  const { email } = loginData;
   const onChange = (e) => {
     let value = e.target.value;
-    setIdText(value);
+    setLoginData((cur) => ({ ...cur, email: value }));
   };
   return (
     <IdWrapper
       type="text"
-      value={idText}
+      value={email}
       onChange={onChange}
-      placeholder="아이디"
+      placeholder="이메일"
       required
     />
   );

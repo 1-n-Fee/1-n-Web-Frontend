@@ -1,17 +1,20 @@
 import React from "react";
 import { useState } from "react";
 import styled from "styled-components";
-const PwInput = (props) => {
-  const [pw, setPw] = useState("");
+import { useRecoilState } from "recoil";
+import loginDataAtom from "../../recoil/loginData/atom";
 
+const PwInput = (props) => {
+  const [loginData, setLoginData] = useRecoilState(loginDataAtom);
+  const { password } = loginData;
   const onChange = (e) => {
-    const val = e.target.value;
-    setPw(val);
+    const value = e.target.value;
+    setLoginData((cur) => ({ ...cur, password: value }));
   };
   return (
     <PwWrapper
       type="password"
-      value={pw}
+      value={password}
       onChange={onChange}
       placeholder="비밀번호"
       required

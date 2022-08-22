@@ -4,8 +4,11 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import oauthDataAtom from "./../recoil/oauthData/atom";
+import isLoginDataAtom from "../recoil/isLogin/atom";
+
 const OauthGoogle = (props) => {
   const navigate = useNavigate();
+  const setIsLogin = useSetRecoilState(isLoginDataAtom);
   const setAuthCode = useSetRecoilState(oauthDataAtom);
 
   let code = new URL(window.location.href).searchParams.get("code");
@@ -15,43 +18,32 @@ const OauthGoogle = (props) => {
     const fetchId = async () => {
       try {
         await axios
-          .get(`http://localhost:8080/auth/google?code=${code}`)
+          .get(`http://localhost:8080/user/oauth/google?code=${code}`)
           .then((res) => {
-            console.log("before split");
-            const a = res.data.split("\n");
-            console.log(a);
-            if (a[0] === "구글 회원가입이 되어 있지 않은 회원입니다.") {
-              const b = a[1].split("=");
-              const id = b[1];
-              console.log(id);
-
-              // axios
-              //   .post(`http://localhost:8080/signup`, {
-              //     name: "홍길동",
-              //     role: "admin",
-              //     accountType: "google",
-              //     oauthId: id,
-              //   })
-              //   .then((res) => console.log(res))
-              //   .then(navigate("/"))
-              //   .catch((error) => console.log(error));
-            } else {
-              console.log(res, res.headers);
-              const auth = res.headers.authorization;
-              console.log(auth);
-              localStorage.setItem("Authorization", auth);
-              navigate("/");
-            }
+            console.log(res);
+            localStorage.setItem("Authorization", res.headers.authorization);
+            alert("로그인에 성공했습니다");
+            setIsLogin(true);
+            navigate("/");
           });
       } catch (e) {
-        alert("가입되어있지 않은 회원입니다. 회원가입 페이지로 이동합니다.");
-        console.log(e.response);
+        const errorKey = e.response.data.errorCode;
+
         setAuthCode(code);
+        switch (errorKey) {
+          case "U006":
+            alert(
+              "가입되어있지 않은 회원입니다. 회원가입 페이지로 이동합니다."
+            );
+            console.log(e.response);
+            break;
+          default:
+        }
         navigate("/signup/oauth/google");
         // navigate("/login");
       }
+      fetchId();
     };
-    fetchId();
   }, []);
   return <h1>Waiting for GOOGLE Authorization...</h1>;
 };
