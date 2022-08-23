@@ -30,6 +30,7 @@ const NickNameInput = ({
         `http://localhost:8080/user/duplication/nickname/${nickname}`
       );
       setIsDuplicated(response.data.isDuplication);
+      setIsDupChecked(true);
       // console.log(response);
     } catch (err) {
       console.log(err);
@@ -41,7 +42,6 @@ const NickNameInput = ({
   };
 
   useEffect(() => {
-    // 중복 검사 통과 시
     setData((cur) => ({
       ...cur,
       [isDupCheckKey]: isDupChecked,
