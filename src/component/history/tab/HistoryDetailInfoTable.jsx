@@ -1,15 +1,9 @@
 import React, { useState } from "react";
+import historyDataAtom from "./../../../recoil/historyData/atom";
+import { useRecoilValue } from "recoil";
 
 const HistoryDetailInfoTab = () => {
-  const [historyInfo, setHistoryInfo] = useState({
-    roomName: "원스테이크",
-    roomId: "455",
-    location: "신공학관 정문",
-    feePerOne: 1500,
-    totalFee: 14500,
-    totalMems: 3,
-    targetNum: 5,
-  });
+  const historyData = useRecoilValue(historyDataAtom);
 
   return (
     <div>
@@ -17,27 +11,27 @@ const HistoryDetailInfoTab = () => {
         <tbody>
           <tr>
             <td>🍕 방 이름</td>
-            <td>{`${historyInfo.roomName}-${historyInfo.roomId}`}</td>
+            <td>{historyData.roomName}</td>
           </tr>
           <tr>
             <td>📍 위치</td>
-            <td>{historyInfo.location}</td>
+            <td>{historyData.location}</td>
           </tr>
           <tr>
             <td>💵 1인당 배달비</td>
-            <td>{historyInfo.feePerOne.toLocaleString()}</td>
+            <td>{historyData.feePerOne.toLocaleString()}</td>
           </tr>
           <tr>
             <td>💵 총 금액</td>
-            <td>{historyInfo.totalFee.toLocaleString()}</td>
+            <td>{historyData.totalFee.toLocaleString()}</td>
           </tr>
           <tr>
             <td>👤 현재 인원</td>
-            <td>{historyInfo.totalMems}명</td>
+            <td>{historyData.totalMems}명</td>
           </tr>
           <tr>
             <td>👤 목표 인원</td>
-            <td>{historyInfo.targetNum}명</td>
+            <td>{historyData.targetNum}명</td>
           </tr>
         </tbody>
       </table>
