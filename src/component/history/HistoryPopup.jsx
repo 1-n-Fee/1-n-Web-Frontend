@@ -3,7 +3,7 @@ import { useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import historyDataAtom from "../../recoil/historyData/atom";
 import HistoryListHeader from "./HistoryListHeader";
-import HistoryTab from "./HistoryTab";
+import HistoryTab from "./tab/HistoryTab";
 
 const HistoryPopup = () => {
   const setHistoryDataAtom = useSetRecoilState(historyDataAtom);
