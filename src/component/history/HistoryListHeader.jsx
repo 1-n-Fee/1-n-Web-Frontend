@@ -3,8 +3,8 @@ import AlarmSubInfoStyle from "../style/AlarmSubInfoStyle";
 import styled from "styled-components";
 import UserStateTag from "../common/UserStateTag";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import historyDataAtom from "../../recoil/historyData/atom";
+import { useRecoilState } from "recoil";
+import historyDataAtom from "./../../recoil/historyData/atom";
 
 const HistoryListHeader = ({
   roomName,
@@ -19,7 +19,7 @@ const HistoryListHeader = ({
 }) => {
   const navigate = useNavigate();
 
-  const setHistoryDataAtom = useSetRecoilState(historyDataAtom);
+  const [historyData, setHistoryData] = useRecoilState(historyDataAtom);
 
   const onChatClick = () => {
     navigate("/chat");
@@ -27,8 +27,15 @@ const HistoryListHeader = ({
   };
 
   const onClick = (e) => {
-    setHistoryDataAtom((cur) => ({ ...cur, isPopUpOpen: true }));
+    setHistoryData((cur) => ({ ...cur, isPopUpOpen: true }));
     // id 로 검색 후 set Recoil에 넣어주기
+  };
+
+  const onTabClick = (e) => {
+    setHistoryData((cur) => ({
+      ...cur,
+      clickedTab: parseInt(e.target.dataset.idx),
+    }));
   };
 
   return (
@@ -42,14 +49,18 @@ const HistoryListHeader = ({
 
             {isChief && <UserStateTag state={6} />}
             <div>
-              <button>ℹ️</button>
-              <button>🍕</button>
+              <button data-idx={0} onClick={onTabClick}>
+                ℹ️
+              </button>
+              <button data-idx={1} onClick={onTabClick}>
+                🍕
+              </button>
               {isChief && (
-                <button>
+                <button data-idx={2} onClick={onTabClick}>
                   {state < 3 ? (
-                    <span>👤{targetNum}</span>
+                    <>👤{targetNum}</>
                   ) : (
-                    <span>👤{`${totalMems}/${targetNum}`}</span>
+                    <>👤{`${totalMems}/${targetNum}`}</>
                   )}
                 </button>
               )}
