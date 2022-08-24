@@ -19,7 +19,7 @@ const HistoryListContainer = () => {
 
       await setHistory(
         response.data.map((d) => ({
-          roomName: d.storeName,
+          storeName: d.storeName,
           id: d.postId,
           totalMems: d.currentNumber,
           targetNum: d.limitNumber,
@@ -41,7 +41,7 @@ const HistoryListContainer = () => {
         {history.map((h, key) => (
           <li key={`history_${key}`}>
             <HistoryListHeader
-              roomName={`${h.roomName}-${h.id}`}
+              roomName={`${h.storeName}-${h.id}`}
               roomId={h.id}
               totalMems={h.totalMems}
               targetNum={h.targetNum}
