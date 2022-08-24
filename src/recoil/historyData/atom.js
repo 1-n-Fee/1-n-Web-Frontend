@@ -10,11 +10,13 @@ const historyDataAtom = atom({
     roomName: "",
     totalMems: 0,
     targetNum: 0,
-    state: 0,
+    state: "",
     isChief: "",
     feePerOne: 0,
     totalFee: 0,
     location: "",
+    myOrder: [{ foodName: "", price: 0 }],
+    others: [{ nickname: "", order: [{ foodName: "", price: 0 }] }],
   },
 });
 
