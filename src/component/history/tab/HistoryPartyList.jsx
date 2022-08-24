@@ -1,33 +1,16 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import HistoryOrderList from "./HistoryOrderList";
+import { useRecoilValue } from "recoil";
+import historyDataAtom from "../../../recoil/historyData/atom";
 
 const HistoryPartyList = () => {
-  const [users, setUsers] = useState([
-    {
-      userName: "닉닉넴",
-      orderList: [
-        { foodName: "참치 김밥", price: 3500 },
-        { foodName: "우동", price: 6000 },
-        { foodName: "돈까스", price: 9000 },
-      ],
-    },
-    {
-      userName: "닉네힘",
-      orderList: [
-        { foodName: "안심돈까스", price: 10000 },
-        { foodName: "냉모밀", price: 7000 },
-      ],
-    },
-    {
-      userName: "닉네네",
-      orderList: [{ foodName: "야채 김밥", price: 3000 }],
-    },
-  ]);
+  const historyData = useRecoilValue(historyDataAtom);
+
   const [didSelect, setDidSelect] = useState(false);
   const [targetUser, setTargetUser] = useState({
-    userName: null,
-    orderList: [],
+    nickname: null,
+    order: [],
   });
 
   const onMouseEnter = (e) => {
@@ -40,11 +23,11 @@ const HistoryPartyList = () => {
   const onMouseLeave = () => {
     if (didSelect) return;
 
-    setTargetUser((curData) => ({ ...curData, userName: null }));
+    setTargetUser((curData) => ({ ...curData, nickname: null }));
   };
 
-  const findTargetData = (userName) =>
-    users.find((u) => u.userName === userName);
+  const findTargetData = (nickname) =>
+    historyData.others.find((u) => u.nickname === nickname);
 
   const onClick = (e) => {
     setDidSelect((curState) => !curState);
@@ -54,23 +37,23 @@ const HistoryPartyList = () => {
   return (
     <div>
       <ul>
-        {users.map((u, key) => (
+        {historyData.others.map((u, key) => (
           <Li
             key={`user_${key}`}
-            data-name={u.userName}
+            data-name={u.nickname}
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
             onClick={onClick}
           >
-            <span data-name={u.userName}>🍕</span>
-            <strong data-name={u.userName}>{u.userName}</strong>
+            <span data-name={u.nickname}>🍕</span>
+            <strong data-name={u.nickname}>{u.nickname}</strong>
 
             {/* mouse hover 또는 클릭하면 등장하는 order 정보 */}
-            {targetUser.userName === u.userName && (
+            {targetUser.nickname === u.nickname && (
               <OrderListWrapper key={`target_${key}`}>
                 <HistoryOrderList
                   isPartySection={true}
-                  orderData={targetUser.orderList}
+                  orderData={targetUser.order}
                 />
               </OrderListWrapper>
             )}

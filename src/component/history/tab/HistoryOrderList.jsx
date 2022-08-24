@@ -1,32 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useRecoilValue } from "recoil";
+import historyDataAtom from "./../../../recoil/historyData/atom";
 
+// 나의 주문을 보여주는 탭과 다른 사용자의 주문을 보여주는 pop up 컴포넌트에 사용됩니다.
 const HistoryOrderList = ({ orderData, isPartySection = false }) => {
-  const [orderList, setOrderList] = useState([
-    { foodName: "참치 김밥", price: 3500 },
-    { foodName: "우동", price: 6000 },
-    { foodName: "돈까스", price: 9000 },
-    { foodName: "주먹밥", price: 3000 },
-  ]);
-  const [deliveryFee, setDeliveryFee] = useState(1500);
-  const [totalFee, setTotalFee] = useState(0);
-
-  useEffect(() => {
-    const totalFoodPrice = orderList.reduce(
-      (prevSum, curValue) => prevSum + curValue.price,
-      0
-    );
-
-    setTotalFee(totalFoodPrice + deliveryFee);
-  }, [orderList, deliveryFee]);
-
-  useEffect(() => {
-    if (isPartySection) setOrderList(orderData);
-  }, [orderData, isPartySection]);
+  const historyData = useRecoilValue(historyDataAtom);
+  const [orderList, setOrderList] = useState(
+    isPartySection ? orderData : historyData.myOrder
+  );
 
   return (
     <div>
       <ul>
-        {orderList.map((o, key) => (
+        {/* 참여자 보여주는 tab에서 사용할 경우 orderData 출력 , 아닌 경우 본인의 data 출력 */}
+        {(isPartySection ? orderData : historyData.myOrder).map((o, key) => (
           <li key={`order_${key}`}>
             <strong>{o.foodName}</strong>
             <span>{o.price.toLocaleString()}원</span>
@@ -35,12 +22,12 @@ const HistoryOrderList = ({ orderData, isPartySection = false }) => {
       </ul>
       <div>
         <strong>배달비</strong>
-        <span>{deliveryFee.toLocaleString()}원</span>
+        <span>{historyData.feePerOne.toLocaleString()}원</span>
       </div>
       <hr />
       <div>
         <strong>총 가격</strong>
-        <span>{totalFee.toLocaleString()}원</span>
+        <span>{historyData.totalFee.toLocaleString()}원</span>
       </div>
     </div>
   );
