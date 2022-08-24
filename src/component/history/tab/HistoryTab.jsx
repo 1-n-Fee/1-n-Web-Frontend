@@ -11,7 +11,6 @@ Object.freeze(tabName);
 const HistoryTab = () => {
   const [historyData, setHistoryData] = useRecoilState(historyDataAtom);
   const onTabClick = (e) => {
-    console.log(e.target.dataset.idx);
     setHistoryData((cur) => ({
       ...cur,
       clickedTab: parseInt(e.target.dataset.idx),
