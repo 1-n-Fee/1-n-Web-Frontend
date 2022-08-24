@@ -31,7 +31,7 @@ const Router = () => {
         <Route path="/before-signup" element={<BeforeSignUpPage />} />
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/signup/oauth/:site" element={<SignUpPage />} />
-        <Route path="/chat" element={<ChatPage />} />
+        <Route path="/chat/:roomId" element={<ChatPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/user" element={<UserInfo />} />
         <Route path="/user/nickname" element={<NNameChange />} />
