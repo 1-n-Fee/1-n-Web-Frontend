@@ -13,19 +13,19 @@ const Color = {
 };
 
 const State = {
-  ORDER_WAITING: 0,
-  ORDER_COMPLETE: 1,
-  DELIVERY_COMPLETE: 2,
-  REQ_WAITING: 3,
-  ACCEPTED: 4,
-  DENIED: 5,
+  ORDER_WAITING: "ORDERING",
+  ORDER_COMPLETE: "ORDER_COMPLETED",
+  DELIVERY_COMPLETE: "DELIVERY_COMPLETE",
+  REQ_WAITING: "AWAITING",
+  ACCEPTED: "RECRUITING",
+  DENIED: "REJECTED",
   CHIEF: 6,
 };
 
 Object.freeze(Color);
 Object.freeze(State);
 
-const UserStateTag = ({ state }) => {
+const UserStateTag = ({ state, isChief = false }) => {
   const [stateTagData, setStateTagData] = useState({
     color: "",
     bg: "",
@@ -41,14 +41,14 @@ const UserStateTag = ({ state }) => {
           bg: Color.RED_PINK,
         });
         break;
-      case 1:
+      case State.ORDER_COMPLETE:
         setStateTagData({
           string: "주문 완료",
           color: Color.WHITE,
           bg: Color.YELLOW,
         });
         break;
-      case 2:
+      case State.DELIVERY_COMPLETE:
         setStateTagData({
           string: "배달 완료",
           color: Color.WHITE,
@@ -63,9 +63,10 @@ const UserStateTag = ({ state }) => {
           bg: Color.DARK_YELLOW,
         });
         break;
+
       case State.ACCEPTED:
         setStateTagData({
-          string: "수락",
+          string: isChief ? "모집 중" : "수락",
           color: Color.WHITE,
           bg: Color.DARK_GREEN,
         });

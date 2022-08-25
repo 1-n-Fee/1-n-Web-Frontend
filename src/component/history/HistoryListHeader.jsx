@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AlarmSubInfoStyle from "../style/AlarmSubInfoStyle";
 import styled from "styled-components";
 import UserStateTag from "../common/UserStateTag";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import historyDataAtom from "../../recoil/historyData/atom";
+import { useRecoilState } from "recoil";
+import historyDataAtom from "./../../recoil/historyData/atom";
+import axios from "axios";
 
 const HistoryListHeader = ({
   roomName,
@@ -19,17 +20,82 @@ const HistoryListHeader = ({
 }) => {
   const navigate = useNavigate();
 
-  const setHistoryDataAtom = useSetRecoilState(historyDataAtom);
+  const [historyData, setHistoryData] = useRecoilState(historyDataAtom);
+  const [isOrderedState, setIsOrderedState] = useState(false);
 
   const onChatClick = () => {
-    navigate("/chat");
-    // param으로든 뭐든 채팅방 아이디 보내기
+    navigate(`/chat/${roomId}`);
   };
 
   const onClick = (e) => {
-    setHistoryDataAtom((cur) => ({ ...cur, isPopUpOpen: true }));
+    setHistoryData((cur) => ({ ...cur, isPopUpOpen: true }));
     // id 로 검색 후 set Recoil에 넣어주기
+    getHistoryData();
   };
+
+  const onTabClick = (e) => {
+    setHistoryData((cur) => ({
+      ...cur,
+      clickedTab: parseInt(e.target.dataset.idx),
+    }));
+  };
+
+  const onDeleteRoomClick = async () => {
+    try {
+      if (isChief) {
+        await axios.delete(`http://localhost:8080/post/${roomId}`, {
+          headers: { Authorization: localStorage.getItem("Authorization") },
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const getHistoryData = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/history/${roomId}`,
+        { headers: { Authorization: localStorage.getItem("Authorization") } }
+      );
+      const history = response.data;
+
+      setHistoryData((cur) => ({
+        ...cur,
+        roomId: roomId,
+        roomName: roomName,
+        totalMems: totalMems,
+        targetNum: targetNum,
+        state: state,
+        isChief: isChief,
+        feePerOne: feePerOne,
+        totalFee: totalFee,
+        location: location,
+        myOrder: history.myOrder.map((menu) => ({
+          foodName: menu.foodName,
+          price: menu.price,
+        })),
+        others: history.others.map((other) => ({
+          nickname: other.nickname,
+          order: other.map((menu) => ({
+            foodName: menu.foodName,
+            price: menu.price,
+          })),
+        })),
+      }));
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  // 모집완료 후의 상태
+  useEffect(() => {
+    setIsOrderedState(
+      state === "ORDERING" ||
+        state === "ORDER_COMPLETED" ||
+        state === "DELIVERY_COMPLETE"
+    );
+  }, [state]);
 
   return (
     <HistoryHeaderWrapper onClick={onClick}>
@@ -38,27 +104,35 @@ const HistoryListHeader = ({
           <div>
             <RoomName>{roomName}</RoomName>
 
-            {(state < 3 || !isChief) && <UserStateTag state={state} />}
+            <UserStateTag state={state} isChief={isChief} />
 
             {isChief && <UserStateTag state={6} />}
             <div>
-              <button>ℹ️</button>
-              <button>🍕</button>
+              <button data-idx={0} onClick={onTabClick}>
+                ℹ️
+              </button>
+              <button data-idx={1} onClick={onTabClick}>
+                🍕
+              </button>
               {isChief && (
-                <button>
-                  {state < 3 ? (
-                    <span>👤{targetNum}</span>
+                <button data-idx={2} onClick={onTabClick}>
+                  {state === "ORDERING" ||
+                  state === "ORDER_COMPLETED" ||
+                  state === "DELIVERY_COMPLETE" ? (
+                    <>👤{targetNum}</>
                   ) : (
-                    <span>👤{`${totalMems}/${targetNum}`}</span>
+                    <>👤{`${totalMems}/${targetNum}`}</>
                   )}
                 </button>
               )}
-              {state < 3 && <button onClick={onChatClick}>💬</button>}
+              {isOrderedState && <button onClick={onChatClick}>💬</button>}
             </div>
           </div>
           <div>
-            {(state === 3 || state === 4) && (
-              <button>{isChief ? "방 삭제하기" : "취소하기"}</button>
+            {(state === "RECRUITING" || state === "AWAITING") && (
+              <button onClick={onDeleteRoomClick}>
+                {isChief ? "방 삭제하기" : "취소하기"}
+              </button>
             )}
           </div>
         </TitleWrapper>

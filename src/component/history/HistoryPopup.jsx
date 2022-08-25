@@ -1,15 +1,15 @@
 import React from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import historyDataAtom from "../../recoil/historyData/atom";
 import HistoryListHeader from "./HistoryListHeader";
-import HistoryTab from "./HistoryTab";
+import HistoryTab from "./tab/HistoryTab";
 
 const HistoryPopup = () => {
-  const setHistoryDataAtom = useSetRecoilState(historyDataAtom);
+  const [historyData, setHistoryData] = useRecoilState(historyDataAtom);
   const onDelClick = () => {
     // recoil stae 변경 하여 popup 사라지도록
-    setHistoryDataAtom((cur) => ({ ...cur, isPopUpOpen: false }));
+    setHistoryData((cur) => ({ ...cur, isPopUpOpen: false }));
   };
   return (
     <PopUpBackground>
@@ -18,15 +18,15 @@ const HistoryPopup = () => {
           <DelBtn onClick={onDelClick}>❌</DelBtn>
         </DelBtnWrapper>
         <HistoryListHeader
-          roomName={"recoil"}
-          roomId={"recoil"}
-          totalMems={3}
-          targetNum={5}
-          state={4}
-          isChief={true}
-          feePerOne={1500}
-          totalFee={14500}
-          location={"신공학관 정문"}
+          roomName={historyData.roomName}
+          roomId={historyData.roomId}
+          totalMems={historyData.totalMems}
+          targetNum={historyData.targetNum}
+          state={historyData.state}
+          isChief={historyData.isChief}
+          feePerOne={historyData.feePerOne}
+          totalFee={historyData.totalFee}
+          location={historyData.location}
         />
         {/* 선택된 히스토리 내역을 어떻게 전달할 건지 */}
         <HistoryTab />
