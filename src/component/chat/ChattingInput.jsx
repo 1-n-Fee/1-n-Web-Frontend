@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState, useEffect } from "react";
 import styled from "styled-components";
 
 const ChattingInput = ({ isDelivered, setMessage }) => {
@@ -18,12 +18,17 @@ const ChattingInput = ({ isDelivered, setMessage }) => {
     setChatText("");
   };
 
-  const onKeyDown = (e) => {
+  const onKeyUp = (e) => {
     console.log(e);
     if (e.code === "Enter") {
+      // setChatText((cur)=> cur.substring(0, cur.length))
       onSend();
     }
   };
+
+  useEffect(() => {
+    console.log(chatText);
+  }, [chatText]);
 
   return (
     <ChatInputWrapper>
@@ -37,7 +42,7 @@ const ChattingInput = ({ isDelivered, setMessage }) => {
           type="text"
           onChange={onChange}
           value={chatText}
-          onKeyDown={onKeyDown}
+          onKeyUp={onKeyUp}
         />
         <SendBtn disabled={chatText.length === 0} onClick={onSend}>
           보내기
