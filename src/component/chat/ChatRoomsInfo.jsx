@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import ChatRoomInfoDiv from "./ChatRoomInfoDiv";
+import axios from "axios";
 
 const ChatRoomsInfo = () => {
   const [chatRoomsData, setChatRoomsData] = useState([
@@ -34,8 +35,25 @@ const ChatRoomsInfo = () => {
   ]);
 
   useEffect(() => {
-    //setChatRoomsData
+    // getChatRoomDatas();
   }, []);
+  const getChatRoomDatas = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/history", {
+        headers: { Authorization: localStorage.getItem("Authorization") },
+      });
+      setChatRoomsData(
+        response.data.filter(
+          (chatRoom) =>
+            chatRoom.state === "ORDERING" ||
+            chatRoom.state === "ORDER_COMPLETED" ||
+            chatRoom.state === "DELIVERY_COMPLETE"
+        )
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div>
@@ -44,6 +62,7 @@ const ChatRoomsInfo = () => {
           <ChatRoomInfoLi key={key}>
             <ChatRoomInfoDiv
               roomName={`${data.storeName}-${data.roomId}`}
+              roomId={data.roomId}
               state={data.state}
               isChief={data.isChief}
               targetNum={data.targetNum}
