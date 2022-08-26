@@ -8,7 +8,7 @@ import ChattingInput from "./ChattingInput";
 
 let client = new Client();
 
-const Chatting = () => {
+const Chatting = ({ roomId }) => {
   const [nickname, setNickname] = useState("");
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
@@ -45,7 +45,7 @@ const Chatting = () => {
 
       client.onConnect = (frame) => {
         enterChatRoom();
-        client.subscribe(`/sub/chat/room/1`, (data) => {
+        client.subscribe(`/sub/chat/room/${roomId}`, (data) => {
           const newMessage = JSON.parse(data.body);
           console.log(newMessage);
           if (newMessage.type === "ENTER") return;
