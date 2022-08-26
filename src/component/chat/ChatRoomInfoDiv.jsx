@@ -3,8 +3,6 @@ import ChatStateTag from "./ChatStateTag";
 import StateTag from "../common/StateTag";
 import AlarmSubInfoStyle from "../style/AlarmSubInfoStyle";
 import styled from "styled-components";
-import { useSetRecoilState } from "recoil";
-import chatDataAtom from "./../../recoil/chatData/atom";
 import { useNavigate } from "react-router";
 
 const Color = {
