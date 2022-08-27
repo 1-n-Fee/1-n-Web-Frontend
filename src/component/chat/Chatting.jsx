@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { Client, ActivationState } from "@stomp/stompjs";
 
@@ -8,16 +8,20 @@ import ChattingInput from "./ChattingInput";
 
 let client = new Client();
 
-const Chatting = () => {
+const Chatting = ({ roomId, state }) => {
   const [nickname, setNickname] = useState("");
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
+
+  const scrollRef = useRef();
+
   useEffect(() => {
     if (client.state === ActivationState.ACTIVE) {
       client.state = ActivationState.INACTIVE;
     }
 
-    console.log(` messages: ${messages}`);
+    // console.log(` messages: ${messages}`);
+    getPastMessages();
     getSocketToken();
   }, []);
 
@@ -38,6 +42,34 @@ const Chatting = () => {
     }
   };
 
+  const getPastMessages = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/message/${roomId}`,
+        {
+          headers: {
+            Authorization: window.localStorage.getItem("Authorization"),
+          },
+        }
+      );
+
+      console.log(response.data);
+
+      setMessages(
+        response.data
+          .filter((message) => message.type !== "ENTER")
+          .map((message) => ({
+            nickname: message.sender,
+            content: message.content,
+            sendTime: message.sendTime,
+            type: message.type,
+          }))
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const connect = (socketToken) => {
     // console.log(client.state); // 지금 다른페이지 갔다오면 상태가 0이고, 바로 이 페이지에서 그대로 있으면 2임
     try {
@@ -45,7 +77,7 @@ const Chatting = () => {
 
       client.onConnect = (frame) => {
         enterChatRoom();
-        client.subscribe(`/sub/chat/room/1`, (data) => {
+        client.subscribe(`/sub/chat/room/${roomId}`, (data) => {
           const newMessage = JSON.parse(data.body);
           console.log(newMessage);
           if (newMessage.type === "ENTER") return;
@@ -108,7 +140,11 @@ const Chatting = () => {
   };
 
   useEffect(() => {
-    console.log(messages);
+    console.log(scrollRef);
+    if (scrollRef.current === undefined) return;
+    scrollRef.current.scrollIntoView({
+      behavior: "smooth",
+    });
   }, [messages]);
 
   useEffect(() => {
@@ -119,19 +155,24 @@ const Chatting = () => {
     <ChatSection>
       <BubbleWrapper>
         {messages.map((m, key) => (
-          <ChatBubbleWrapper
-            key={`chat_bubble_${key}`}
-            nickname={m.nickname}
-            icon=""
-            content={m.content}
-            time={m.sendTime}
-            isMine={m.nickname === nickname}
-          />
+          <div ref={scrollRef}>
+            <ChatBubbleWrapper
+              key={`chat_bubble_${key}`}
+              nickname={m.nickname}
+              icon=""
+              content={m.content}
+              time={m.sendTime}
+              isMine={m.nickname === nickname}
+            />
+          </div>
         ))}
         {/* <button onClick={enterChatRoom}>참가하깃</button>
       <button onClick={onSampleClick}>채팅 보내깃</button> */}
       </BubbleWrapper>
-      <ChattingInput isDelivered={true} setMessage={setMessage} />
+      <ChattingInput
+        isDelivered={state && state === "DELIVERY_COMPLETE"}
+        setMessage={setMessage}
+      />
     </ChatSection>
   );
 };
