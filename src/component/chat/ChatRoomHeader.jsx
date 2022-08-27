@@ -67,7 +67,9 @@ const ChatRoomHeader = ({
           )}
         </UserInfoWrapper>
         <AlarmSubInfoStyle>
-          <span>{`💵1인당 배달비 : ${feePerOne}원 `}</span>
+          <span>{`💵1인당 배달비 : ${
+            feePerOne && feePerOne.toLocaleString()
+          }원 `}</span>
           <span>{`📍${location}`}</span>
         </AlarmSubInfoStyle>
       </SubInfoDiv>
