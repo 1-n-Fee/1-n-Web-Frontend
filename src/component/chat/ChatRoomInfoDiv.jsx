@@ -4,6 +4,7 @@ import StateTag from "../common/StateTag";
 import AlarmSubInfoStyle from "../style/AlarmSubInfoStyle";
 import styled from "styled-components";
 import { useNavigate } from "react-router";
+import UserStateTag from "./../common/UserStateTag";
 
 const Color = {
   YELLOW: "#fa983a",
@@ -33,16 +34,16 @@ const ChatRoomInfoDiv = ({
       <TitleWrapper>
         <RoomName>{roomName}</RoomName>
 
-        <ChatStateTag state={state} />
+        <UserStateTag isChief={isChief} state={state} />
 
         {isChief && (
-          <StateTag string="방장 " bg={Color.NAVY} color={Color.WHITE} />
+          <StateTag string="방장" bg={Color.NAVY} color={Color.WHITE} />
         )}
       </TitleWrapper>
       <AlarmSubInfoStyle>
-        <SubInfoSpan
-          width={"40%"}
-        >{` 💵1인당 배달비 : ${feePerOne}원`}</SubInfoSpan>
+        <SubInfoSpan width={"40%"}>{` 💵1인당 배달비 : ${
+          feePerOne && feePerOne.toLocaleString()
+        }원`}</SubInfoSpan>
         <SubInfoSpan width={"40%"}>{`📍${location}`}</SubInfoSpan>
         <SubInfoSpan width={"20%"}>👤{targetNum}</SubInfoSpan>
       </AlarmSubInfoStyle>
