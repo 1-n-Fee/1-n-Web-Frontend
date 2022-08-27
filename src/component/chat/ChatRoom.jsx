@@ -5,7 +5,6 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router";
-import UserInfo from "./../../pages/userInfo";
 
 const ChatRoom = () => {
   const { roomId } = useParams();
@@ -29,6 +28,7 @@ const ChatRoom = () => {
         }
       );
       const data = response.data;
+      console.log(data);
       setChatData({
         roomName: `${data.storeName}-${data.postId}`,
         state: data.postState,
@@ -38,7 +38,7 @@ const ChatRoom = () => {
         location: data.spotId,
         isChief: data.owner,
       });
-      console.log(response.data);
+      console.log(response.data.owner);
     } catch (err) {
       console.log(err);
     }
@@ -59,7 +59,7 @@ const ChatRoom = () => {
             roomName={chatData.roomName}
             state={chatData.state}
             targetNum={chatData.targetNum}
-            isChief={chatData.owner}
+            isChief={chatData.isChief}
             usersInfo={chatData.userNicknames}
             feePerOne={chatData.feePerOne}
             location={chatData.location}
