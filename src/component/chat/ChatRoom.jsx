@@ -5,6 +5,7 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import UserInfo from "./../../pages/userInfo";
 
 const ChatRoom = () => {
   const { roomId } = useParams();
@@ -14,17 +15,34 @@ const ChatRoom = () => {
 
   // recoil 값에 따라 서버에서 불러오거나 기본 화면 보여주거나
   useEffect(() => {
+    getChatRoomInfo(roomId);
+  }, [roomId]);
+
+  const getChatRoomInfo = async (roomId) => {
     if (roomId === undefined) return;
     try {
       // 모든 정보 다시 받아오기 ! - 왜냐면 히스토리에서 채팅버튼으로 넘어오는 경로도 있으니까
-      // const response = axios.get(`http://localhost:8080/history/${roomId}`, {
-      //   headers: { Authorization: localStorage.getItem("Authorization") },
-      // });
+      const response = await axios.get(
+        `http://localhost:8080/chat/room/${roomId}`,
+        {
+          headers: { Authorization: localStorage.getItem("Authorization") },
+        }
+      );
+      const data = response.data;
+      setChatData({
+        roomName: `${data.storeName}-${data.postId}`,
+        state: data.postState,
+        targetNum: data.limitNumber,
+        userNicknames: data.members,
+        feePerOne: data.deliveryFeePerPerson,
+        location: data.spotId,
+        isChief: data.owner,
+      });
+      console.log(response.data);
     } catch (err) {
       console.log(err);
     }
-  }, [roomId]);
-
+  };
   const onHomeClick = () => {
     navigate("/");
   };
@@ -38,19 +56,13 @@ const ChatRoom = () => {
       ) : (
         <>
           <ChatRoomHeader
-            roomName={"테이큰 커피-3030"}
-            state={2}
-            targetNum={5}
-            isChief={true}
-            usersInfo={[
-              { name: "김나라나라날나라라라리" },
-              { name: "최OO" },
-              { name: "박OO" },
-              { name: "구OO" },
-              { name: "이OO" },
-            ]}
-            feePerOne={500}
-            location={"신공학관 정문"}
+            roomName={chatData.roomName}
+            state={chatData.state}
+            targetNum={chatData.targetNum}
+            isChief={chatData.owner}
+            usersInfo={chatData.userNicknames}
+            feePerOne={chatData.feePerOne}
+            location={chatData.location}
           />
           <ChatMainDiv>
             <Chatting roomId={roomId} />
