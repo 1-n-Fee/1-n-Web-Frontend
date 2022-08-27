@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { Client, ActivationState } from "@stomp/stompjs";
 
@@ -12,6 +12,9 @@ const Chatting = ({ roomId }) => {
   const [nickname, setNickname] = useState("");
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
+
+  const scrollRef = useRef();
+
   useEffect(() => {
     if (client.state === ActivationState.ACTIVE) {
       client.state = ActivationState.INACTIVE;
@@ -137,7 +140,11 @@ const Chatting = ({ roomId }) => {
   };
 
   useEffect(() => {
-    console.log(messages);
+    console.log(scrollRef);
+    if (scrollRef.current === undefined) return;
+    scrollRef.current.scrollIntoView({
+      behavior: "smooth",
+    });
   }, [messages]);
 
   useEffect(() => {
@@ -148,14 +155,16 @@ const Chatting = ({ roomId }) => {
     <ChatSection>
       <BubbleWrapper>
         {messages.map((m, key) => (
-          <ChatBubbleWrapper
-            key={`chat_bubble_${key}`}
-            nickname={m.nickname}
-            icon=""
-            content={m.content}
-            time={m.sendTime}
-            isMine={m.nickname === nickname}
-          />
+          <div ref={scrollRef}>
+            <ChatBubbleWrapper
+              key={`chat_bubble_${key}`}
+              nickname={m.nickname}
+              icon=""
+              content={m.content}
+              time={m.sendTime}
+              isMine={m.nickname === nickname}
+            />
+          </div>
         ))}
         {/* <button onClick={enterChatRoom}>참가하깃</button>
       <button onClick={onSampleClick}>채팅 보내깃</button> */}
