@@ -17,7 +17,8 @@ const Chatting = ({ roomId }) => {
       client.state = ActivationState.INACTIVE;
     }
 
-    console.log(` messages: ${messages}`);
+    // console.log(` messages: ${messages}`);
+    getPastMessages();
     getSocketToken();
   }, []);
 
@@ -35,6 +36,34 @@ const Chatting = ({ roomId }) => {
       await connect(socketToken);
     } catch (err) {
       alert("오류가 발생했습니다. 다시 시도해주세요.");
+    }
+  };
+
+  const getPastMessages = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/message/${roomId}`,
+        {
+          headers: {
+            Authorization: window.localStorage.getItem("Authorization"),
+          },
+        }
+      );
+
+      console.log(response.data);
+
+      setMessages(
+        response.data
+          .filter((message) => message.type !== "ENTER")
+          .map((message) => ({
+            nickname: message.sender,
+            content: message.content,
+            sendTime: message.sendTime,
+            type: message.type,
+          }))
+      );
+    } catch (err) {
+      console.log(err);
     }
   };
 
