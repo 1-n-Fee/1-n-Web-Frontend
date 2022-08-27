@@ -1,18 +1,49 @@
 import React, { useCallback, useState, useEffect } from "react";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
+import axios from "axios";
+import { useNavigate } from "react-router";
+import { useSetRecoilState } from "recoil";
+import isChatDataChangedAtom from "./../../recoil/chatData/atom";
 
 const ChattingInput = ({ isDelivered, setMessage }) => {
+  const navigate = useNavigate();
+  const setIsChatDataChanged = useSetRecoilState(isChatDataChangedAtom);
   const [chatText, setChatText] = useState("");
+  const { roomId } = useParams();
   const onChange = (e) => {
     setChatText(e.target.value);
   };
 
-  const onExitBtnClick = useCallback(() => {
-    // 채팅방 나가는 구문 작성
-    // 1. recoil에 저장된 채팅방 없애기
-    // 2. 서버에 채팅방 삭제한다는 정보 보내기
+  const onExitBtnClick = useCallback(async () => {
+    try {
+      const doesReallyExit = window.confirm("정말 나가시겠습니까?");
+      if (!doesReallyExit) return;
+
+      const response = await axios.delete(
+        `http://localhost:8080/post/${roomId}`,
+        { headers: { Authorization: localStorage.getItem("Authorization") } }
+      );
+      console.log(response);
+
+      setIsChatDataChanged(true);
+      navigate("/chat");
+    } catch (err) {
+      console.log(err);
+    }
   }, [isDelivered]);
-  // 배달 완료인 상태면 나가기 버튼 보여줘야해서 이런듯.. recoil로 받아옵시다.
+
+  // const exitRoom = async () => {
+  //   try {
+  //     const response = await axios.delete(
+  //       `http://localhost:8080/post/${roomId}`,
+  //       { headers: { Authorization: localStorage.getItem("Authorization") } }
+  //     );
+  //     console.log(response);
+  //   } catch (err) {
+  //     console.log(err);
+  //   }
+  // };
   const onSend = () => {
     setMessage(chatText);
     setChatText("");
