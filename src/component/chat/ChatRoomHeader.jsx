@@ -78,7 +78,7 @@ const ChatRoomHeader = ({
 export default ChatRoomHeader;
 const userBtnHeight = 32;
 const ChatHeaderWrapper = styled.div`
-  background-color: #ffeee6;
+  background-color: #c2baa7;
   width: 100%;
   height: 80px;
   display: flex;
