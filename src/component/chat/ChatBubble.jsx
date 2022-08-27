@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { COLOR } from "./../../constants/colors";
 
 const ChatBubble = ({ isMine, content }) => {
   return (
@@ -14,7 +15,8 @@ const ChatBubble = ({ isMine, content }) => {
 export default ChatBubble;
 
 const Bubble = styled.div`
-  background-color: ${({ isMine }) => (isMine ? "white" : "#ffc15c")};
+  background-color: ${({ isMine }) =>
+    isMine ? COLOR.MY_BUBBLE : COLOR.OTHERS_BUBBLE};
   border-radius: ${({ isMine }) =>
     isMine ? "10px 0px 10px 10px" : "0 10px 10px 10px"};
   max-width: 500px;
