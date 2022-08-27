@@ -65,7 +65,7 @@ const ChatRoom = () => {
             location={chatData.location}
           />
           <ChatMainDiv>
-            <Chatting roomId={roomId} />
+            <Chatting roomId={roomId} state={chatData.state} />
           </ChatMainDiv>
         </>
       )}
