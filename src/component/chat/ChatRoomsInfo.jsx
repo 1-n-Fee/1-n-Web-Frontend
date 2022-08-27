@@ -7,7 +7,7 @@ const ChatRoomsInfo = () => {
   const [chatRoomsData, setChatRoomsData] = useState([
     {
       storeName: "맥도날드",
-      roomId: 123,
+      roomId: 1,
       state: 0,
       isChief: false,
       targetNum: 3,
