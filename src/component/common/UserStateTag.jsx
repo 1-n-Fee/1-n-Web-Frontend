@@ -1,29 +1,31 @@
 import React, { useEffect, useState } from "react";
 import StateTag from "./StateTag";
+import { STATE } from "../../constants/states";
+import { COLOR } from "./../../constants/colors";
 
-const Color = {
-  YELLOW: "#fa983a",
-  RED_PINK: "#eb4d4b",
-  NAVY: "#130f40",
-  WHITE: "white",
-  GREEN: "#44bd32",
-  DARK_YELLOW: "#f7b731",
-  DARK_GREEN: "#16a085",
-  DARK_RED: "#c0392b",
-};
+// const Color = {
+//   YELLOW: "#fa983a",
+//   RED_PINK: "#eb4d4b",
+//   NAVY: "#130f40",
+//   WHITE: "white",
+//   GREEN: "#44bd32",
+//   DARK_YELLOW: "#f7b731",
+//   DARK_GREEN: "#16a085",
+//   DARK_RED: "#c0392b",
+// };
 
-const State = {
-  ORDER_WAITING: "ORDERING",
-  ORDER_COMPLETE: "ORDER_COMPLETED",
-  DELIVERY_COMPLETE: "DELIVERY_COMPLETE",
-  REQ_WAITING: "AWAITING",
-  ACCEPTED: "RECRUITING",
-  DENIED: "REJECTED",
-  CHIEF: 6,
-};
+// const State = {
+//   ORDER_WAITING: "ORDERING",
+//   ORDER_COMPLETE: "ORDER_COMPLETED",
+//   DELIVERY_COMPLETE: "DELIVERY_COMPLETE",
+//   REQ_WAITING: "AWAITING",
+//   ACCEPTED: "RECRUITING",
+//   DENIED: "REJECTED",
+//   CHIEF: 6,
+// };
 
-Object.freeze(Color);
-Object.freeze(State);
+// Object.freeze(Color);
+// Object.freeze(State);
 
 const UserStateTag = ({ state, isChief = false }) => {
   const [stateTagData, setStateTagData] = useState({
@@ -34,55 +36,55 @@ const UserStateTag = ({ state, isChief = false }) => {
 
   useEffect(() => {
     switch (state) {
-      case State.ORDER_WAITING:
+      case STATE.ORDER_WAITING:
         setStateTagData({
           string: "주문 대기",
-          color: Color.WHITE,
-          bg: Color.RED_PINK,
+          color: COLOR.WHITE,
+          bg: COLOR.RED_PINK,
         });
         break;
-      case State.ORDER_COMPLETE:
+      case STATE.ORDER_COMPLETE:
         setStateTagData({
           string: "주문 완료",
-          color: Color.WHITE,
-          bg: Color.YELLOW,
+          color: COLOR.WHITE,
+          bg: COLOR.YELLOW,
         });
         break;
-      case State.DELIVERY_COMPLETE:
+      case STATE.DELIVERY_COMPLETE:
         setStateTagData({
           string: "배달 완료",
-          color: Color.WHITE,
-          bg: Color.GREEN,
+          color: COLOR.WHITE,
+          bg: COLOR.GREEN,
         });
         break;
 
-      case State.REQ_WAITING:
+      case STATE.REQ_WAITING:
         setStateTagData({
           string: "대기 중",
-          color: Color.WHITE,
-          bg: Color.DARK_YELLOW,
+          color: COLOR.WHITE,
+          bg: COLOR.DARK_YELLOW,
         });
         break;
 
-      case State.ACCEPTED:
+      case STATE.ACCEPTED:
         setStateTagData({
           string: isChief ? "모집 중" : "수락",
-          color: Color.WHITE,
-          bg: Color.DARK_GREEN,
+          color: COLOR.WHITE,
+          bg: COLOR.DARK_GREEN,
         });
         break;
-      case State.DENIED:
+      case STATE.DENIED:
         setStateTagData({
           string: "거절",
-          color: Color.WHITE,
-          bg: Color.DARK_RED,
+          color: COLOR.WHITE,
+          bg: COLOR.DARK_RED,
         });
         break;
-      case State.CHIEF:
+      case STATE.CHIEF:
         setStateTagData({
           string: "방장",
-          color: Color.WHITE,
-          bg: Color.NAVY,
+          color: COLOR.WHITE,
+          bg: COLOR.NAVY,
         });
         break;
       default:
