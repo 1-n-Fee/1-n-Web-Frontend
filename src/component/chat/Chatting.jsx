@@ -8,7 +8,7 @@ import ChattingInput from "./ChattingInput";
 
 let client = new Client();
 
-const Chatting = ({ roomId }) => {
+const Chatting = ({ roomId, state }) => {
   const [nickname, setNickname] = useState("");
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
@@ -169,7 +169,10 @@ const Chatting = ({ roomId }) => {
         {/* <button onClick={enterChatRoom}>참가하깃</button>
       <button onClick={onSampleClick}>채팅 보내깃</button> */}
       </BubbleWrapper>
-      <ChattingInput isDelivered={true} setMessage={setMessage} />
+      <ChattingInput
+        isDelivered={state && state === "DELIVERY_COMPLETE"}
+        setMessage={setMessage}
+      />
     </ChatSection>
   );
 };
