@@ -58,7 +58,7 @@ const SignUpInputs = ({ authCode = null, accountType = "password" }) => {
       phone: data[Key.PHONE_FIRST] + data[Key.PHONE_MID] + data[Key.PHONE_LAST],
       role: "student",
       nickname: data[Key.NICKNAME],
-      email: `${data[Key.ID]}@konkuk.ac.kr`,
+      email: `${data[Key.ID]}`,
       password: data[Key.PW],
       code: null,
       sexType:
@@ -70,10 +70,15 @@ const SignUpInputs = ({ authCode = null, accountType = "password" }) => {
       major: data[Key.MAJOR],
     };
 
+    console.log(userData);
+
     if (authCode === null) {
       axios
         .post("http://localhost:8080/user/signup", userData)
-        .then((response) => console.log(response))
+        .then((response) => {
+          alert("회원가입 되었습니다. 로그인 페이지로 이동합니다.");
+          navigate("/login");
+        })
         .catch((err) => console.log(err));
     } else {
       const oauthUserData = { ...userData, password: null, code: authCode };
