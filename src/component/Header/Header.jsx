@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Icons from "./Icons";
 import SearchBar from "../common/SearchBar";
 import Tag from "../common/Tag";
+import { COLOR } from "./../../constants/colors";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -78,7 +79,7 @@ const HeaderWrapper = styled.div`
   position: ${({ isHome }) => (isHome ? "fixed" : "static")};
   top: 0;
   width: 100vw;
-  background-color: #ffc15c;
+  background-color: ${COLOR.HEADER_BG};
   z-index: 99;
   height: 120px;
 `;

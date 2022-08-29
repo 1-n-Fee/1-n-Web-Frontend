@@ -3,6 +3,8 @@ import ChatStateTag from "./ChatStateTag";
 import StateTag from "../common/StateTag";
 import AlarmSubInfoStyle from "../style/AlarmSubInfoStyle";
 import styled from "styled-components";
+import { useNavigate } from "react-router";
+import UserStateTag from "./../common/UserStateTag";
 
 const Color = {
   YELLOW: "#fa983a",
@@ -16,30 +18,32 @@ const Color = {
 
 const ChatRoomInfoDiv = ({
   roomName,
+  roomId,
   targetNum,
   state,
   isChief,
   feePerOne,
   location,
 }) => {
+  const navigate = useNavigate();
+  const onClick = () => {
+    navigate(`/chat/${roomId}`);
+  };
   return (
-    <ChatRoomInfoWrapper>
+    <ChatRoomInfoWrapper onClick={onClick}>
       <TitleWrapper>
         <RoomName>{roomName}</RoomName>
 
-        <ChatStateTag state={state} />
+        <UserStateTag isChief={isChief} state={state} />
 
         {isChief && (
-          <StateTag string="방장 " bg={Color.NAVY} color={Color.WHITE} />
+          <StateTag string="방장" bg={Color.NAVY} color={Color.WHITE} />
         )}
-        {/* <MemNumSpan>👤{targetNum}</MemNumSpan> */}
       </TitleWrapper>
       <AlarmSubInfoStyle>
-        {/* <MemNumSpan>👤{targetNum}</MemNumSpan> */}
-        {/* <SubInfoSpan width={"10%"}>👤{targetNum}</SubInfoSpan> */}
-        <SubInfoSpan
-          width={"40%"}
-        >{` 💵1인당 배달비 : ${feePerOne}원`}</SubInfoSpan>
+        <SubInfoSpan width={"40%"}>{` 💵1인당 배달비 : ${
+          feePerOne && feePerOne.toLocaleString()
+        }원`}</SubInfoSpan>
         <SubInfoSpan width={"40%"}>{`📍${location}`}</SubInfoSpan>
         <SubInfoSpan width={"20%"}>👤{targetNum}</SubInfoSpan>
       </AlarmSubInfoStyle>

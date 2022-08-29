@@ -4,7 +4,7 @@ import StateTag from "../common/StateTag";
 import AlarmSubInfoStyle from "../style/AlarmSubInfoStyle";
 import DropDownListStyle from "../style/DropDownListStyle";
 import DropDownWrapperStyle from "../style/DropDownWrapperStyle";
-import ChatStateTag from "./ChatStateTag";
+import UserStateTag from "./../common/UserStateTag";
 const Color = {
   YELLOW: "#fa983a",
   RED_PINK: "#eb4d4b",
@@ -32,7 +32,7 @@ const ChatRoomHeader = ({
     <ChatHeaderWrapper>
       <TitleWrapper>
         <RoomName>{roomName}</RoomName>
-        <ChatStateTag state={state} />
+        <UserStateTag isChief={isChief} state={state} />
 
         {/* 방장 태그 리팩토링 필요 */}
         {isChief && (
@@ -57,7 +57,7 @@ const ChatRoomHeader = ({
                     >
                       <UserNameWrapper>
                         <NameIcon>🍕</NameIcon>
-                        <NameSpan>{user.name}</NameSpan>
+                        <NameSpan>{user}</NameSpan>
                       </UserNameWrapper>
                     </DropDownListStyle>
                   ))}
@@ -67,7 +67,9 @@ const ChatRoomHeader = ({
           )}
         </UserInfoWrapper>
         <AlarmSubInfoStyle>
-          <span>{`💵1인당 배달비 : ${feePerOne}원 `}</span>
+          <span>{`💵1인당 배달비 : ${
+            feePerOne && feePerOne.toLocaleString()
+          }원 `}</span>
           <span>{`📍${location}`}</span>
         </AlarmSubInfoStyle>
       </SubInfoDiv>
@@ -78,7 +80,7 @@ const ChatRoomHeader = ({
 export default ChatRoomHeader;
 const userBtnHeight = 32;
 const ChatHeaderWrapper = styled.div`
-  background-color: #ffeee6;
+  background-color: #c2baa7;
   width: 100%;
   height: 80px;
   display: flex;
