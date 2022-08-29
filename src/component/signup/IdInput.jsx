@@ -142,7 +142,12 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
   return (
     <>
       {isLoading && <div>Loading...</div>}
-      <input type="text" onChange={onIdChange} value={id} />
+      <input
+        type="text"
+        onChange={onIdChange}
+        value={id}
+        disabled={isLoading}
+      />
       <span>@</span>
       {isOwner ? (
         <EmailSelector setEmail={setEmailAddress} />
@@ -150,7 +155,10 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
         <span>konkuk.ac.kr</span>
       )}
 
-      <button onClick={onAuthReqClick} disabled={id.length === 0}>
+      <button
+        onClick={onAuthReqClick}
+        disabled={id.length === 0 || isLoading || showAuthSection}
+      >
         인증하기
       </button>
       {showAuthSection && (
