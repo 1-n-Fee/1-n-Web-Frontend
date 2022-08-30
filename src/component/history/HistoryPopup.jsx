@@ -1,7 +1,7 @@
 import React from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import historyDataAtom from "../../recoil/historyData/atom";
+import { historyDataAtom } from "../../recoil/historyData/atom";
 import HistoryListHeader from "./HistoryListHeader";
 import HistoryTab from "./tab/HistoryTab";
 

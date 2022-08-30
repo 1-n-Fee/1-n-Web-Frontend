@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import historyDataAtom from "./../../../recoil/historyData/atom";
+import { historyDataAtom } from "./../../../recoil/historyData/atom";
 import { useRecoilValue } from "recoil";
 
 const HistoryDetailInfoTab = () => {

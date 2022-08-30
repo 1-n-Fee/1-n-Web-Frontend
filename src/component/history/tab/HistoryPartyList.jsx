@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import HistoryOrderList from "./HistoryOrderList";
 import { useRecoilValue } from "recoil";
-import historyDataAtom from "../../../recoil/historyData/atom";
+import { historyDataAtom } from "../../../recoil/historyData/atom";
 
 const HistoryPartyList = () => {
   const historyData = useRecoilValue(historyDataAtom);

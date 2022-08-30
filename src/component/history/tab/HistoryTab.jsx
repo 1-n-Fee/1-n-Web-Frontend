@@ -3,7 +3,7 @@ import HistoryDetailInfoTab from "./HistoryDetailInfoTable";
 import HistoryOrderList from "./HistoryOrderList";
 import HistoryPartyList from "./HistoryPartyList";
 import { useRecoilState } from "recoil";
-import historyDataAtom from "../../../recoil/historyData/atom";
+import { historyDataAtom } from "../../../recoil/historyData/atom";
 import styled from "styled-components";
 const tabName = ["세부 정보", "주문 내역", "참여 인원"];
 Object.freeze(tabName);
