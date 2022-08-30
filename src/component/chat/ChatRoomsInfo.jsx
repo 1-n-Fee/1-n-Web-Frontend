@@ -12,12 +12,15 @@ const ChatRoomsInfo = () => {
   );
 
   useEffect(() => {
-    if (!isChatDataChanged) return;
-
-    getChatRoomDatas();
-    setIsChatDataChanged(false);
+    if (isChatDataChanged) {
+      setIsChatDataChanged(false);
+      getChatRoomDatas();
+    }
   }, [isChatDataChanged, setIsChatDataChanged]);
 
+  useEffect(() => {
+    getChatRoomDatas();
+  });
   const getChatRoomDatas = async () => {
     try {
       const response = await axios.get("http://localhost:8080/history", {

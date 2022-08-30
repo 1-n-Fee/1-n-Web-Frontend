@@ -5,17 +5,29 @@ import styled from "styled-components";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { useRecoilState } from "recoil";
+import isChatDataChangedAtom from "../../recoil/chatData/atom";
 
 const ChatRoom = () => {
   const { roomId } = useParams();
   const navigate = useNavigate();
 
   const [chatData, setChatData] = useState({});
+  const [isChatDataChanged, setIsChatDataChanged] = useRecoilState(
+    isChatDataChangedAtom
+  );
 
   // recoil 값에 따라 서버에서 불러오거나 기본 화면 보여주거나
   useEffect(() => {
+    if (isChatDataChanged) {
+      getChatRoomInfo(roomId);
+      setIsChatDataChanged(false);
+    }
+  }, [roomId, isChatDataChanged]);
+
+  useEffect(() => {
     getChatRoomInfo(roomId);
-  }, [roomId]);
+  }, []);
 
   const getChatRoomInfo = async (roomId) => {
     if (roomId === undefined) return;
@@ -63,6 +75,7 @@ const ChatRoom = () => {
             usersInfo={chatData.userNicknames}
             feePerOne={chatData.feePerOne}
             location={chatData.location}
+            roomId={roomId}
           />
           <ChatMainDiv>
             <Chatting roomId={roomId} state={chatData.state} />
