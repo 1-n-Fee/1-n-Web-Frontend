@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 
-const historyDataAtom = atom({
+export const historyDataAtom = atom({
   key: "historyDataAtom",
   default: {
     isPopUpOpen: false,
@@ -20,4 +20,7 @@ const historyDataAtom = atom({
   },
 });
 
-export default historyDataAtom;
+export const isHistoryDataChangedAtom = atom({
+  key: "isHistoryDataChangedAtom",
+  default: true,
+});
