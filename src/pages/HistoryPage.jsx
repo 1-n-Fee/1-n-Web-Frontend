@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useRecoilValue, useRecoilState } from "recoil";
 import HistoryListContainer from "../component/history/HistoryListContainer";
 import HistoryPopup from "../component/history/HistoryPopup";
-import historyDataAtom from "../recoil/historyData/atom";
+import { historyDataAtom } from "../recoil/historyData/atom";
 
 const HistoryPage = () => {
   const [historyData, setHistoryData] = useRecoilState(historyDataAtom);

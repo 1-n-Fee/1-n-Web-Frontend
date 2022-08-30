@@ -1,18 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import StateChanger from "../common/StateChanger";
 import StateTag from "../common/StateTag";
 import AlarmSubInfoStyle from "../style/AlarmSubInfoStyle";
 import DropDownListStyle from "../style/DropDownListStyle";
 import DropDownWrapperStyle from "../style/DropDownWrapperStyle";
 import UserStateTag from "./../common/UserStateTag";
-const Color = {
-  YELLOW: "#fa983a",
-  RED_PINK: "#eb4d4b",
-  NAVY: "#130f40",
-  WHITE: "white",
-  GREEN: "#44bd32",
-  ORANGE: "#ff915e",
-};
+import { COLOR } from "./../../constants/colors";
 
 // props 들도 recoil로 대체할 수 있음
 const ChatRoomHeader = ({
@@ -23,6 +17,7 @@ const ChatRoomHeader = ({
   usersInfo,
   feePerOne,
   location,
+  roomId,
 }) => {
   const [isMemberTabOpened, setIsMemberTabOpened] = useState(false);
   const onMemberClick = () => {
@@ -36,7 +31,10 @@ const ChatRoomHeader = ({
 
         {/* 방장 태그 리팩토링 필요 */}
         {isChief && (
-          <StateTag bg={Color.NAVY} string={"방장"} color={Color.WHITE} />
+          <>
+            <StateChanger curState={state} roomId={roomId} />
+            <StateTag bg={COLOR.NAVY} string={"방장"} color={COLOR.WHITE} />
+          </>
         )}
       </TitleWrapper>
 

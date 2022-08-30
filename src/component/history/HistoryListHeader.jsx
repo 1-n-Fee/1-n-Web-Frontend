@@ -4,8 +4,12 @@ import styled from "styled-components";
 import UserStateTag from "../common/UserStateTag";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import historyDataAtom from "./../../recoil/historyData/atom";
+import {
+  historyDataAtom,
+  isHistoryDataChangedAtom,
+} from "./../../recoil/historyData/atom";
 import axios from "axios";
+import StateChanger from "../common/StateChanger";
 
 const HistoryListHeader = ({
   roomName,
@@ -22,14 +26,35 @@ const HistoryListHeader = ({
 
   const [historyData, setHistoryData] = useRecoilState(historyDataAtom);
   const [isOrderedState, setIsOrderedState] = useState(false);
+  const [isHistoryDataChanged, setIsHistoryDataChanged] = useRecoilState(
+    isHistoryDataChangedAtom
+  );
 
+  // 모집완료 후의 상태
+  useEffect(() => {
+    setIsOrderedState(
+      state === "ORDERING" ||
+        state === "ORDER_COMPLETED" ||
+        state === "DELIVERY_COMPLETE"
+    );
+  }, [state]);
+
+  useEffect(() => {
+    if (isHistoryDataChanged) {
+      getHistoryData();
+      setIsHistoryDataChanged(false);
+    }
+  }, [isHistoryDataChanged]);
+
+  useEffect(() => {
+    getHistoryData();
+  }, []);
   const onChatClick = () => {
     navigate(`/chat/${roomId}`);
   };
 
   const onClick = (e) => {
     setHistoryData((cur) => ({ ...cur, isPopUpOpen: true }));
-    // id 로 검색 후 set Recoil에 넣어주기
     getHistoryData();
   };
 
@@ -88,15 +113,6 @@ const HistoryListHeader = ({
     }
   };
 
-  // 모집완료 후의 상태
-  useEffect(() => {
-    setIsOrderedState(
-      state === "ORDERING" ||
-        state === "ORDER_COMPLETED" ||
-        state === "DELIVERY_COMPLETE"
-    );
-  }, [state]);
-
   return (
     <HistoryHeaderWrapper onClick={onClick}>
       <div>
@@ -106,7 +122,12 @@ const HistoryListHeader = ({
 
             <UserStateTag state={state} isChief={isChief} />
 
-            {isChief && <UserStateTag state={6} />}
+            {isChief && (
+              <>
+                <StateChanger curState={state} roomId={roomId} />
+                <UserStateTag state={6} />
+              </>
+            )}
             <div>
               <button data-idx={0} onClick={onTabClick}>
                 ℹ️

@@ -2,14 +2,22 @@ import React, { useEffect, useState } from "react";
 import HistoryListHeader from "./HistoryListHeader";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import { useRecoilState } from "recoil";
+import { isHistoryDataChangedAtom } from "../../recoil/historyData/atom";
 
 const HistoryListContainer = () => {
   const navigate = useNavigate();
   const [history, setHistory] = useState([]);
+  const [isHistoryDataChanged, setIsHistoryDataChanged] = useRecoilState(
+    isHistoryDataChangedAtom
+  );
 
   useEffect(() => {
     getHistoryData();
-  }, []);
+    if (isHistoryDataChanged) {
+      setIsHistoryDataChanged(false);
+    }
+  }, [isHistoryDataChanged]);
 
   const getHistoryData = async () => {
     try {

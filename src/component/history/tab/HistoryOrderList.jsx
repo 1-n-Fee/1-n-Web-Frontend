@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useRecoilValue } from "recoil";
-import historyDataAtom from "./../../../recoil/historyData/atom";
+import { historyDataAtom } from "./../../../recoil/historyData/atom";
 
 // 나의 주문을 보여주는 탭과 다른 사용자의 주문을 보여주는 pop up 컴포넌트에 사용됩니다.
 const HistoryOrderList = ({ orderData, isPartySection = false }) => {
