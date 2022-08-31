@@ -1,17 +1,68 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import HistoryOrderList from "./HistoryOrderList";
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useRecoilState } from "recoil";
 import { historyDataAtom } from "../../../recoil/historyData/atom";
+import { STATE } from "./../../../constants/states";
+import axios from "axios";
+import HistoryReqLi from "./HistoryReqLi";
+import { isProposalDataChangedAtom } from "./../../../recoil/historyData/atom";
 
 const HistoryPartyList = () => {
   const historyData = useRecoilValue(historyDataAtom);
+  const [isProposalDataChanged, setIsProposalDataChanged] = useRecoilState(
+    isProposalDataChangedAtom
+  );
+  const [requests, setRequsets] = useState([]);
 
   const [didSelect, setDidSelect] = useState(false);
   const [targetUser, setTargetUser] = useState({
     nickname: null,
     order: [],
   });
+
+  useEffect(() => {
+    // 방 상태 조건 - 모집 중 일때 한정으로 진행하기 -- 현재 테스트 중으로 조건 삽입 안함
+    if (
+      historyData.isPopUpOpen &&
+      historyData.clickedTab === 2 &&
+      isProposalDataChanged
+    ) {
+      getProposals();
+      setIsProposalDataChanged(false);
+    }
+  }, [historyData, isProposalDataChanged]);
+
+  useEffect(() => {
+    if (historyData.isPopUpOpen && historyData.clickedTab === 2) {
+      getProposals();
+    }
+    getProposals();
+  }, []);
+
+  const getProposals = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/proposal/post/${historyData.roomId}`,
+        { headers: { Authorization: localStorage.getItem("Authorization") } }
+      );
+      console.log(response.data);
+      const _requests = response.data;
+      setRequsets(
+        _requests.map((r) => ({
+          proposalId: r.proposalId,
+          nickname: r.userNickname,
+          menus: r.menus.map((m) => ({
+            name: m.name,
+            quantity: m.quantity,
+            price: m.price,
+          })),
+        }))
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   const onMouseEnter = (e) => {
     if (didSelect) return;
@@ -36,6 +87,17 @@ const HistoryPartyList = () => {
 
   return (
     <div>
+      <ul>
+        {/* {historyData.state === STATE.REQ_WAITING} */}
+        {requests.map((r, key) => (
+          <HistoryReqLi
+            key={`request_${key}`}
+            nickname={r.nickname}
+            menus={r.menus}
+            proposalId={r.proposalId}
+          />
+        ))}
+      </ul>
       <ul>
         {historyData.others.map((u, key) => (
           <Li
