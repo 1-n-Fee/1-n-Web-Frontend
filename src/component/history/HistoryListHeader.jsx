@@ -47,16 +47,17 @@ const HistoryListHeader = ({
     }
   }, [isHistoryDataChanged]);
 
-  useEffect(() => {
-    getHistoryData();
-  }, []);
+  // useEffect(() => {
+  //   getHistoryData();
+  // }, []);
+
   const onChatClick = () => {
     navigate(`/chat/${roomId}`);
   };
 
   const onClick = (e) => {
-    setHistoryData((cur) => ({ ...cur, isPopUpOpen: true }));
     getHistoryData();
+    setHistoryData((cur) => ({ ...cur, isPopUpOpen: true }));
   };
 
   const onTabClick = (e) => {
@@ -117,7 +118,7 @@ const HistoryListHeader = ({
         })),
         others: history.others.map((other) => ({
           nickname: other.nickname,
-          order: other.map((menu) => ({
+          order: other.menus.map((menu) => ({
             foodName: menu.foodName,
             price: menu.price,
           })),
