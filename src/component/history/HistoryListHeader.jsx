@@ -10,6 +10,7 @@ import {
 } from "./../../recoil/historyData/atom";
 import axios from "axios";
 import StateChanger from "../common/StateChanger";
+import { STATE } from "./../../constants/states";
 
 const HistoryListHeader = ({
   roomName,
@@ -64,6 +65,20 @@ const HistoryListHeader = ({
       ...cur,
       clickedTab: parseInt(e.target.dataset.idx),
     }));
+  };
+
+  /**
+   * 제안서 요청 취소 시 서버에 요청 취소 보내는 함수
+   */
+  const onRequestCancelClick = async () => {
+    try {
+      // 임시
+      await axios.post(`http://localhost:8080/proposal/1`, {
+        headers: { Authorization: localStorage.getItem("Authorization") },
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const onDeleteRoomClick = async () => {
@@ -169,7 +184,11 @@ const HistoryListHeader = ({
           <SubInfoSpan width={"40%"}>{`📍${location}`}</SubInfoSpan>
         </AlarmSubInfoStyle>
       </div>
-      <div></div>
+      <div>
+        {state === STATE.REQ_WAITING && !isChief && (
+          <button onClick={onRequestCancelClick}>요청 취소하기</button>
+        )}
+      </div>
     </HistoryHeaderWrapper>
   );
 };

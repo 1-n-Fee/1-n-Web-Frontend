@@ -2,13 +2,12 @@ import React, { useState, useCallback, useEffect } from "react";
 import axios from "axios";
 import { STATE } from "./../../constants/states";
 import { COLOR } from "../../constants/colors";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCaretDown, faCaretUp } from "@fortawesome/free-solid-svg-icons";
 import UserStateTag from "./UserStateTag";
 import styled from "styled-components";
 import { useSetRecoilState } from "recoil";
 import isChatDataChangedAtom from "./../../recoil/chatData/atom";
 import { isHistoryDataChangedAtom } from "../../recoil/historyData/atom";
+import TriangleArrow from "./icons/TriangleArrow";
 
 const StateChanger = ({ curState, roomId }) => {
   const [isDropDownOpen, setIsDropDownOpen] = useState();
@@ -60,18 +59,11 @@ const StateChanger = ({ curState, roomId }) => {
     <StateChangerWrapper>
       {curState === STATE.ORDER_WAITING || curState === STATE.ORDER_COMPLETE ? (
         <>
-          <DropDownButton
-            onClick={onDropDownClick}
-            color={
-              curState === STATE.ORDER_WAITING
-                ? COLOR.DARK_RED
-                : COLOR.DARK_YELLOW
-            }
-          >
+          <DropDownButton onClick={onDropDownClick}>
             {isDropDownOpen ? (
-              <FontAwesomeIcon icon={faCaretUp} />
+              <TriangleArrow isDown={false} />
             ) : (
-              <FontAwesomeIcon icon={faCaretDown} />
+              <TriangleArrow isDown={true} />
             )}
           </DropDownButton>
           {isDropDownOpen && (
@@ -100,12 +92,8 @@ const DropDownButton = styled.button`
   background-color: transparent;
   padding: 0;
   margin-right: 5px;
-  opacity: 80%;
-  font-size: 15px;
-  color: ${COLOR.DARKER_GRAY};
 
   &:hover {
-    opacity: 100%;
     background-color: transparent;
   }
 `;
