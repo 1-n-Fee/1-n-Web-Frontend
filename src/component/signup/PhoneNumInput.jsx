@@ -28,8 +28,8 @@ const PhoneNumInput = ({
     setData((cur) => ({
       ...cur,
       [firstKey]: firstNum,
-      [midKey]: midNum.length === 4 ? midNum : "",
-      [lastKey]: lastNum.length === 4 ? lastNum : "",
+      [midKey]: midNum,
+      [lastKey]: lastNum,
     }));
   }, [firstNum, midNum, lastNum]);
   return (
