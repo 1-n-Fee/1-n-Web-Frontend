@@ -27,7 +27,7 @@ const ChatRoom = () => {
 
   useEffect(() => {
     getChatRoomInfo(roomId);
-  }, []);
+  }, [roomId]);
 
   const getChatRoomInfo = async (roomId) => {
     if (roomId === undefined) return;
