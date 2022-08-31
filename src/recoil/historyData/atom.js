@@ -24,3 +24,8 @@ export const isHistoryDataChangedAtom = atom({
   key: "isHistoryDataChangedAtom",
   default: true,
 });
+
+export const isProposalDataChangedAtom = atom({
+  key: "isProposalDataChangedAtom",
+  default: true,
+});
