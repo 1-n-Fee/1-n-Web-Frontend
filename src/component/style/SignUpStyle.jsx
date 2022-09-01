@@ -45,7 +45,3 @@ export const SignUpCheckBtnStyle = styled.button`
     border: 2px solid ${COLOR.RED_PINK};
   }
 `;
-
-// &:disabled {
-//   background-color: ${COLOR.LIGHT_GRAY};
-// }
