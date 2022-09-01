@@ -11,6 +11,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import loginDataAtom from "../../recoil/loginData/atom";
 import axios from "axios";
 import isLoginDataAtom from "../../recoil/isLogin/atom";
+import { Link } from "react-router-dom";
 
 const LoginForm = (props) => {
   const setIsLogin = useSetRecoilState(isLoginDataAtom);
@@ -76,6 +77,9 @@ const LoginForm = (props) => {
         <GoogleButton />
       </FormContainer>
       <SpanContainer>
+        <div>
+          <Link to={"/before-signup"}>회원가입하기</Link>
+        </div>
         <SpanWrapper onClick={onFindIdClick}>이메일 찾기</SpanWrapper>
         <SpanWrapper onClick={onFindPwClick}>비밀번호 찾기</SpanWrapper>
       </SpanContainer>
