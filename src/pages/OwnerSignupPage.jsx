@@ -1,30 +1,24 @@
 import React from "react";
 import styled from "styled-components";
+import Underline from "../component/common/Underline";
 import OwnerSignUpInputs from "../component/signup/ownerSignUp/OwnerSignUpInputs";
+import {
+  H2,
+  SignUpPageExplainSpan,
+  SignUpPageWrapper,
+} from "../component/style/SignUpStyle";
 
 const OwnerSignupPage = () => {
   return (
     <SignUpPageWrapper>
-      <h2>사업자 회원 가입</h2>
-      <DetailInfo>* 표시 항목은 필수 입력 입니다.</DetailInfo>
+      <H2>사업자 회원 가입</H2>
+      <Underline width={"600px"} />
+      <SignUpPageExplainSpan>
+        * 표시 항목은 필수 입력 입니다.
+      </SignUpPageExplainSpan>
       <OwnerSignUpInputs />
     </SignUpPageWrapper>
   );
 };
 
 export default OwnerSignupPage;
-
-const SignUpPageWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin: 50px auto;
-`;
-
-const DetailInfo = styled.span`
-  display: inline-block;
-  flex-grow: 1;
-  align-self: flex-end;
-  padding-right: 200px;
-`;
