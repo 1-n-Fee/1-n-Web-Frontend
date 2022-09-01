@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { SignUpInputStyle } from "./../style/SignUpStyle";
+import { SignUpInputStyle, SignUpWarningStyle } from "./../style/SignUpStyle";
+import styled from "styled-components";
 
 const PwInput = ({ pwKey, setData }) => {
   const [pw, setPw] = useState("");
@@ -48,18 +49,23 @@ const PwInput = ({ pwKey, setData }) => {
   }, [isProperPw]);
 
   return (
-    <>
+    <PwInputWrapper>
       <SignUpInputStyle type="password" value={pw} onChange={onChange} />
       {isProperPw.length &&
       isProperPw.spacialSym &&
       isProperPw.number &&
       isProperPw.alpha ? null : (
-        <span>
+        <SignUpWarningStyle>
           비밀번호는 <strong>{alertStr}</strong>이어야 합니다.
-        </span>
+        </SignUpWarningStyle>
       )}
-    </>
+    </PwInputWrapper>
   );
 };
 
 export default PwInput;
+
+const PwInputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
