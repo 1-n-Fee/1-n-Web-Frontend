@@ -7,10 +7,16 @@ import NickNameInput from "./NickNameInput";
 import NameInput from "./NameInput";
 import MajorSelect from "./MajorSelect";
 import GenderRadioBtn from "./GenderRadioBtn";
-import styled from "styled-components";
+// import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { COLOR } from "./../../constants/colors";
+// import { COLOR } from "./../../constants/colors";
+import {
+  SubmitBtn,
+  SignUpInputsWrapper,
+  Title,
+  InputWrapper,
+} from "../style/SignUpStyle";
 
 export const Key = {
   ID: "id",
@@ -212,40 +218,3 @@ const SignUpInputs = ({ authCode = null, accountType = "password" }) => {
 };
 
 export default SignUpInputs;
-
-const SignUpInputsWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 10px 0;
-`;
-
-const Title = styled.h4`
-  display: inline-block;
-  width: 200px;
-  margin: 0 20px 0 0;
-`;
-
-const InputWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  padding: 10px 0px;
-  margin: 20px 0px;
-  height: ${({ height }) => (height === undefined ? "50px" : height)};
-`;
-
-const SubmitBtn = styled.button`
-  width: 560px;
-  height: 50px;
-  margin: 18px 0 10px 0;
-  text-align: center;
-  font-weight: 600;
-  color: ${COLOR.WHITE};
-  border-radius: 9px;
-  font-size: 16px;
-  background-color: ${COLOR.RED_PINK};
-  &:hover {
-    background-color: ${COLOR.DARK_RED};
-  }
-`;
