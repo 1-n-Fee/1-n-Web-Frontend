@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 
-const firstNums = ["010", "011", "016", "017"];
-
-const PhoneNumInput = ({ firstKey, midKey, lastKey, setData }) => {
+const PhoneNumInput = ({
+  firstKey,
+  midKey,
+  lastKey,
+  setData,
+  firstNums = ["010", "011", "016", "017"],
+}) => {
   const [firstNum, setFirstNum] = useState(firstNums[0]);
   const [midNum, setMidNum] = useState("");
   const [lastNum, setLastNum] = useState("");
@@ -24,8 +28,8 @@ const PhoneNumInput = ({ firstKey, midKey, lastKey, setData }) => {
     setData((cur) => ({
       ...cur,
       [firstKey]: firstNum,
-      [midKey]: midNum.length === 4 ? midNum : "",
-      [lastKey]: lastNum.length === 4 ? lastNum : "",
+      [midKey]: midNum,
+      [lastKey]: lastNum,
     }));
   }, [firstNum, midNum, lastNum]);
   return (
