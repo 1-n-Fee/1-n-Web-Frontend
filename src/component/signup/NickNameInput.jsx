@@ -2,7 +2,11 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
-import { SignUpInputStyle, SignUpWarningStyle } from "./../style/SignUpStyle";
+import {
+  SignUpInputStyle,
+  SignUpWarningStyle,
+  SignUpCheckBtnStyle,
+} from "./../style/SignUpStyle";
 import styled from "styled-components";
 
 const NickNameInput = ({
@@ -60,12 +64,12 @@ const NickNameInput = ({
           onChange={onChange}
           maxLength={max}
         />
-        <button
+        <SignUpCheckBtnStyle
           onClick={onClick}
           disabled={nickname.length < 2 || nickname.length > 8 || isDupChecked}
         >
           중복 확인
-        </button>
+        </SignUpCheckBtnStyle>
       </div>
       {nickname.length < 2 || nickname.length > 8 ? (
         <SignUpWarningStyle>
