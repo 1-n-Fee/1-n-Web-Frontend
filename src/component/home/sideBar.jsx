@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import MealList from "./meal_list";
 import styled, { css } from "styled-components";
+import { locData } from "../../locData";
 
 const SideBar = ({
   meals,
@@ -8,37 +9,50 @@ const SideBar = ({
   selectedMeal,
   isDetailOpen,
   setIsDetailOpen,
+  isOpen,
+  toggle,
+  id,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const ToggleSidebar = () => {
+  //const [isOpen, setIsOpen] = useState(false);
+  /*const ToggleSidebar = () => {
     isOpen === true ? setIsOpen(false) : setIsOpen(true);
-  };
+  };*/
   const ToggleDetailBar = () => {
     isDetailOpen === true ? setIsDetailOpen(false) : setIsDetailOpen(true);
   };
   return (
     <>
       <ButtonWrapper>
-        <SideBarButton onClick={ToggleSidebar}>열기</SideBarButton>
+        <SideBarButton onClick={toggle}>열기</SideBarButton>
       </ButtonWrapper>
       <SideBarWrapper isOpen={isOpen}>
         <SideBarHeader>
-          <SideBarButton onClick={ToggleSidebar}>닫기</SideBarButton>
+          <SideBarButton onClick={toggle}>닫기</SideBarButton>
+          {id && <SpotWrapper>{locData[id - 1].loc}</SpotWrapper>}
         </SideBarHeader>
         <MealList
           meals={meals}
+          id={id}
           isDetailOpen={isDetailOpen}
           setIsDetailOpen={setIsDetailOpen}
           ToggleDetailBar={ToggleDetailBar}
           onMealClick={onMealClick}
           selectedMeal={selectedMeal}
         />
-        </SideBarWrapper>
+      </SideBarWrapper>
     </>
   );
 };
 export default SideBar;
-
+const SpotWrapper = styled.span`
+  font-weight: 700;
+  font-size: 1rem;
+  height: 2rem;
+  color: black;
+  width: 70%;
+  text-align: center;
+  line-height: 2rem;
+`;
 const SideBarWrapper = styled.div`
   width: 280px;
   height: 100%;
@@ -57,7 +71,7 @@ const SideBarWrapper = styled.div`
 `;
 const SideBarHeader = styled.div`
   display: flex;
-  padding: 15px 0px 0px 15px;
+  padding: 15px;
 `;
 const SideBarButton = styled.button`
   background-color: #5a8dee;
