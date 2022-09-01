@@ -101,7 +101,7 @@ const UnderLine = styled.div`
   position: relative;
 `;
 
-const SelfSignUpBtn = styled.div`
+const SelfSignUpBtn = styled.button`
   width: ${({ width }) => width};
   height: ${({ height }) => height};
   border-radius: ${({ radius }) => radius};
@@ -109,6 +109,10 @@ const SelfSignUpBtn = styled.div`
   background-color: ${COLOR.RED_PINK};
   font-weight: 600;
   line-height: 45px;
+  font-size: 16px;
+  &:hover {
+    background-color: ${COLOR.RED_PINK};
+  }
 `;
 
 const ManagerLinkWrapper = styled.div`
