@@ -54,9 +54,8 @@ const Map = ({ markers, selectedMarker, setSelectedMarker, onMarkerClick }) => {
           ) {
             console.log("found marker");
             console.log(markers[i]);
-            const selMarker = { ...markers[i] };
             //setSelectedMarker(selMarker);
-            onMarkerClick(i);
+            onMarkerClick(i + 1);
             break;
           }
         }
