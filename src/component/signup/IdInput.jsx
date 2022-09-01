@@ -5,6 +5,7 @@ import axios from "axios";
 import Loading from "../common/Loading";
 import { useRecoilState } from "recoil";
 import isLoadingAtom from "../../recoil/loading/atom";
+import SignUpInputStyle from "./../style/SignUpInputStyle";
 
 // 상태
 /**
@@ -142,7 +143,8 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
   return (
     <>
       {isLoading && <div>Loading...</div>}
-      <input
+      <SignUpInputStyle
+        width={"130px"}
         type="text"
         onChange={onIdChange}
         value={id}

@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
+import SignUpInputStyle from "../style/SignUpInputStyle";
 
 const NickNameInput = ({
   nicknameKey,
@@ -52,7 +53,13 @@ const NickNameInput = ({
 
   return (
     <>
-      <input type="text" value={nickname} onChange={onChange} maxLength={max} />
+      <SignUpInputStyle
+        type="text"
+        value={nickname}
+        onChange={onChange}
+        maxLength={max}
+        width={"150px"}
+      />
       <button
         onClick={onClick}
         disabled={nickname.length < 2 || nickname.length > 8 || isDupChecked}

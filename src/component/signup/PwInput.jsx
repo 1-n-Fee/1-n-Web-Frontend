@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
+import SignUpInputStyle from "../style/SignUpInputStyle";
 
 const PwInput = ({ pwKey, setData }) => {
   const [pw, setPw] = useState("");
@@ -48,7 +49,7 @@ const PwInput = ({ pwKey, setData }) => {
 
   return (
     <>
-      <input type="password" value={pw} onChange={onChange} />
+      <SignUpInputStyle type="password" value={pw} onChange={onChange} />
       {isProperPw.length &&
       isProperPw.spacialSym &&
       isProperPw.number &&

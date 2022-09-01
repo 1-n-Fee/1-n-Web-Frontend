@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
+import SignUpInputStyle from "../style/SignUpInputStyle";
 
 const NameInput = ({ nameKey, setData }) => {
   const [name, setName] = useState("");
@@ -14,7 +15,7 @@ const NameInput = ({ nameKey, setData }) => {
   }, [name]);
   return (
     <>
-      <input type="text" value={name} onChange={onChange} />
+      <SignUpInputStyle type="text" value={name} onChange={onChange} />
     </>
   );
 };
