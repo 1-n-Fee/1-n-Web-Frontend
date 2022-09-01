@@ -5,7 +5,7 @@ import axios from "axios";
 import Loading from "../common/Loading";
 import { useRecoilState } from "recoil";
 import isLoadingAtom from "../../recoil/loading/atom";
-import SignUpInputStyle from "./../style/SignUpInputStyle";
+import { SignUpInputStyle } from "./../style/SignUpStyle";
 
 // 상태
 /**

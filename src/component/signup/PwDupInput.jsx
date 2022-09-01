@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import SignUpInputStyle from "../style/SignUpInputStyle";
+import { SignUpInputStyle } from "./../style/SignUpStyle";
 
 const PwDupInput = ({ pw, dupCheckKey, setData }) => {
   const [pwDup, setPwDup] = useState("");

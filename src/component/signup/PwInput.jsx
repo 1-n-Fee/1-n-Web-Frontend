@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
-import SignUpInputStyle from "../style/SignUpInputStyle";
+import { SignUpInputStyle } from "./../style/SignUpStyle";
 
 const PwInput = ({ pwKey, setData }) => {
   const [pw, setPw] = useState("");

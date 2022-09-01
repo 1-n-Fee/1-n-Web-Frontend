@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import axios from "axios";
-import SignUpInputStyle from "../style/SignUpInputStyle";
+import { SignUpInputStyle } from "./../style/SignUpStyle";
 
 const NickNameInput = ({
   nicknameKey,

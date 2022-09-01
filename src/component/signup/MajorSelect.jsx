@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import SignUpSelectStyle from "../style/SignUpSelectStyle";
+import { SignUpSelectStyle } from "./../style/SignUpStyle";
 // 뭰만하면 서버에서 받는 방식으로 바꾸기
 const majorData = [
   {

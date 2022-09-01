@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { COLOR } from "../../constants/colors";
-import SignUpInputStyle from "../style/SignUpInputStyle";
-import SignUpSelectStyle from "../style/SignUpSelectStyle";
+import { SignUpInputStyle, SignUpSelectStyle } from "./../style/SignUpStyle";
 
 const PhoneNumInput = ({
   firstKey,
