@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { SignUpInputStyle } from "./../style/SignUpStyle";
 
 const PwDupInput = ({ pw, dupCheckKey, setData }) => {
   const [pwDup, setPwDup] = useState("");
@@ -16,7 +17,7 @@ const PwDupInput = ({ pw, dupCheckKey, setData }) => {
 
   return (
     <>
-      <input
+      <SignUpInputStyle
         type="password"
         value={pwDup}
         onChange={onChange}

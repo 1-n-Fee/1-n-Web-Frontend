@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import { COLOR } from "./../../constants/colors";
 
 const GlobalStyles = createGlobalStyle`
 *, *::before, *::after {
@@ -22,6 +23,11 @@ button{
         cursor:pointer;
         background-color: #a4b0be;
     }
+
+    &:disabled{
+        background-color: ${COLOR.DISABLE_BTN_BG};
+        color: ${COLOR.DISABLE_BTN_COLOR};
+    }
     
 }
 input {
@@ -31,6 +37,14 @@ input {
     &:focus{
         outline:none;
     }
+}
+h2{
+    margin:0;
+    padding:0;
+}
+h4{
+    margin:0;
+    padding:0;
 }
 `;
 
