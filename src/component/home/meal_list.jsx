@@ -5,6 +5,7 @@ import MealItem from "./meal_item";
 import styled from "styled-components";
 const MealList = ({
   meals,
+  id,
   onMealClick,
   selectedMeal,
   isDetailOpen,
@@ -15,15 +16,16 @@ const MealList = ({
     <>
       <MealListWrapper>
         <ul>
-          {meals.map((meal) => (
-            <MealItem
-              meal={meal}
-              isDetailOpen={isDetailOpen}
-              setIsDetailOpen={setIsDetailOpen}
-              onMealClick={onMealClick}
-              ToggleDetailBar={ToggleDetailBar}
-            />
-          ))}
+          {meals &&
+            meals.map((meal) => (
+              <MealItem
+                meal={meal}
+                isDetailOpen={isDetailOpen}
+                setIsDetailOpen={setIsDetailOpen}
+                onMealClick={onMealClick}
+                ToggleDetailBar={ToggleDetailBar}
+              />
+            ))}
         </ul>
       </MealListWrapper>
       <MealDetail
@@ -31,6 +33,7 @@ const MealList = ({
         isDetailOpen={isDetailOpen}
         setIsDetailOpen={setIsDetailOpen}
         ToggleDetailBar={ToggleDetailBar}
+        id={id}
       />
     </>
   );
