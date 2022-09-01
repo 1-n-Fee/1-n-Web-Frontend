@@ -32,6 +32,10 @@ input {
         outline:none;
     }
 }
+h2{
+    margin:0;
+    padding:0;
+}
 `;
 
 export default GlobalStyles;
