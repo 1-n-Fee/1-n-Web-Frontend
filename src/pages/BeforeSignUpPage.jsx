@@ -53,7 +53,7 @@ const BeforeSignUpPage = () => {
       </SelfSignUpBtn>
 
       <ManagerLinkWrapper>
-        <span>사업자이신가요?</span>
+        <Link to={"/signup/owner"}>사업자이신가요?</Link>
       </ManagerLinkWrapper>
       {/* <Link> 사업자이신가요? </Link> */}
     </BeforeSignUpWrapper>
