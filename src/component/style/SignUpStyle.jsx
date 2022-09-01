@@ -14,7 +14,7 @@ export const SignUpSelectStyle = styled.select`
 
 export const SignUpInputStyle = styled.input`
   display: inline-block;
-  width: ${({ width }) => (width === undefined ? "230px" : width)};
+  width: ${({ width }) => (width === undefined ? "280px" : width)};
   border: none;
   outline: none;
   border-bottom: 1px solid ${COLOR.DARKER_GRAY};
