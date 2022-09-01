@@ -1,4 +1,8 @@
 import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import { COLOR } from "../../constants/colors";
+import SignUpInputStyle from "../style/SignUpInputStyle";
+import SignUpSelectStyle from "../style/SignUpSelectStyle";
 
 const PhoneNumInput = ({
   firstKey,
@@ -34,7 +38,7 @@ const PhoneNumInput = ({
   }, [firstNum, midNum, lastNum]);
   return (
     <>
-      <select onChange={onFirstNumChange}>
+      <SignUpSelectStyle width={"60px"} onChange={onFirstNumChange}>
         {firstNums.map((first, key) => (
           <option
             value={first}
@@ -44,16 +48,18 @@ const PhoneNumInput = ({
             {first}
           </option>
         ))}
-      </select>
-      <span>-</span>
-      <input
+      </SignUpSelectStyle>
+      <DashSpan>-</DashSpan>
+      <SignUpInputStyle
+        width={"60px"}
         type="text"
         value={midNum}
         maxLength={4}
         onChange={onMidNumChange}
       />
-      <span>-</span>
-      <input
+      <DashSpan>-</DashSpan>
+      <SignUpInputStyle
+        width={"60px"}
         type="text"
         value={lastNum}
         maxLength={4}
@@ -64,3 +70,8 @@ const PhoneNumInput = ({
 };
 
 export default PhoneNumInput;
+const DashSpan = styled.span`
+  display: inline-block;
+  padding: 0 3px;
+  font-size: 16px;
+`;
