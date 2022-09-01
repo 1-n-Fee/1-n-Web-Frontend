@@ -21,6 +21,8 @@ import OwnerSignupPage from "../pages/OwnerSignupPage";
 import HistoryPage from "../pages/HistoryPage";
 import BeforeSignUpPage from "../pages/BeforeSignUpPage";
 import CreateRoom from "../pages/createRoom";
+import ManagerHomePage from "../pages/manager/ManagerHomePage";
+import StoreRegisterPage from "../pages/manager/StoreRegisterPage";
 
 const Router = () => {
   return (
@@ -47,6 +49,10 @@ const Router = () => {
         <Route path="/creating-room" element={<CreateRoom />} />
         <Route path="/signup/owner" element={<OwnerSignupPage />} />
         <Route path="/history" element={<HistoryPage />} />
+
+        <Route path="/manager/register" element={<StoreRegisterPage />} />
+        <Route path="/manager/*" element={<ManagerHomePage />} />
+
         <Route path="/*" element={<Home />} />
       </Routes>
     </div>
