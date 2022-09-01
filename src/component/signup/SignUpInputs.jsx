@@ -82,7 +82,6 @@ const SignUpInputs = ({ authCode = null, accountType = "password" }) => {
         .catch((err) => console.log(err));
     } else {
       const oauthUserData = { ...userData, password: null, code: authCode };
-      console.log("ㄱㄱ");
       axios
         .post("http://localhost:8080/user/signup", oauthUserData)
         .then((response) => navigate("/login"))
