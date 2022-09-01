@@ -1,4 +1,5 @@
 import React from "react";
+import { SignUpSelectStyle } from "./../../style/SignUpStyle";
 const emails = ["konkuk.ac.kr", "gmail.com", "naver.com"];
 const DEFAULT = "이메일을 선택하세요";
 const EmailSelector = ({ setEmail }) => {
@@ -8,7 +9,7 @@ const EmailSelector = ({ setEmail }) => {
   };
   return (
     <>
-      <select onChange={onChange}>
+      <SignUpSelectStyle width={"150px"} fontSize={"13px"} onChange={onChange}>
         <option name="placeholder" defaultValue={true}>
           {DEFAULT}
         </option>
@@ -17,7 +18,7 @@ const EmailSelector = ({ setEmail }) => {
             {e}
           </option>
         ))}
-      </select>
+      </SignUpSelectStyle>
     </>
   );
 };

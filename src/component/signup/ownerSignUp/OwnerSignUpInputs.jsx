@@ -1,5 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import {
+  SubmitBtn,
+  Title,
+  InputWrapper,
+  SignUpInputsWrapper,
+} from "../../style/SignUpStyle";
 import IdInput from "../IdInput";
 import NameInput from "../NameInput";
 import NickNameInput from "../NickNameInput";
@@ -101,77 +107,79 @@ const OwnerSignUpInputs = () => {
   return (
     <SignUpInputsWrapper>
       <div>
-        <Title>*이메일</Title>
-        <IdInput
-          idKey={Key.ID}
-          authCheckKey={Key.IS_ID_AUTH_CHECKED}
-          setData={setIdData}
-          isOwner={true}
-        />
-      </div>
-      <div>
-        <Title>*비밀번호</Title>
-        <PwInput pwKey={Key.PW} setData={setPWData} />
-      </div>
-      <div>
-        <Title>*비밀번호 중복 확인</Title>
-        <PwDupInput
-          pw={pwData.pw}
-          dupCheckKey={Key.IS_PW_DUP_CHECKED}
-          setData={setPWData}
-        />
-      </div>
-      <div>
-        <Title>*이름</Title>
-        <NameInput nameKey={Key.NAME} setData={setNameData} />
-      </div>
-      <div>
-        <Title>*휴대폰 번호</Title>
-        <PhoneNumInput
-          firstKey={Key.PHONE_FIRST}
-          midKey={Key.PHONE_MID}
-          lastKey={Key.PHONE_LAST}
-          setData={setPhoneData}
-        />
-      </div>
-      <div>
-        <Title>*가게 이름</Title>
-        <NickNameInput
-          nicknameKey={Key.STORE_NAME}
-          isDupKey={Key.IS_STORE_DUP_CHECKED}
-          setData={setNameData}
-          min={2}
-          max={8}
-        />
-      </div>
-      <div>
-        <Title>*사업자 등록 번호</Title>
-        <NameInput
-          nameKey={Key.STORE_REGISTER_NUM}
-          setData={setStoreRegisterNum}
-        />
+        <InputWrapper>
+          <Title>*이메일</Title>
+          <IdInput
+            idKey={Key.ID}
+            authCheckKey={Key.IS_ID_AUTH_CHECKED}
+            setData={setIdData}
+            isOwner={true}
+          />
+        </InputWrapper>
+        <InputWrapper>
+          <Title>*비밀번호</Title>
+          <PwInput pwKey={Key.PW} setData={setPWData} />
+        </InputWrapper>
+        <InputWrapper>
+          <Title>*비밀번호 중복 확인</Title>
+          <PwDupInput
+            pw={pwData.pw}
+            dupCheckKey={Key.IS_PW_DUP_CHECKED}
+            setData={setPWData}
+          />
+        </InputWrapper>
+        <InputWrapper>
+          <Title>*이름</Title>
+          <NameInput nameKey={Key.NAME} setData={setNameData} />
+        </InputWrapper>
+        <InputWrapper>
+          <Title>*휴대폰 번호</Title>
+          <PhoneNumInput
+            firstKey={Key.PHONE_FIRST}
+            midKey={Key.PHONE_MID}
+            lastKey={Key.PHONE_LAST}
+            setData={setPhoneData}
+          />
+        </InputWrapper>
+        <InputWrapper>
+          <Title>*가게 이름</Title>
+          <NickNameInput
+            nicknameKey={Key.STORE_NAME}
+            isDupKey={Key.IS_STORE_DUP_CHECKED}
+            setData={setNameData}
+            min={2}
+            max={8}
+          />
+        </InputWrapper>
+        <InputWrapper>
+          <Title>*사업자 등록 번호</Title>
+          <NameInput
+            nameKey={Key.STORE_REGISTER_NUM}
+            setData={setStoreRegisterNum}
+          />
+        </InputWrapper>
       </div>
 
-      <SignUpBtn onClick={onSignUpBtnClick}>회원 가입하기</SignUpBtn>
+      <SubmitBtn onClick={onSignUpBtnClick}>회원 가입하기</SubmitBtn>
     </SignUpInputsWrapper>
   );
 };
 
 export default OwnerSignUpInputs;
-const SignUpInputsWrapper = styled.div`
-  width: 800px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`;
-const Title = styled.h4`
-  display: inline-block;
-  width: 250px;
-  text-align: right;
-  padding-right: 20px;
-`;
+// const SignUpInputsWrapper = styled.div`
+//   width: 800px;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+// `;
+// const Title = styled.h4`
+//   display: inline-block;
+//   width: 250px;
+//   text-align: right;
+//   padding-right: 20px;
+// `;
 
-const SignUpBtn = styled.button`
-  width: 500px;
-  align-self: center;
-`;
+// const SignUpBtn = styled.button`
+//   width: 500px;
+//   align-self: center;
+// `;
