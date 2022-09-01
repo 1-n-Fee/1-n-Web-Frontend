@@ -10,6 +10,7 @@ import GenderRadioBtn from "./GenderRadioBtn";
 import styled from "styled-components";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { COLOR } from "./../../constants/colors";
 
 export const Key = {
   ID: "id",
@@ -135,83 +136,116 @@ const SignUpInputs = ({ authCode = null, accountType = "password" }) => {
     }
   }, [data, authCode]);
   return (
-    <div>
+    <SignUpInputsWrapper>
       <div>
-        <Title>*건국대학교 아이디</Title>
-        <IdInput
-          idKey={Key.ID}
-          authCheckKey={Key.IS_ID_AUTH_CHECKED}
-          setData={setData}
-        />
-      </div>
-      {authCode === null && (
-        <>
-          <div>
-            <Title>*비밀번호</Title>
-            <PwInput pwKey={Key.PW} setData={setData} />
-          </div>
+        <InputWrapper height={"none"}>
+          <Title>*건국대학교 아이디</Title>
+          <IdInput
+            idKey={Key.ID}
+            authCheckKey={Key.IS_ID_AUTH_CHECKED}
+            setData={setData}
+          />
+        </InputWrapper>
+        {authCode === null && (
+          <>
+            <InputWrapper height={"70px"}>
+              <Title>*비밀번호</Title>
+              <PwInput pwKey={Key.PW} setData={setData} />
+            </InputWrapper>
 
-          <div>
-            <Title>*비밀번호 중복 확인</Title>
-            <PwDupInput
-              pw={data.pw}
-              dupCheckKey={Key.IS_PW_DUP_CHECKED}
-              setData={setData}
-            />
-          </div>
-        </>
-      )}
-      <div>
-        <Title>*이름</Title>
-        <NameInput nameKey={Key.NAME} setData={setData} />
-      </div>
+            <InputWrapper>
+              <Title>*비밀번호 중복 확인</Title>
+              <PwDupInput
+                pw={data.pw}
+                dupCheckKey={Key.IS_PW_DUP_CHECKED}
+                setData={setData}
+              />
+            </InputWrapper>
+          </>
+        )}
+        <InputWrapper>
+          <Title>*이름</Title>
+          <NameInput nameKey={Key.NAME} setData={setData} />
+        </InputWrapper>
 
-      <div>
-        <Title>*휴대폰 번호</Title>
-        <PhoneNumInput
-          firstKey={Key.PHONE_FIRST}
-          midKey={Key.PHONE_MID}
-          lastKey={Key.PHONE_LAST}
-          setData={setData}
-        />
-      </div>
-      <div>
-        <Title>*닉네임</Title>
-        <NickNameInput
-          nicknameKey={Key.NICKNAME}
-          isDupCheckKey={Key.IS_NICK_DUP_CHECKED}
-          isDupKey={Key.IS_NICK_DUP}
-          setData={setData}
-          min={2}
-          max={8}
-        />
-      </div>
+        <InputWrapper>
+          <Title>*휴대폰 번호</Title>
+          <PhoneNumInput
+            firstKey={Key.PHONE_FIRST}
+            midKey={Key.PHONE_MID}
+            lastKey={Key.PHONE_LAST}
+            setData={setData}
+          />
+        </InputWrapper>
+        <InputWrapper height={"70px"}>
+          <Title>*닉네임</Title>
+          <NickNameInput
+            nicknameKey={Key.NICKNAME}
+            isDupCheckKey={Key.IS_NICK_DUP_CHECKED}
+            isDupKey={Key.IS_NICK_DUP}
+            setData={setData}
+            min={2}
+            max={8}
+          />
+        </InputWrapper>
 
-      <div>
-        <Title>전공</Title>
-        <MajorSelect majorKey={Key.MAJOR} setData={setData} />
-      </div>
+        <InputWrapper>
+          <Title>전공</Title>
+          <MajorSelect majorKey={Key.MAJOR} setData={setData} />
+        </InputWrapper>
 
-      <div>
-        <Title>성별</Title>
-        <GenderRadioBtn
-          genderKey={Key.GENDER}
-          genderData={Key.GENDER_DATA}
-          setData={setData}
-          data={data}
-        />
+        <InputWrapper>
+          <Title>성별</Title>
+          <GenderRadioBtn
+            genderKey={Key.GENDER}
+            genderData={Key.GENDER_DATA}
+            setData={setData}
+            data={data}
+          />
+        </InputWrapper>
       </div>
-      <div>
-        <button onClick={onSignUpBtnClick}>
-          {authCode === null ? `회원 가입하기` : `제출하기`}
-        </button>
-      </div>
-    </div>
+      <SubmitBtn onClick={onSignUpBtnClick}>
+        {authCode === null ? `회원 가입하기` : `제출하기`}
+      </SubmitBtn>
+    </SignUpInputsWrapper>
   );
 };
 
 export default SignUpInputs;
 
+const SignUpInputsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px 0;
+`;
+
 const Title = styled.h4`
   display: inline-block;
+  width: 200px;
+  margin: 0 20px 0 0;
+`;
+
+const InputWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  padding: 10px 0px;
+  margin: 20px 0px;
+  height: ${({ height }) => (height === undefined ? "50px" : height)};
+`;
+
+const SubmitBtn = styled.button`
+  width: 560px;
+  height: 50px;
+  margin: 18px 0 10px 0;
+  text-align: center;
+  font-weight: 600;
+  color: ${COLOR.WHITE};
+  border-radius: 9px;
+  font-size: 16px;
+  background-color: ${COLOR.RED_PINK};
+  &:hover {
+    background-color: ${COLOR.DARK_RED};
+  }
 `;
