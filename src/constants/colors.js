@@ -17,4 +17,6 @@ export const COLOR = {
   KAKAO_BROWN: "#020202",
   NAVER_GREEN: "#00c73c",
   GOOGLE_SKYBLUE: "#4285f4",
+  DISABLE_BTN_BG: "#f2f2f2",
+  DISABLE_BTN_COLOR: "#cccccc",
 };

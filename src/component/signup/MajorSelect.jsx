@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
+import { SignUpSelectStyle } from "./../style/SignUpStyle";
 // 뭰만하면 서버에서 받는 방식으로 바꾸기
 const majorData = [
   {
@@ -108,7 +109,7 @@ const MajorSelect = ({ majorKey, setData }) => {
 
   return (
     <>
-      <select onChange={onChange}>
+      <SignUpSelectStyle width={"170px"} onChange={onChange}>
         <option name="placeholder" defaultValue={true}>
           {DEFAULT}
         </option>
@@ -121,7 +122,7 @@ const MajorSelect = ({ majorKey, setData }) => {
             ))}
           </optgroup>
         ))}
-      </select>
+      </SignUpSelectStyle>
     </>
   );
 };
