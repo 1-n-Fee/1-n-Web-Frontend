@@ -13,4 +13,8 @@ export const COLOR = {
   DARK_GRAY: "#a4b0be",
   DARKER_GRAY: "#353b48",
   LIGHT_GRAY: "#ced6e0",
+  KAKAO_YELLOW: "#ffe300",
+  KAKAO_BROWN: "#020202",
+  NAVER_GREEN: "#00c73c",
+  GOOGLE_SKYBLUE: "#4285f4",
 };
