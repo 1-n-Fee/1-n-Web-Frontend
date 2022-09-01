@@ -49,7 +49,7 @@ const PhoneNumInput = ({
       </SignUpSelectStyle>
       <DashSpan>-</DashSpan>
       <SignUpInputStyle
-        width={"60px"}
+        width={"73px"}
         type="text"
         value={midNum}
         maxLength={4}
@@ -57,7 +57,7 @@ const PhoneNumInput = ({
       />
       <DashSpan>-</DashSpan>
       <SignUpInputStyle
-        width={"60px"}
+        width={"73px"}
         type="text"
         value={lastNum}
         maxLength={4}
