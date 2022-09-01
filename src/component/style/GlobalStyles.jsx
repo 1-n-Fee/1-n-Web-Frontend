@@ -1,4 +1,5 @@
 import { createGlobalStyle } from "styled-components";
+import { COLOR } from "./../../constants/colors";
 
 const GlobalStyles = createGlobalStyle`
 *, *::before, *::after {
@@ -21,6 +22,11 @@ button{
     &:hover{
         cursor:pointer;
         background-color: #a4b0be;
+    }
+
+    &:disabled{
+        background-color: ${COLOR.DISABLE_BTN_BG};
+        color: ${COLOR.DISABLE_BTN_COLOR};
     }
     
 }
