@@ -21,7 +21,14 @@ const ManagerHeader = () => {
   };
   return (
     <HeaderWrapper>
-      <img alt="로고" onClick={onLogoClick} />
+      <LogoWrapper>
+        <img
+          src={"managerLogo.png"}
+          width={"300px"}
+          alt="로고"
+          onClick={onLogoClick}
+        />
+      </LogoWrapper>
       <Icon emoji={"LOGOUT"} onClick={onLogout} fontSize="12px" />
     </HeaderWrapper>
   );
@@ -37,4 +44,8 @@ const HeaderWrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 20px;
+`;
+
+const LogoWrapper = styled.div`
+  margin: 15px 0 0 0;
 `;
