@@ -47,7 +47,7 @@ export const SignUpCheckBtnStyle = styled.button`
 `;
 
 export const SubmitBtn = styled.button`
-  width: 560px;
+  width: ${({ width }) => (width !== undefined ? width : "560px")};
   height: 50px;
   margin: 18px 0 10px 0;
   text-align: center;

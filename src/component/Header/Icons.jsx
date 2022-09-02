@@ -69,11 +69,11 @@ const Icons = () => {
     <IconsWrapper>
       <Icon emoji={"➕"} onClick={onAddRoomClick} />
       <Icon emoji={"💬"} onClick={onChatRoomClick} />
-      <Icon emoji={"🔔"} onClick={onAlarmMenuClick} />
+      {/* <Icon emoji={"🔔"} onClick={onAlarmMenuClick} /> */}
       {loginData.isLogin ? (
         <Icon emoji={"😀"} onClick={onMyPageMenuClick} />
       ) : (
-        <Icon emoji={"LOGIN"} onClick={onLoginClick} />
+        <Icon emoji={"LOGIN"} onClick={onLoginClick} fontSize={"15px"} />
       )}
       {isMenuOpened[Key.ALARM] && <AlarmMenu />}
       {isMenuOpened[Key.MY_PAGE] && <MyPageMenu isLogin={loginData.isLogin} />}
