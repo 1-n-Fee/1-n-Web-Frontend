@@ -35,7 +35,7 @@ const Header = () => {
     <div>
       <HeaderWrapper isHome={window.location.pathname === "/"}>
         <ImgWrapper onClick={onLogoClick}>
-          <img src="#" alt="logo" />
+          <img src="/logo.png" width="160px" alt="logo" />
         </ImgWrapper>
 
         {window.location.pathname === "/" ? (
@@ -66,8 +66,17 @@ export default Header;
 
 const ImgWrapper = styled.div`
   width: 20%;
-  border: 1px solid orange;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding-top: 10px;
   background-color: white;
+  border-radius: 10px;
+  margin: 3px 0;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const HeaderWrapper = styled.div`
