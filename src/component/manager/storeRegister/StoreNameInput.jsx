@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { SignUpInputStyle } from "../../style/SignUpStyle";
 
 const StoreNameInput = ({ name, setName }) => {
   const onNameChange = (e) => {
@@ -7,7 +8,7 @@ const StoreNameInput = ({ name, setName }) => {
   };
   return (
     <>
-      <input type="text" value={name} onChange={onNameChange} />
+      <SignUpInputStyle type="text" value={name} onChange={onNameChange} />
     </>
   );
 };
