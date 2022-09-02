@@ -1,8 +1,11 @@
 import { atom } from "recoil";
 
-const postIdAtom = atom({
+export const postIdAtom = atom({
   key: "postIdAtom",
   default: 1,
 });
 
-export default postIdAtom;
+export const userStatusAtom = atom({
+  key: "userStatusAtom",
+  default: "",
+});
