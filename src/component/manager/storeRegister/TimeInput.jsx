@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { SignUpInputStyle } from "../../style/SignUpStyle";
 
 const TimeInput = ({ typeKey, setTime }) => {
   const [times, setTimes] = useState({ start: "", end: "" });
@@ -14,14 +15,28 @@ const TimeInput = ({ typeKey, setTime }) => {
     if (times.start !== "" && times.end !== "") {
       setTime((cur) => ({
         ...cur,
-        [typeKey]: `${times.start}-${times.end}`,
+        [typeKey]: `${times.start.replace(":", "")}-${times.end.replace(
+          ":",
+          ""
+        )}`,
       }));
     }
   }, [times]);
   return (
     <>
-      <input type="time" onChange={onChange} data-key="start" />~
-      <input type="time" data-key="end" onChange={onChange} />
+      <SignUpInputStyle
+        width={"130px"}
+        type="time"
+        onChange={onChange}
+        data-key="start"
+      />
+      ~
+      <SignUpInputStyle
+        width={"130px"}
+        type="time"
+        data-key="end"
+        onChange={onChange}
+      />
     </>
   );
 };

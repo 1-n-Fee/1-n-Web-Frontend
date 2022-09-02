@@ -2,6 +2,8 @@ import React from "react";
 import { FOOD_CATEGORY } from "../../../constants/arrays";
 import Tag from "../../common/Tag";
 import PropTypes from "prop-types";
+import styled from "styled-components";
+import { COLOR } from "../../../constants/colors";
 
 const StoreInfo = ({
   storeName,
@@ -17,32 +19,39 @@ const StoreInfo = ({
     return `${times[0]}~${times[1]}`;
   };
   return (
-    <div>
+    <>
       <h3>
         {storeName}
-        <Tag title={FOOD_CATEGORY.find((c) => c.ENG === category).KOR} />
+        <Tag
+          title={
+            FOOD_CATEGORY.find((c) => c.ENG === category.toLowerCase()).KOR
+          }
+          isClicked={true}
+        />
       </h3>
       <table>
         <tbody>
           <tr>
-            <th>가게 전화번호</th>
-            <td>{phone}</td>
+            <Th>가게 전화번호</Th>
+            <Td>{phone}</Td>
           </tr>
           <tr>
-            <th>배달비</th>
-            <td>{deliveryFee.toLocaleString()}</td>
+            <Th>배달비</Th>
+            <Td>{deliveryFee.toLocaleString()}원</Td>
           </tr>
           <tr>
-            <th>영업 시간</th>
-            <td>{timeConveter(businessTime)}</td>
+            <Th>영업 시간</Th>
+            <Td>{timeConveter(businessTime)}</Td>
           </tr>
           <tr>
-            <th>브레이크 타임</th>
-            <td>{breakTime === "00-00" ? "없음" : timeConveter(breakTime)}</td>
+            <Th isLastCell={true}>브레이크 타임</Th>
+            <Td isLastCell={true}>
+              {breakTime === "00-00" ? "없음" : timeConveter(breakTime)}
+            </Td>
           </tr>
         </tbody>
       </table>
-    </div>
+    </>
   );
 };
 
@@ -55,3 +64,17 @@ StoreInfo.propTypes = {
   breakTime: PropTypes.string.isRequired,
 };
 export default StoreInfo;
+
+const Th = styled.th`
+  padding: 8px;
+  border-right: 1px solid ${COLOR.DARKER_GRAY};
+  border-bottom: ${({ isLastCell }) =>
+    isLastCell ? "none" : `1px solid ${COLOR.DARKER_GRAY}`};
+`;
+
+const Td = styled.td`
+  border-bottom: ${({ isLastCell }) =>
+    isLastCell ? "none" : `1px solid ${COLOR.DARKER_GRAY}`};
+  width: 200px;
+  text-align: center;
+`;

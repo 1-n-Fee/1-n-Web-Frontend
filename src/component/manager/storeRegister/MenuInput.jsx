@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { COLOR } from "./../../../constants/colors";
 import { useCallback } from "react";
 import Thumbnail from "./Thumbnail";
+import { SignUpInputStyle } from "../../style/SignUpStyle";
 
 const MenuInput = ({ setMenus }) => {
   const [imgUrl, setImgUrl] = useState("");
@@ -85,7 +86,8 @@ const MenuInput = ({ setMenus }) => {
       <InputsWrapper>
         <div>
           {/* <InputTitle>메뉴명</InputTitle> */}
-          <input
+          <SignUpInputStyle
+            width={"150px"}
             placeholder="메뉴명"
             type="text"
             value={menuName}
@@ -125,9 +127,10 @@ const ImageInput = styled.div`
   align-items: center;
   justify-content: center;
   font-size: 25px;
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   border-radius: 4px;
+  margin: 0px 8px 0 0;
   background-color: ${COLOR.LIGHT_GRAY};
   &:hover {
     cursor: pointer;
@@ -144,6 +147,7 @@ const AddMenuBtn = styled.button`
   width: 30px;
   height: 30px;
   border-radius: 50%;
+  margin: 0 8px;
   border: 2px dashed ${COLOR.DARKER_GRAY};
   &:hover {
     background-color: ${COLOR.LIGHT_GRAY};

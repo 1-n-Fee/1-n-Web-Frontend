@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDaumPostcodePopup } from "react-daum-postcode";
+import { SignUpCheckBtnStyle, SignUpInputStyle } from "../../style/SignUpStyle";
 
 const AddressInput = ({ setAddress }) => {
   const open = useDaumPostcodePopup();
@@ -37,12 +38,18 @@ const AddressInput = ({ setAddress }) => {
   }, [briefAddress, detailAddress]);
   return (
     <div>
-      <input type="text" value={briefAddress} placeholder={"주소"} />
-      <button type="button" onClick={handleClick}>
+      <SignUpInputStyle
+        width={"220px"}
+        type="text"
+        value={briefAddress}
+        placeholder={"주소"}
+      />
+      <SignUpCheckBtnStyle type="button" onClick={handleClick}>
         주소 찾기
-      </button>
+      </SignUpCheckBtnStyle>
       <div>
-        <input
+        <SignUpInputStyle
+          width={"220px"}
           type="text"
           value={detailAddress}
           placeholder={"상세주소"}

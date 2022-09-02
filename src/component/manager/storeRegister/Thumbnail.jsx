@@ -10,10 +10,11 @@ const Thumbnail = ({ imgUrl, hasHoverEffect = false }) => {
 export default Thumbnail;
 
 const Img = styled.img`
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   border-radius: 4px;
   object-fit: cover;
+  margin: 0 10px;
   &:hover {
     cursor: ${({ hasHoverEffect }) => (hasHoverEffect ? "pointer" : "default")};
   }
