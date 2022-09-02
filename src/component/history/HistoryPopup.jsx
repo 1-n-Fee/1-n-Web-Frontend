@@ -41,12 +41,13 @@ const PopUpWrapper = styled.div`
   width: 700px;
   height: 500px;
   background-color: white;
-  border-radius: 5px;
+  border-radius: 7px;
   display: flex;
   flex-direction: column;
   align-items: center;
   overflow: auto;
   position: relative;
+  padding: 40px 30px 20px 30px; ;
 `;
 
 const PopUpBackground = styled.div`
@@ -68,9 +69,14 @@ const DelBtnWrapper = styled.div`
   flex-direction: row;
   justify-content: flex-end;
   width: 100%;
+  top: 0;
   position: absolute;
 `;
 
 const DelBtn = styled.span`
   display: inline-block;
+  margin: 5px;
+  &:hover {
+    cursor: pointer;
+  }
 `;

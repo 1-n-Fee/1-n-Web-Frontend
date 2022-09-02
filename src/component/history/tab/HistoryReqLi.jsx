@@ -56,12 +56,20 @@ const HistoryReqLi = ({ nickname, menus, proposalId }) => {
         </TextWrapper>
 
         <ResponseBtnWrapper>
-          <button data-respond={RESPOND.ACCEPT} onClick={onRespondClick}>
+          <ResponseBtn
+            data-respond={RESPOND.ACCEPT}
+            onClick={onRespondClick}
+            color={COLOR.DARK_GREEN}
+          >
             수락
-          </button>
-          <button data-respond={RESPOND.DENY} onClick={onRespondClick}>
+          </ResponseBtn>
+          <ResponseBtn
+            data-respond={RESPOND.DENY}
+            onClick={onRespondClick}
+            color={COLOR.DARK_RED}
+          >
             거절
-          </button>
+          </ResponseBtn>
         </ResponseBtnWrapper>
       </TotalBtnsWrapper>
 
@@ -102,8 +110,9 @@ export default HistoryReqLi;
 
 const HistoryReqList = styled.li`
   width: 100%;
-  border-bottom: thick double ${COLOR.DARK_GRAY};
-  padding-top: 5px;
+  border-bottom: 1px solid ${COLOR.LIGHT_GRAY};
+  padding: 5px 20px 0 20px;
+  font-size: 14px;
 `;
 
 const IconWrapper = styled.span`
@@ -123,10 +132,19 @@ const MenuButton = styled.button`
   display: inline-block;
   font-size: 11px;
   color: ${COLOR.DARKER_GRAY};
+  margin: 0 7px;
 `;
 const ResponseBtnWrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+`;
+const ResponseBtn = styled.button`
+  width: 50px;
+  height: 25px;
+  border-radius: 15px;
+  margin: 2px;
+  color: ${({ color }) => color};
+  font-weight: 600;
 `;
 
 const TextWrapper = styled.div`

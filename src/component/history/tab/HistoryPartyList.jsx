@@ -7,6 +7,7 @@ import { STATE } from "./../../../constants/states";
 import axios from "axios";
 import HistoryReqLi from "./HistoryReqLi";
 import { isProposalDataChangedAtom } from "./../../../recoil/historyData/atom";
+import { COLOR } from "../../../constants/colors";
 
 const HistoryPartyList = () => {
   const historyData = useRecoilValue(historyDataAtom);
@@ -86,7 +87,7 @@ const HistoryPartyList = () => {
   };
 
   return (
-    <div>
+    <HistoryPartyListWrapper>
       <ul>
         {/* {historyData.state === STATE.REQ_WAITING} */}
         {requests.map((r, key) => (
@@ -98,7 +99,7 @@ const HistoryPartyList = () => {
           />
         ))}
       </ul>
-      <ul>
+      <PartyUl>
         {historyData.others.map((u, key) => (
           <Li
             key={`user_${key}`}
@@ -121,15 +122,30 @@ const HistoryPartyList = () => {
             )}
           </Li>
         ))}
-      </ul>
-    </div>
+      </PartyUl>
+    </HistoryPartyListWrapper>
   );
 };
 
 export default HistoryPartyList;
 
+const HistoryPartyListWrapper = styled.div`
+  padding: 8px 4px;
+`;
+const PartyUl = styled.ul`
+  padding: 8px 0px;
+`;
+
 const Li = styled.li`
   position: relative;
+  height: 40px;
+  font-size: 17px;
+  padding: 10px 5px;
+  border-radius: 5px;
+  &:hover {
+    cursor: pointer;
+    background: ${COLOR.LIGHT_GRAY};
+  }
 `;
 
 const OrderListWrapper = styled.div`
