@@ -7,6 +7,8 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import { useRecoilState } from "recoil";
 import isChatDataChangedAtom from "../../recoil/chatData/atom";
+import { SubmitBtn } from "../style/SignUpStyle";
+import { COLOR } from "../../constants/colors";
 
 const ChatRoom = () => {
   const { roomId } = useParams();
@@ -61,10 +63,12 @@ const ChatRoom = () => {
   return (
     <ChatRoomWrapper>
       {roomId === undefined ? (
-        <div>
-          <h3>참여할 채팅방을 선택해주세요🍔</h3>
-          <button onClick={onHomeClick}>개설된 방 둘러보기</button>
-        </div>
+        <DefaultDivWrapper>
+          <h2>참여할 채팅방을 선택해주세요🍔</h2>
+          <SubmitBtn width={"180px"} onClick={onHomeClick}>
+            개설된 방 둘러보기
+          </SubmitBtn>
+        </DefaultDivWrapper>
       ) : (
         <>
           <ChatRoomHeader
@@ -97,4 +101,13 @@ const ChatRoomWrapper = styled.div`
 
 const ChatMainDiv = styled.div`
   flex-grow: 1;
+`;
+
+const DefaultDivWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: ${COLOR.DARK_YELLOW_BG};
 `;
