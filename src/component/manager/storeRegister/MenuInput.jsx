@@ -127,8 +127,8 @@ const ImageInput = styled.div`
   align-items: center;
   justify-content: center;
   font-size: 25px;
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   border-radius: 4px;
   margin: 0px 8px 0 0;
   background-color: ${COLOR.LIGHT_GRAY};
