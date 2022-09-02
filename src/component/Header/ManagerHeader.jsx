@@ -30,7 +30,7 @@ const ManagerHeader = () => {
 export default ManagerHeader;
 
 const HeaderWrapper = styled.div`
-  background-color: ${COLOR.YELLOW};
+  background-color: ${COLOR.HEADER_BG};
   height: 100px;
   display: flex;
   flex-direction: row;
