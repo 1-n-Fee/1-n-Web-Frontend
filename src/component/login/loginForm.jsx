@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import IdInput from "./idInput";
 import PwInput from "./pwInput";
 import LoginButton from "./loginButton";
@@ -7,14 +7,12 @@ import NaverButton from "./naverButton";
 import GoogleButton from "./googleButton";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import loginDataAtom from "../../recoil/loginData/atom";
 import axios from "axios";
-import isLoginDataAtom from "../../recoil/isLogin/atom";
 import { Link } from "react-router-dom";
 
 const LoginForm = (props) => {
-  const setIsLogin = useSetRecoilState(isLoginDataAtom);
   const navigate = useNavigate();
   const [loginData, setLoginData] = useRecoilState(loginDataAtom);
   const onFindIdClick = () => {
@@ -47,7 +45,7 @@ const LoginForm = (props) => {
         console.log(res);
         if (res.status === 200) {
           localStorage.setItem("Authorization", res.headers.authorization);
-          setIsLogin(true);
+          setLoginData({ isLogin: true, role: res.data.role });
           alert("로그인에 성공했습니다");
           navigate("/");
           return;

@@ -1,8 +1,8 @@
 import { atom } from "recoil";
 
-const isLoginDataAtom = atom({
-  key: "isLoginDataAtom",
-  default: false,
+const loginDataAtom = atom({
+  key: "loginDataAtom",
+  default: { isLogin: false, role: null },
 });
 
-export default isLoginDataAtom;
+export default loginDataAtom;
