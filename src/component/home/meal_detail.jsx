@@ -3,8 +3,11 @@ import { useState } from "react";
 import styled, { css } from "styled-components";
 import axios from "axios";
 import { locData } from "../../locData";
-import postIdAtom from "../../recoil/meal/atom";
+import { postIdAtom, userStatusAtom } from "../../recoil/meal/atom";
 import { useRecoilValue } from "recoil";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
+import { useRef } from "react";
 const MealDetail = ({
   id,
   meal,
@@ -14,15 +17,89 @@ const MealDetail = ({
 }) => {
   // button 클릭 시 토글
   // 사이드바 외부 클릭시 닫히는 함수
-
+  const [newComment, setNewComment] = useState({
+    type: "comment",
+    replyId: "",
+    content: "",
+  });
+  const [isCommentActive, setIsCommentActive] = useState(false);
   const [detailType, setDetailType] = useState("info");
   const postId = useRecoilValue(postIdAtom);
+  const userState = useRecoilValue(userStatusAtom);
+
   const getStoreMenu = async () => {
     console.log(meal);
     await axios
       .get(`http://localhost:8080/store/detail/${postId}`)
       .then((res) => console.log(res))
       .catch((e) => console.log(e));
+  };
+  const onChange = (e) => {
+    setNewComment((cur) => ({ ...cur, content: e.target.value }));
+  };
+  const cancelReply = () => {
+    setNewComment((cur) => ({ ...cur, content: "" }));
+    setIsCommentActive(false);
+  };
+  const addComment = async () => {
+    if (newComment.content === "") {
+      alert("빈 댓글을 등록할 수 없습니다.");
+      return;
+    }
+    const auth = localStorage.getItem("Authorization");
+    if (newComment.type === "comment") {
+      await axios
+        .post(
+          "http://localhost:8080/comment",
+          {
+            postId,
+            content: newComment,
+          },
+          {
+            headers: {
+              Authorization: auth,
+            },
+          }
+        )
+        .then(
+          (res) =>
+            res.status === 201 &&
+            setNewComment((cur) => ({ ...cur, content: "" }))
+        )
+        .catch((e) => {
+          console.log(e);
+          alert("예상하지 못한 에러가 발생했습니다.");
+        });
+    } else if (newComment.type === "reply") {
+      console.log(userState);
+      if (userState !== "OWNER") {
+        alert("방장만 답글을 작성할 수 있습니다.");
+        return;
+      }
+      await axios
+        .post(
+          "http://localhost:8080/comment/reply",
+          {
+            commentId: newComment.replyId,
+            content: newComment.content,
+          },
+          {
+            headers: {
+              Authorization: auth,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.status === 201) {
+            setNewComment((cur) => ({ ...cur, content: "" }));
+            setIsCommentActive(false);
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          alert("예상하지 못한 에러가 발생했습니다.");
+        });
+    }
   };
   return (
     <DetailBar isDetailOpen={isDetailOpen}>
@@ -65,11 +142,44 @@ const MealDetail = ({
             <TextWrapper>장소</TextWrapper> {id && locData[id - 1].loc}
           </li>
           <li>
-            <TextWrapper>설명</TextWrapper>{" "}
+            <TextWrapper>설명</TextWrapper>
             <DesWrapper>{meal && meal.content}</DesWrapper>
           </li>
           <li>
             <TextWrapper>배달비</TextWrapper> {meal && meal.deliveryFee} 원
+          </li>
+          <li>
+            <ReplyWrapper>댓글</ReplyWrapper>
+            <UlWrapper>
+              {meal.comments &&
+                meal.comments.map((comment, idx) => (
+                  <ReplyContainer key={idx}>
+                    <CommentFlex
+                      onClick={() =>
+                        setNewComment((cur) => ({
+                          ...cur,
+                          type: "reply",
+                          replyId: idx,
+                        }))
+                      }
+                    >
+                      <ReplyName>{comment.nickname}</ReplyName>
+                      <ReplyComment>{comment.content}</ReplyComment>
+                    </CommentFlex>
+
+                    <DateWrapper>{comment.createDateTime}</DateWrapper>
+                    <ul>
+                      {comment.replies &&
+                        comment.replies.map((reply, idx) => {
+                          <li key={idx}>
+                            <div>{reply.content}</div>
+                            <div>{reply.createDateTime}</div>
+                          </li>;
+                        })}
+                    </ul>
+                  </ReplyContainer>
+                ))}
+            </UlWrapper>
           </li>
         </InfoWrapper>
       )}
@@ -95,15 +205,122 @@ const MealDetail = ({
         </>
       )}
       <ButtonContainer>
-        <ChatButton>1:1 채팅</ChatButton>
-        <JoinButton>참여</JoinButton>
+        {!isCommentActive ? (
+          <>
+            <FlexWrapper>
+              <ChatButton onClick={() => setIsCommentActive(true)}>
+                {newComment.type === "comment" ? "댓글 달기" : "답글 달기"}
+              </ChatButton>
+              {newComment.type === "reply" && (
+                <>
+                  <CloseWrapper>
+                    <FontAwesomeIcon
+                      icon={solid("xmark")}
+                      onClick={() =>
+                        setNewComment((cur) => ({ ...cur, type: "comment" }))
+                      }
+                    ></FontAwesomeIcon>
+                  </CloseWrapper>{" "}
+                </>
+              )}
+            </FlexWrapper>
+
+            <JoinButton>참여</JoinButton>
+          </>
+        ) : (
+          <FlexWrapper>
+            {newComment.type === "comment" ? (
+              <InputWrapper
+                type="text"
+                onChange={onChange}
+                value={newComment.comment}
+                name="comment"
+                placeholder="댓글 달기"
+              />
+            ) : (
+              <InputWrapper
+                type="text"
+                onChange={onChange}
+                value={newComment.comment}
+                name="reply"
+                placeholder="답글 달기"
+              />
+            )}
+
+            <CloseWrapper>
+              <FontAwesomeIcon
+                icon={solid("xmark")}
+                onClick={cancelReply}
+              ></FontAwesomeIcon>
+            </CloseWrapper>
+            <AddWrapper>
+              <FontAwesomeIcon
+                icon={solid("plus")}
+                onClick={addComment}
+              ></FontAwesomeIcon>
+            </AddWrapper>
+          </FlexWrapper>
+        )}
       </ButtonContainer>
     </DetailBar>
   );
 };
 
 export default MealDetail;
-
+const ReplyContainer = styled.li`
+  border-bottom: solid rgba(0, 0, 0, 0.1) 1px;
+  padding: 0.2rem 0;
+  cursor: pointer;
+  &:hover {
+    background-color: #f9d6a2;
+  }
+`;
+const ReplyComment = styled.div`
+  font-size: 0.8rem;
+`;
+const DateWrapper = styled.div`
+  font-size: 0.5rem;
+  opacity: 0.5;
+  text-align: right;
+`;
+const UlWrapper = styled.ul`
+  width: 100%;
+  height: 20rem;
+  overflow-y: auto;
+  overflow-x: auto;
+`;
+const FlexWrapper = styled.div`
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+  width: 100%;
+`;
+const CommentFlex = styled(FlexWrapper)`
+  gap: 0.5rem;
+`;
+const RoundButton = styled.button`
+  width: 1.3rem;
+  height: 1.3rem;
+  border-radius: 50%;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+const CloseWrapper = styled(RoundButton)`
+  background-color: crimson;
+  color: white;
+`;
+const AddWrapper = styled(RoundButton)`
+  background-color: lightseagreen;
+  color: white;
+`;
+const InputWrapper = styled.input`
+  width: 100%;
+  padding: 0.4rem;
+  border: solid #b2acfa 3px;
+  border-radius: 1rem;
+`;
 const TabWrapper = styled.div`
   width: 3rem;
   text-align: center;
@@ -124,7 +341,7 @@ const TabWrapper = styled.div`
 `;
 const DesWrapper = styled.p`
   font-size: 0.8rem;
-  height: 3rem;
+  height: 1.6rem;
   overflow-y: auto;
 `;
 const InfoWrapper = styled.ul`
@@ -136,6 +353,14 @@ const TextWrapper = styled.span`
   border-radius: 0.5rem;
   background-color: #b2acfa;
   color: white;
+`;
+const ReplyWrapper = styled(TextWrapper)`
+  display: block;
+  margin-top: 5px;
+`;
+const ReplyName = styled(TextWrapper)`
+  background-color: #f7a420;
+  display: flex;
 `;
 const TabContainer = styled.div`
   height: 5%;
@@ -186,7 +411,7 @@ const ButtonContainer = styled.div`
   position: absolute;
   bottom: 0;
   border-top: solid rgba(0, 0, 0, 0.5);
-  padding: 0 1.5rem;
+  padding: 0 0.3rem;
   border-width: 1px;
   display: flex;
   justify-content: space-between;
