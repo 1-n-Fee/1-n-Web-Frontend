@@ -19,4 +19,5 @@ export const COLOR = {
   GOOGLE_SKYBLUE: "#4285f4",
   DISABLE_BTN_BG: "#f2f2f2",
   DISABLE_BTN_COLOR: "#cccccc",
+  DARK_YELLOW_BG: "#dbdbd0",
 };
