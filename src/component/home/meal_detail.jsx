@@ -47,13 +47,14 @@ const MealDetail = ({
       return;
     }
     const auth = localStorage.getItem("Authorization");
+    console.log(postId);
     if (newComment.type === "comment") {
       await axios
         .post(
           "http://localhost:8080/comment",
           {
             postId,
-            content: newComment,
+            content: newComment.content,
           },
           {
             headers: {
@@ -61,11 +62,12 @@ const MealDetail = ({
             },
           }
         )
-        .then(
-          (res) =>
-            res.status === 201 &&
-            setNewComment((cur) => ({ ...cur, content: "" }))
-        )
+        .then((res) => {
+          if (res.status === 201) {
+            setIsCommentActive(false);
+            setNewComment((cur) => ({ ...cur, content: "" }));
+          }
+        })
         .catch((e) => {
           console.log(e);
           alert("예상하지 못한 에러가 발생했습니다.");
