@@ -85,7 +85,7 @@ const ChatHeaderWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding: 0px 15px 0 20px;
+  padding: 8px 15px 5px 20px;
 `;
 const TitleWrapper = styled.div`
   display: flex;

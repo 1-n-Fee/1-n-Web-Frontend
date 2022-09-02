@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { SignUpInputStyle } from "../../style/SignUpStyle";
 
 const MoneyInput = ({ money, setMoney }) => {
   const onDeliveryFeeChange = (e) => {
@@ -10,7 +11,8 @@ const MoneyInput = ({ money, setMoney }) => {
 
   return (
     <>
-      <input
+      <SignUpInputStyle
+        width={"150px"}
         type="text"
         value={money.toLocaleString()}
         onChange={onDeliveryFeeChange}

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { PHONE_FIRST_NUM } from "../../../constants/arrays";
 import PhoneNumInput from "../../signup/PhoneNumInput";
-import AddressInput from "../AddressInput";
+import AddressInput from "./AddressInput";
 import CategorySelector from "./CategorySelector";
 import Menu from "./Menu";
 import MenuInput from "./MenuInput";
@@ -10,6 +10,13 @@ import StoreNameInput from "./StoreNameInput";
 import TimeInput from "./TimeInput";
 import axios from "axios";
 import { useNavigate } from "react-router";
+import {
+  InputWrapper,
+  SignUpInputsWrapper,
+  SubmitBtn,
+  Title,
+} from "../../style/SignUpStyle";
+import styled from "styled-components";
 
 const RegisterInputs = () => {
   const navigate = useNavigate();
@@ -31,10 +38,24 @@ const RegisterInputs = () => {
   const onRegisterClick = () => {
     if (!checkForm()) return;
     register();
-    navigate("/manager");
   };
 
   const register = async () => {
+    const data = {
+      name: storeName,
+      phone: phone.first + phone.middle + phone.last,
+      deliveryFee: deliveryFee,
+      address: address,
+      businessHours: time.businessTime,
+      breakTime: time.breakTime,
+      category: category,
+      menus: menus.map((m) => ({
+        name: m.name,
+        price: m.price,
+        imageUrl: m.imgUrl,
+      })),
+    };
+    console.log(data);
     try {
       await axios.post(
         "http://localhost:8080/store",
@@ -54,6 +75,8 @@ const RegisterInputs = () => {
         },
         { headers: { Authorization: localStorage.getItem("Authorization") } }
       );
+      alert("가게가 등록되었습니다.");
+      navigate("/manager");
     } catch (err) {
       console.log(err);
     }
@@ -90,14 +113,14 @@ const RegisterInputs = () => {
     // console.log(address);
   }, [storeName, deliveryFee, phone, time, menus, address]);
   return (
-    <div>
+    <SignUpInputsWrapper>
       <div>
-        <div>
-          <strong>상호명</strong>
+        <InputWrapper>
+          <Title>상호명</Title>
           <StoreNameInput name={storeName} setName={setStoreName} />
-        </div>
-        <div>
-          <strong>가게 전화번호</strong>
+        </InputWrapper>
+        <InputWrapper>
+          <Title>가게 전화번호</Title>
           <PhoneNumInput
             firstKey={"first"}
             midKey={"middle"}
@@ -105,46 +128,59 @@ const RegisterInputs = () => {
             setData={setPhone}
             firstNums={PHONE_FIRST_NUM}
           />
-        </div>
-        <div>
-          <strong>배달비</strong>
+        </InputWrapper>
+        <InputWrapper>
+          <Title>배달비</Title>
           <MoneyInput money={deliveryFee} setMoney={setDeliveryFee} />
-        </div>
-        <div>
-          <strong>주소</strong>
+        </InputWrapper>
+        <InputWrapper height={"none"}>
+          <Title>주소</Title>
           <AddressInput setAddress={setAddress} />
-        </div>
-        <div>
-          <strong>음식 카테고리</strong>
+        </InputWrapper>
+        <InputWrapper>
+          <Title>음식 카테고리</Title>
           <CategorySelector setData={setCategory} />
-        </div>
-        <div>
-          <strong>영업 시간</strong>
+        </InputWrapper>
+        <InputWrapper>
+          <Title>영업 시간</Title>
           <TimeInput typeKey={"businessTime"} setTime={setTime} />
-        </div>
-        <div>
-          <strong>브레이크 타임</strong>
+        </InputWrapper>
+        <InputWrapper>
+          <Title>브레이크 타임</Title>
           <TimeInput typeKey={"breakTime"} setTime={setTime} />
-        </div>
-        <div>
-          <div>
-            <strong>메뉴 등록</strong>
-          </div>
-          <MenuInput setMenus={setMenus} />
-          {menus.map((m, key) => (
-            <Menu
-              key={`register_input_${key}`}
-              imgUrl={m.imgUrl}
-              price={m.price}
-              name={m.name}
-              setMenus={setMenus}
-            />
-          ))}
-        </div>
+        </InputWrapper>
+        <InputWrapper height={"none"}>
+          <Title>메뉴 등록</Title>
+          <MenuSectionWrapper>
+            <MenuInput setMenus={setMenus} />
+            <MenuWrapper>
+              {menus.map((m, key) => (
+                <Menu
+                  key={`register_input_${key}`}
+                  imgUrl={m.imgUrl}
+                  price={m.price}
+                  name={m.name}
+                  setMenus={setMenus}
+                />
+              ))}
+            </MenuWrapper>
+          </MenuSectionWrapper>
+        </InputWrapper>
       </div>
-      <button onClick={onRegisterClick}>등록하기</button>
-    </div>
+      <SubmitBtn onClick={onRegisterClick}>등록하기</SubmitBtn>
+    </SignUpInputsWrapper>
   );
 };
 
 export default RegisterInputs;
+
+const MenuSectionWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const MenuWrapper = styled.div`
+  max-height: 250px;
+  overflow: auto;
+  margin: 8px 0;
+`;
