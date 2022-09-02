@@ -2,14 +2,18 @@ import React from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
+import { useSetRecoilState } from "recoil";
+import { userStatusAtom } from "../../recoil/meal/atom";
 
 const MealItem = ({ meal, onMealClick, ToggleDetailBar, isDetailOpen }) => {
+  const setUserState = useSetRecoilState(userStatusAtom);
   return (
     <LiWrapper
       style={{ cursor: "pointer" }}
       onClick={() => {
         console.log("onCLick");
         onMealClick(meal.postId);
+        setUserState(meal.state);
         if (!isDetailOpen) {
           ToggleDetailBar();
         }
