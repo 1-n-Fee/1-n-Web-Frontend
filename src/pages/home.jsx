@@ -7,7 +7,7 @@ import { useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { locData } from "../locData";
-import postIdAtom from "../recoil/meal/atom";
+import { postIdAtom } from "../recoil/meal/atom";
 import { useSetRecoilState } from "recoil";
 const Home = (props) => {
   const [meals, setMeals] = useState([]);
