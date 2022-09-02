@@ -11,6 +11,7 @@ import {
 import axios from "axios";
 import StateChanger from "../common/StateChanger";
 import { STATE } from "./../../constants/states";
+import { COLOR } from "../../constants/colors";
 
 const HistoryListHeader = ({
   roomName,
@@ -133,7 +134,7 @@ const HistoryListHeader = ({
     <HistoryHeaderWrapper onClick={onClick}>
       <div>
         <TitleWrapper>
-          <div>
+          <RoomNameAndStateWrapper>
             <RoomName>{roomName}</RoomName>
 
             <UserStateTag state={state} isChief={isChief} />
@@ -144,27 +145,28 @@ const HistoryListHeader = ({
                 <UserStateTag state={6} />
               </>
             )}
-            <div>
-              <button data-idx={0} onClick={onTabClick}>
-                ℹ️
-              </button>
-              <button data-idx={1} onClick={onTabClick}>
-                🍕
-              </button>
-              {isChief && (
-                <button data-idx={2} onClick={onTabClick}>
-                  {state === "ORDERING" ||
-                  state === "ORDER_COMPLETED" ||
-                  state === "DELIVERY_COMPLETE" ? (
-                    <>👤{targetNum}</>
-                  ) : (
-                    <>👤{`${totalMems}/${targetNum}`}</>
-                  )}
-                </button>
-              )}
-              {isOrderedState && <button onClick={onChatClick}>💬</button>}
-            </div>
-          </div>
+          </RoomNameAndStateWrapper>
+          <TabBtnWrapper>
+            <TabButton data-idx={0} onClick={onTabClick}>
+              ℹ️
+            </TabButton>
+            <TabButton data-idx={1} onClick={onTabClick}>
+              🍕
+            </TabButton>
+            {isChief && (
+              <TabButton data-idx={2} onClick={onTabClick}>
+                {state === "ORDERING" ||
+                state === "ORDER_COMPLETED" ||
+                state === "DELIVERY_COMPLETE" ? (
+                  <>👤{targetNum}</>
+                ) : (
+                  <>👤{`${totalMems}/${targetNum}`}</>
+                )}
+              </TabButton>
+            )}
+            {isOrderedState && <TabButton onClick={onChatClick}>💬</TabButton>}
+          </TabBtnWrapper>
+
           <div>
             {(state === "RECRUITING" || state === "AWAITING") && (
               <button onClick={onDeleteRoomClick}>
@@ -197,12 +199,18 @@ export default HistoryListHeader;
 
 const HistoryHeaderWrapper = styled.div`
   width: 100%;
+  border-bottom: 0.8px solid ${COLOR.LIGHT_GRAY};
+  padding: 14px 20px 6px 20px;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const TitleWrapper = styled.div`
   display: flex;
   flex-direction: row;
   align-items: baseline;
+  margin: 0 0 8px 0;
 `;
 
 const RoomName = styled.div`
@@ -218,4 +226,23 @@ const RoomName = styled.div`
 const SubInfoSpan = styled.span`
   display: inline-block;
   width: ${({ width }) => width};
+`;
+
+const RoomNameAndStateWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  margin: 0 0 4px 0;
+`;
+
+const TabBtnWrapper = styled.div`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+`;
+
+const TabButton = styled.button`
+  height: 24px;
+  margin: 2px;
 `;

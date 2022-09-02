@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate } from "react-router";
 import { useRecoilState } from "recoil";
 import { isHistoryDataChangedAtom } from "../../recoil/historyData/atom";
+import styled from "styled-components";
 
 const HistoryListContainer = () => {
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ const HistoryListContainer = () => {
     }
   };
   return (
-    <div>
+    <HistoryListContainerWrapper>
       <ul>
         {history.map((h, key) => (
           <li key={`history_${key}`}>
@@ -62,8 +63,12 @@ const HistoryListContainer = () => {
           </li>
         ))}
       </ul>
-    </div>
+    </HistoryListContainerWrapper>
   );
 };
 
 export default HistoryListContainer;
+
+const HistoryListContainerWrapper = styled.div`
+  width: 700px;
+`;
