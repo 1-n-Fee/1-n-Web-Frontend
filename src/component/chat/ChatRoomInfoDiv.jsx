@@ -41,7 +41,7 @@ const ChatRoomInfoDiv = ({
         )}
       </TitleWrapper>
       <AlarmSubInfoStyle>
-        <SubInfoSpan width={"40%"}>{` 💵1인당 배달비 : ${
+        <SubInfoSpan width={"40%"}>{`💵1인당 배달비 : ${
           feePerOne && feePerOne.toLocaleString()
         }원`}</SubInfoSpan>
         <SubInfoSpan width={"40%"}>{`📍${location}`}</SubInfoSpan>
@@ -74,5 +74,6 @@ const RoomName = styled.div`
 
 const SubInfoSpan = styled.span`
   display: inline-block;
+  font-size: 12px;
   width: ${({ width }) => width};
 `;
