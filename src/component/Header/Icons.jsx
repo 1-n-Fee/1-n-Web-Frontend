@@ -7,14 +7,14 @@ import MyPageMenu from "./MyPageMenu";
 // import authTokenDataAtom from "./../../recoil/authToken/atom";
 import { useRecoilState } from "recoil";
 import axios from "axios";
-import isLoginDataAtom from "../../recoil/isLogin/atom";
+import loginDataAtom from "./../../recoil/loginData/atom";
 const Key = { ALARM: "alarm", MY_PAGE: "myPage" };
 Object.freeze(Key);
 
 const Icons = () => {
   const navigate = useNavigate();
   // const [authToken, setAuthToken] = useRecoilState(authTokenDataAtom);
-  const [isLogin, setIsLogin] = useRecoilState(isLoginDataAtom);
+  const [loginData, setLoginData] = useRecoilState(loginDataAtom);
   const [isMenuOpened, setIsMenuOpened] = useState({
     [Key.ALARM]: false,
     [Key.MY_PAGE]: false,
@@ -54,8 +54,8 @@ const Icons = () => {
       const response = await axios.get("http://localhost:8080/user/isLogin", {
         headers: { Authorization: token },
       });
-      console.log(response.data.isLogin);
-      setIsLogin(response.data.isLogin);
+      const { isLogin, role } = response.data;
+      setLoginData({ isLogin: isLogin, role: role });
     } catch (err) {
       console.log(err);
       alert("서버 오류가 발생했습니다.");
@@ -70,13 +70,13 @@ const Icons = () => {
       <Icon emoji={"➕"} onClick={onAddRoomClick} />
       <Icon emoji={"💬"} onClick={onChatRoomClick} />
       <Icon emoji={"🔔"} onClick={onAlarmMenuClick} />
-      {isLogin ? (
+      {loginData.isLogin ? (
         <Icon emoji={"😀"} onClick={onMyPageMenuClick} />
       ) : (
         <Icon emoji={"LOGIN"} onClick={onLoginClick} />
       )}
       {isMenuOpened[Key.ALARM] && <AlarmMenu />}
-      {isMenuOpened[Key.MY_PAGE] && <MyPageMenu isLogin={isLogin} />}
+      {isMenuOpened[Key.MY_PAGE] && <MyPageMenu isLogin={loginData.isLogin} />}
     </IconsWrapper>
   );
 };

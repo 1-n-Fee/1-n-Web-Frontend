@@ -25,14 +25,24 @@ const ManagerHomePage = () => {
   };
 
   const isEmptyObject = (obj) => {
-    return Object.keys(obj).length === 0 || obj.constructor !== Object;
+    return (
+      obj === null ||
+      obj === undefined ||
+      Object.keys(obj).length === 0 ||
+      obj.constructor !== Object
+    );
   };
   const onClick = () => {
-    navigate("/manager/register");
+    navigate("/register");
   };
   return (
     <div>
       {isEmptyObject(storeInfo) ? (
+        <>
+          <h3>등록된 가게가 없습니다🥲</h3>
+          <button onClick={onClick}>가게 등록하기</button>
+        </>
+      ) : (
         <StoreInfo
           storeName={storeInfo.name}
           category={storeInfo.category}
@@ -41,11 +51,6 @@ const ManagerHomePage = () => {
           businessTime={storeInfo.businessTime}
           breakTime={storeInfo.breakTime}
         />
-      ) : (
-        <>
-          <h3>등록된 가게가 없습니다🥲</h3>
-          <button onClick={onClick}>가게 등록하기</button>
-        </>
       )}
     </div>
   );
