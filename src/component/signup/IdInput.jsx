@@ -92,7 +92,7 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
     setIsLoading(true);
     try {
       await axios.post("http://localhost:8080/email", {
-        userEmail: `${id}@konkuk.ac.kr`,
+        userEmail: isOwner ? `${id}@${emailAddress}` : `${id}@konkuk.ac.kr`,
       });
 
       setShowAuthSection(true);
@@ -100,7 +100,6 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
       setHasEmailBeenChecked(true);
 
       // 타이머 시작
-      console.log("타이머 시작");
       timerId = setInterval(countAuthCodeTimer, 1000);
     } catch (err) {
       console.log(err);
@@ -116,12 +115,13 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
       const response = await axios.post(
         "http://localhost:8080/email/certification",
         {
-          userEmail: `${id}@konkuk.ac.kr`,
+          userEmail: isOwner ? `${id}@${emailAddress}` : `${id}@konkuk.ac.kr`,
           code: authCode,
         }
       );
 
-      console.log(response);
+      console.log(authCode);
+      console.log(response.data);
       const result = response.data.result;
 
       if (!result) {
@@ -191,7 +191,7 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
             <SignUpWarningStyle>
               <strong>
                 {id}
-                {isOwner ? emailAddress : "@konkuk.ac.kr"}
+                {isOwner ? `@${emailAddress}` : "@konkuk.ac.kr"}
               </strong>
               로 인증 메일이 발송되었습니다.
             </SignUpWarningStyle>
