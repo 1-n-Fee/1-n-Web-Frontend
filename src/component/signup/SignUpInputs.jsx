@@ -69,10 +69,10 @@ const SignUpInputs = ({ authCode = null, accountType = "password" }) => {
       password: data[Key.PW],
       code: null,
       sexType:
-        data[Key.GENDER] === Key.GENDER.male
-          ? Key.GENDER.male
-          : data[Key.GENDER] === Key.GENDER.female
-          ? Key.GENDER.female
+        data[Key.GENDER] === Key.GENDER_DATA.male
+          ? Key.GENDER_DATA.male
+          : data[Key.GENDER] === Key.GENDER_DATA.female
+          ? Key.GENDER_DATA.female
           : null,
       major: data[Key.MAJOR],
     };
@@ -89,6 +89,7 @@ const SignUpInputs = ({ authCode = null, accountType = "password" }) => {
         .catch((err) => console.log(err));
     } else {
       const oauthUserData = { ...userData, password: null, code: authCode };
+      console.log(oauthUserData);
       axios
         .post("http://localhost:8080/user/signup", oauthUserData)
         .then((response) => navigate("/login"))
