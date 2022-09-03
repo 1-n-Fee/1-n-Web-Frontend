@@ -16,10 +16,13 @@ const HistoryPartyList = () => {
   );
   const [requests, setRequsets] = useState([]);
 
-  const [didSelect, setDidSelect] = useState(false);
   const [targetUser, setTargetUser] = useState({
     nickname: null,
     order: [],
+  });
+  const [clickedUser, setClickedUser] = useState({
+    nickname: historyData.others[0].nickname,
+    order: historyData.others[0].order,
   });
 
   useEffect(() => {
@@ -38,8 +41,19 @@ const HistoryPartyList = () => {
     if (historyData.isPopUpOpen && historyData.clickedTab === 2) {
       getProposals();
     }
-    getProposals();
+    console.log(historyData);
+    // calcTotalMenu();
+    // getProposals();
   }, []);
+
+  // const calcTotalMenu = () => {
+  //   let menuName = [];
+  //   menuName = [...historyData.myOrder.map((o) => o.foodName)];
+  //   const othersMenu = historyData.others.map((other) =>
+  //     other.order.map((o) => o.foodName)
+  //   );
+  //   console.log(othersMenu);
+  // };
 
   const getProposals = async () => {
     try {
@@ -66,14 +80,14 @@ const HistoryPartyList = () => {
   };
 
   const onMouseEnter = (e) => {
-    if (didSelect) return;
+    // if (didSelect) return;
 
     const targetData = findTargetData(e.target.dataset.name);
     setTargetUser(targetData);
   };
 
   const onMouseLeave = () => {
-    if (didSelect) return;
+    // if (didSelect) return;
 
     setTargetUser((curData) => ({ ...curData, nickname: null }));
   };
@@ -82,8 +96,9 @@ const HistoryPartyList = () => {
     historyData.others.find((u) => u.nickname === nickname);
 
   const onClick = (e) => {
-    setDidSelect((curState) => !curState);
-    setTargetUser(findTargetData(e.target.dataset.name));
+    // setDidSelect((curState) => !curState);
+    setTargetUser(findTargetData(e.currentTarget.dataset.name));
+    setClickedUser(findTargetData(e.currentTarget.dataset.name));
   };
 
   return (
@@ -99,30 +114,40 @@ const HistoryPartyList = () => {
           />
         ))}
       </ul>
-      <PartyUl>
-        {historyData.others.map((u, key) => (
-          <Li
-            key={`user_${key}`}
-            data-name={u.nickname}
-            onMouseEnter={onMouseEnter}
-            onMouseLeave={onMouseLeave}
-            onClick={onClick}
-          >
-            <span data-name={u.nickname}>🍕</span>
-            <strong data-name={u.nickname}>{u.nickname}</strong>
 
-            {/* mouse hover 또는 클릭하면 등장하는 order 정보 */}
-            {targetUser.nickname === u.nickname && (
-              <OrderListWrapper key={`target_${key}`}>
-                <HistoryOrderList
-                  isPartySection={true}
-                  orderData={targetUser.order}
-                />
-              </OrderListWrapper>
-            )}
-          </Li>
-        ))}
-      </PartyUl>
+      <PartySection>
+        <PartyUl>
+          {/* <Li>
+            <span data-name={null}>💸</span>
+            <strong data-name={null}>방 전체 금액</strong>
+          </Li> */}
+          {historyData.others.map((u, key) => (
+            <Li
+              key={`user_${key}`}
+              data-name={u.nickname}
+              onMouseEnter={onMouseEnter}
+              onMouseLeave={onMouseLeave}
+              onClick={onClick}
+              isClicked={u.nickname === clickedUser.nickname}
+            >
+              <span data-name={u.nickname}>🍕</span>
+              <strong data-name={u.nickname}>{u.nickname}</strong>
+            </Li>
+          ))}
+        </PartyUl>
+
+        <OrderListWrapper>
+          <HistoryOrderList
+            isPartySection={true}
+            orderData={
+              targetUser.nickname === null
+                ? clickedUser.order
+                : targetUser.order
+            }
+            maxHeight={requests.length === 0 ? "190px" : "130px"}
+          />
+        </OrderListWrapper>
+      </PartySection>
     </HistoryPartyListWrapper>
   );
 };
@@ -133,24 +158,29 @@ const HistoryPartyListWrapper = styled.div`
   padding: 8px 4px;
 `;
 const PartyUl = styled.ul`
-  padding: 8px 0px;
+  padding: 8px 4px;
+  flex: 1;
 `;
 
 const Li = styled.li`
-  position: relative;
   height: 40px;
-  font-size: 17px;
-  padding: 10px 5px;
+  font-size: 15px;
+  padding: 10px 8px 10px 12px;
   border-radius: 5px;
   &:hover {
     cursor: pointer;
     background: ${COLOR.LIGHT_GRAY};
   }
+  background: ${({ isClicked }) =>
+    isClicked ? COLOR.LIGHT_GRAY : COLOR.WHITE};
 `;
 
 const OrderListWrapper = styled.div`
-  position: absolute;
   background-color: white;
-  top: 0px;
-  right: 0px;
+  flex: 1;
+`;
+
+const PartySection = styled.div`
+  display: flex;
+  flex-direction: row;
 `;
