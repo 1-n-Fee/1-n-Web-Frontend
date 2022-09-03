@@ -36,14 +36,15 @@ const IS_EMAIL_AVAIL = {
 
 Object.freeze(IS_EMAIL_AVAIL);
 
-let timerId = null;
+// let timerId = null;
 
 const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
   const [id, setId] = useState("");
+  const [timerId, setTimerId] = useState("");
   const [isLoading, setIsLoading] = useRecoilState(isLoadingAtom);
   const [emailAddress, setEmailAddress] = useState("");
   const [authCode, setAuthCode] = useState("");
-  const [authLeftSecond, setAuthLeftSecond] = useState(179);
+  const [authLeftSecond, setAuthLeftSecond] = useState(15);
   const [hasEmailBeenChecked, setHasEmailBeenChecked] = useState(false); // 체크 여부만
   const [isIdDup, setIsIdDup] = useState(false); // 중복 여부
   const [isAvailEmail, setIsAvailEmail] = useState(IS_EMAIL_AVAIL.NOT_YET); // 유효한 이메일 여부
@@ -96,10 +97,11 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
       });
 
       setShowAuthSection(true);
-      setAuthLeftSecond(180);
+      setAuthLeftSecond(15);
 
       // 타이머 시작
-      timerId = setInterval(countAuthCodeTimer, 1000);
+      // timerId = setInterval(countAuthCodeTimer, 1000);
+      setTimerId(setInterval(countAuthCodeTimer, 1000));
     } catch (err) {
       switch (err.response.data) {
         case "E004":
@@ -147,7 +149,10 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
   };
 
   useEffect(() => {
-    if (authLeftSecond === 0) clearInterval(timerId, 0);
+    if (authLeftSecond === 0) {
+      console.log("타이머 끝");
+      clearInterval(timerId, 0);
+    }
   }, [authLeftSecond]);
   const stopAuthCodeTimer = () => {};
 
