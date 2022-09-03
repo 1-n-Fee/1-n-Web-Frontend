@@ -26,7 +26,7 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
   const [isLoading, setIsLoading] = useRecoilState(isLoadingAtom);
   const [emailAddress, setEmailAddress] = useState("");
   const [authCode, setAuthCode] = useState("");
-  const [authLeftSecond, setAuthLeftSecond] = useState(15);
+  const [authLeftSecond, setAuthLeftSecond] = useState(180);
   const [hasEmailBeenChecked, setHasEmailBeenChecked] = useState(false); // 체크 여부만
   const [isIdDup, setIsIdDup] = useState(false); // 중복 여부
   const [isAvailCode, setIsAvailCode] = useState(IS_CODE_AVAIL.NOT_YET); // 유효한 이메일 여부
@@ -86,7 +86,7 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
       });
 
       setShowAuthSection(true);
-      setAuthLeftSecond(15);
+      setAuthLeftSecond(180);
 
       // 타이머 시작
       setTimerId(setInterval(countAuthCodeTimer, 1000));
