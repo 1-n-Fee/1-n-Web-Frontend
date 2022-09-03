@@ -37,7 +37,7 @@ const OauthGoogle = (props) => {
             alert(
               "가입되어있지 않은 회원입니다. 회원가입 페이지로 이동합니다."
             );
-            navigate("/signup/oauth/google");
+            navigate("/before-signup");
             break;
           default:
         }

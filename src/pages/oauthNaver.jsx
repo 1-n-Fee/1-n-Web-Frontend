@@ -43,7 +43,7 @@ const OauthNaver = (props) => {
             break;
           default:
         }
-        navigate("/signup/oauth/naver");
+        navigate("/before-signup");
         // alert("로그인 실패");
         // navigate("/login");
       }

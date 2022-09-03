@@ -39,7 +39,7 @@ const OauthKakao = (props) => {
             break;
           default:
         }
-        navigate("/signup/oauth/kakao");
+        navigate("/before-signup");
       }
     };
     fetchId();
