@@ -1,8 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { COLOR } from "./../../constants/colors";
 import CustomOauthBtn from "./CustomOauthBtn";
 const KakaoButton = ({ isSignUp = false, width, height, radius }) => {
+  useEffect(() => {
+    if (isSignUp) {
+      localStorage.setItem("isSignUp", "true");
+    }
+  }, []);
   return (
     <>
       <ButtonWrapper
