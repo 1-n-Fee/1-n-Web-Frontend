@@ -1,15 +1,28 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-const menuName = ["참여 현황", "개인정보 변경하기"];
+import { useSetRecoilState } from "recoil";
+import loginAndRoleDataAtom from "./../../recoil/loginAndRole/atom";
+const menuName = ["참여 현황", "개인정보 변경하기", "로그아웃"];
 const MyPageMenu = () => {
   const navigate = useNavigate();
+  const setLoginAndRole = useSetRecoilState(loginAndRoleDataAtom);
   const onHistoryClick = () => {
     navigate("/history");
   };
 
   const onMyPageClick = () => {
     navigate("/user");
+  };
+
+  const onLogoutClick = () => {
+    const answer = window.confirm("로그아웃 하시겠습니까?");
+
+    if (!answer) return;
+
+    localStorage.setItem("Authorization", "");
+    setLoginAndRole({ isLogin: false, role: "" });
+    navigate("/");
   };
   return (
     <MenuWrappper>
@@ -18,8 +31,12 @@ const MyPageMenu = () => {
           {menuName[0]}
         </MenuLi>
 
-        <MenuLi isFirst={false} isLast={true} onClick={onMyPageClick}>
+        <MenuLi isFirst={false} isLast={false} onClick={onMyPageClick}>
           {menuName[1]}
+        </MenuLi>
+
+        <MenuLi isFirst={false} isLast={true} onClick={onLogoutClick}>
+          {menuName[2]}
         </MenuLi>
       </ul>
     </MenuWrappper>
