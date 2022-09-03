@@ -8,6 +8,7 @@ import MyPageMenu from "./MyPageMenu";
 import { useRecoilState } from "recoil";
 import axios from "axios";
 import loginAndRoleDataAtom from "./../../recoil/loginAndRole/atom";
+import isMenuOpenAtom from "./../../recoil/menu/atom";
 const Key = { ALARM: "alarm", MY_PAGE: "myPage" };
 Object.freeze(Key);
 
@@ -15,28 +16,33 @@ const Icons = () => {
   const navigate = useNavigate();
   // const [authToken, setAuthToken] = useRecoilState(authTokenDataAtom);
   const [loginData, setLoginData] = useRecoilState(loginAndRoleDataAtom);
-  const [isMenuOpened, setIsMenuOpened] = useState({
-    [Key.ALARM]: false,
-    [Key.MY_PAGE]: false,
-  });
+  // const [isMenuOpened, setIsMenuOpened] = useState({
+  //   [Key.ALARM]: false,
+  //   [Key.MY_PAGE]: false,
+  // });
+  const [isMenuOpen, setIsMenuOpen] = useRecoilState(isMenuOpenAtom);
+
   const onAddRoomClick = () => {
     navigate("creating-room");
   };
   const onChatRoomClick = () => {
     navigate("chat");
   };
-  const onAlarmMenuClick = useCallback(() => {
-    console.log("isAlarmClicked");
-    setIsMenuOpened((cur) => ({
-      [Key.ALARM]: !cur[Key.ALARM],
-      [Key.MY_PAGE]: false,
-    }));
-  }, []);
-  const onMyPageMenuClick = useCallback(() => {
-    setIsMenuOpened((cur) => ({
-      [Key.ALARM]: false,
-      [Key.MY_PAGE]: !cur[Key.MY_PAGE],
-    }));
+  // const onAlarmMenuClick = useCallback(() => {
+  //   console.log("isAlarmClicked");
+  //   setIsMenuOpened((cur) => ({
+  //     [Key.ALARM]: !cur[Key.ALARM],
+  //     [Key.MY_PAGE]: false,
+  //   }));
+  // }, []);
+  const onMyPageMenuClick = useCallback((e) => {
+    // setIsMenuOpened((cur) => ({
+    //   [Key.ALARM]: false,
+    //   [Key.MY_PAGE]: !cur[Key.MY_PAGE],
+    // }));
+    setIsMenuOpen((cur) => ({ ...cur, myPage: !cur.myPage }));
+    e.stopPropagation();
+    console.log(e.currentTarget.id);
   }, []);
 
   const onLoginClick = () => {
@@ -75,8 +81,8 @@ const Icons = () => {
       ) : (
         <Icon emoji={"LOGIN"} onClick={onLoginClick} fontSize={"15px"} />
       )}
-      {isMenuOpened[Key.ALARM] && <AlarmMenu />}
-      {isMenuOpened[Key.MY_PAGE] && <MyPageMenu isLogin={loginData.isLogin} />}
+      {/* {isMenuOpened[Key.ALARM] && <AlarmMenu />} */}
+      {isMenuOpen.myPage && <MyPageMenu isLogin={loginData.isLogin} />}
     </IconsWrapper>
   );
 };
