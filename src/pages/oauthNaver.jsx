@@ -4,11 +4,12 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import oauthDataAtom from "./../recoil/oauthData/atom";
-import isLoginDataAtom from "../recoil/isLogin/atom";
+import loginAndRoleDataAtom from "../recoil/loginAndRole/atom";
+import ROLE from "../constants/role";
 
 const OauthNaver = (props) => {
   const navigate = useNavigate();
-  const setIsLogin = useSetRecoilState(isLoginDataAtom);
+  const setLoginRoleData = useSetRecoilState(loginAndRoleDataAtom);
   const setAuthCode = useSetRecoilState(oauthDataAtom);
 
   let code = new URL(window.location.href).searchParams.get("code");
@@ -26,7 +27,7 @@ const OauthNaver = (props) => {
             console.log(res);
             localStorage.setItem("Authorization", res.headers.authorization);
             alert("로그인에 성공했습니다");
-            setIsLogin(true);
+            setLoginRoleData({ isLogin: true, role: ROLE.STUDENT });
             navigate("/");
           });
       } catch (e) {

@@ -7,14 +7,14 @@ import MyPageMenu from "./MyPageMenu";
 // import authTokenDataAtom from "./../../recoil/authToken/atom";
 import { useRecoilState } from "recoil";
 import axios from "axios";
-import loginDataAtom from "./../../recoil/loginData/atom";
+import loginAndRoleDataAtom from "./../../recoil/loginAndRole/atom";
 const Key = { ALARM: "alarm", MY_PAGE: "myPage" };
 Object.freeze(Key);
 
 const Icons = () => {
   const navigate = useNavigate();
   // const [authToken, setAuthToken] = useRecoilState(authTokenDataAtom);
-  const [loginData, setLoginData] = useRecoilState(loginDataAtom);
+  const [loginData, setLoginData] = useRecoilState(loginAndRoleDataAtom);
   const [isMenuOpened, setIsMenuOpened] = useState({
     [Key.ALARM]: false,
     [Key.MY_PAGE]: false,
