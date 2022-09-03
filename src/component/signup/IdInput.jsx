@@ -30,6 +30,7 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
   const [hasEmailBeenChecked, setHasEmailBeenChecked] = useState(false); // 체크 여부만
   const [isIdDup, setIsIdDup] = useState(false); // 중복 여부
   const [isAvailEmail, setIsAvailEmail] = useState(IS_EMAIL_AVAIL.NOT_YET); // 유효한 이메일 여부
+  const [isAuthCodeExpired, setIsAuthCodeExpired] = useState(false);
   const [showAuthSection, setShowAuthSection] = useState(false);
 
   useEffect(() => {
@@ -45,6 +46,7 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
     setIsAvailEmail(IS_EMAIL_AVAIL.NOT_YET);
     setShowAuthSection(false);
     setIsIdDup(false);
+    setIsAuthCodeExpired(false);
     clearInterval(timerId);
   };
 
@@ -73,6 +75,8 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
   // 인증 확인 이메일 전송
   const sendCheckEmail = async () => {
     setIsLoading(true);
+    setShowAuthSection(false);
+    setIsAuthCodeExpired(false);
     try {
       await axios.post("http://localhost:8080/email", {
         userEmail: isOwner ? `${id}@${emailAddress}` : `${id}@konkuk.ac.kr`,
@@ -129,7 +133,7 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
 
   useEffect(() => {
     if (authLeftSecond === 0) {
-      console.log("타이머 끝");
+      setIsAuthCodeExpired(true);
       clearInterval(timerId, 0);
     }
   }, [authLeftSecond]);
@@ -153,13 +157,10 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
       <SignUpCheckBtnStyle
         onClick={onAuthReqClick}
         disabled={
-          id.length === 0 ||
-          isLoading ||
-          showAuthSection ||
-          isAvailEmail === IS_EMAIL_AVAIL.AVAIL
+          id.length === 0 || isLoading || isAvailEmail === IS_EMAIL_AVAIL.AVAIL
         }
       >
-        인증하기
+        {showAuthSection ? "메일 재전송" : "인증하기"}
       </SignUpCheckBtnStyle>
       {isLoading && <span>Loading...</span>}
 
@@ -195,6 +196,7 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
               value={authCode}
               onChange={onAuthCodeChange}
               maxLength={6}
+              disabled={isAuthCodeExpired}
             />
             <SignUpCheckBtnStyle
               onClick={sendAuthCode}
@@ -213,7 +215,28 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
             <SignUpWarningStyle>
               <strong>⚠️ 올바른 인증번호가 아닙니다</strong>
             </SignUpWarningStyle>
-          ) : null}
+          ) : isAuthCodeExpired ? (
+            <SignUpWarningStyle>
+              <Pre>
+                <strong>
+                  🚫 인증 코드가 만료되었습니다. {"\n    "} 메일을 변경하거나
+                  다시 인증해주세요.
+                </strong>
+              </Pre>
+            </SignUpWarningStyle>
+          ) : (
+            ""
+          )}
+
+          {/* {hasEmailBeenChecked ? (
+            <SignUpWarningStyle>
+              {isAvailEmail === IS_EMAIL_AVAIL.NOT_AVAIL ? (
+                <strong>⚠️ 올바른 인증번호가 아닙니다</strong>
+              ) : isAuthCodeExpired ? (
+                <strong>🚫인증 코드가 만료되었습니다.</strong>
+              ) : null}
+            </SignUpWarningStyle>
+          ) : null} */}
         </AuthSection>
       )}
     </div>
@@ -245,4 +268,11 @@ const AuthCodeInput = styled.input`
   border: none;
   font-size: 16px;
   text-align: center;
+`;
+
+const Pre = styled.pre`
+  font-family: "고딕";
+  padding: 0;
+  margin: 0;
+  line-height: 150%;
 `;
