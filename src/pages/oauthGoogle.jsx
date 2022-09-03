@@ -4,17 +4,18 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import oauthDataAtom from "./../recoil/oauthData/atom";
-import isLoginDataAtom from "../recoil/isLogin/atom";
+import ROLE from "./../constants/role";
+import loginAndRoleDataAtom from "../recoil/loginAndRole/atom";
 
 const OauthGoogle = (props) => {
   const navigate = useNavigate();
-  const setIsLogin = useSetRecoilState(isLoginDataAtom);
+  const setLoginRoleData = useSetRecoilState(loginAndRoleDataAtom);
   const setAuthCode = useSetRecoilState(oauthDataAtom);
 
   let code = new URL(window.location.href).searchParams.get("code");
   //const auth = localStorage.getItem("user");
   useEffect(() => {
-    console.log(`코드:${code}`);
+    // console.log(`코드:${code}`);
     const fetchId = async () => {
       try {
         await axios
@@ -23,11 +24,12 @@ const OauthGoogle = (props) => {
             console.log(res);
             localStorage.setItem("Authorization", res.headers.authorization);
             alert("로그인에 성공했습니다");
-            setIsLogin(true);
+            setLoginRoleData({ isLogin: true, role: ROLE.STUDENT });
             navigate("/");
           });
       } catch (e) {
         const errorKey = e.response.data.errorCode;
+        console.log(e);
 
         setAuthCode(code);
         switch (errorKey) {
@@ -35,15 +37,14 @@ const OauthGoogle = (props) => {
             alert(
               "가입되어있지 않은 회원입니다. 회원가입 페이지로 이동합니다."
             );
-            console.log(e.response);
+            navigate("/signup/oauth/google");
             break;
           default:
         }
-        navigate("/signup/oauth/google");
         // navigate("/login");
       }
-      fetchId();
     };
+    fetchId();
   }, []);
   return <h1>Waiting for GOOGLE Authorization...</h1>;
 };
