@@ -61,7 +61,7 @@ const SideBarWrapper = styled.div`
   position: fixed;
   top: 0;
   left: -100%;
-  z-index: 99;
+  z-index: 98;
   transition: 0.5s;
   ${(props) =>
     props.isOpen &&
@@ -81,7 +81,7 @@ const SideBarButton = styled.button`
   padding: 0.5em;
 `;
 const ButtonWrapper = styled.div`
-  z-index: 99;
+  z-index: 98;
   position: fixed;
   top: 5rem;
   left: 1rem;

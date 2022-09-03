@@ -8,12 +8,16 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { locData } from "../locData";
 import { postIdAtom } from "../recoil/meal/atom";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import proposalPopupAtom from "../recoil/proposalPopupData/atom";
+import Proposal from "../component/home/proposal";
 const Home = (props) => {
   const [meals, setMeals] = useState([]);
   const [mealListEntry, setMealListEntry] = useState([]);
   const [selectedMeal, setSelectedMeal] = useState({});
   const setPostId = useSetRecoilState(postIdAtom);
+  const [proposalData, setProposalData] = useRecoilState(proposalPopupAtom);
+
   const fetchMeal = async (postId) => {
     const auth = localStorage.getItem("Authorization");
     await axios
@@ -32,6 +36,11 @@ const Home = (props) => {
   const onMealClick = (postId) => {
     setPostId(postId);
     fetchMeal(postId);
+    setProposalData((cur) => ({
+      ...cur,
+      storeName: selectedMeal.storeName,
+      menus: selectedMeal.menus,
+    }));
   };
   const navigate = useNavigate();
   //const [selectedMarker, setSelectedMarker] = useState(null);
@@ -96,11 +105,13 @@ const Home = (props) => {
         isOpen={isOpen}
         toggle={toggleSidebar}
       />
+
       <Map
         markers={locData}
         //setSelectedMarker={setSelectedMarker}
         onMarkerClick={findEntry}
       />
+      {proposalData.isOpen && <Proposal />}
     </HomeWrapper>
   );
 };

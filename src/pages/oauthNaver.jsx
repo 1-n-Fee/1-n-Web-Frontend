@@ -18,6 +18,17 @@ const OauthNaver = (props) => {
 
   useEffect(() => {
     console.log(code);
+
+    if (localStorage.getItem("isSignUp") === "true") {
+      setAuthCode(code);
+      localStorage.setItem("isSignUp", "false");
+      alert(
+        "네이버 계정이 확인되었습니다. \n필수정보를 모두 입력해야 네이버 계정으로 회원가입됩니다."
+      );
+      navigate("/signup/oauth/naver");
+      return;
+    }
+
     const fetchId = async () => {
       try {
         await axios
@@ -43,7 +54,7 @@ const OauthNaver = (props) => {
             break;
           default:
         }
-        navigate("/signup/oauth/naver");
+        navigate("/before-signup");
         // alert("로그인 실패");
         // navigate("/login");
       }

@@ -4,10 +4,10 @@ import styled, { css } from "styled-components";
 import axios from "axios";
 import { locData } from "../../locData";
 import { postIdAtom, userStatusAtom } from "../../recoil/meal/atom";
-import { useRecoilValue } from "recoil";
+import proposalPopupAtom from "../../recoil/proposalPopupData/atom";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { useRef } from "react";
 const MealDetail = ({
   id,
   meal,
@@ -26,6 +26,7 @@ const MealDetail = ({
   const [detailType, setDetailType] = useState("info");
   const postId = useRecoilValue(postIdAtom);
   const userState = useRecoilValue(userStatusAtom);
+  const [propsalData, setProposalData] = useRecoilState(proposalPopupAtom);
 
   const getStoreMenu = async () => {
     console.log(meal);
@@ -102,6 +103,10 @@ const MealDetail = ({
           alert("예상하지 못한 에러가 발생했습니다.");
         });
     }
+  };
+
+  const popProposal = () => {
+    setProposalData((cur) => ({ isOpen: true, postId, menus: [] }));
   };
   return (
     <DetailBar isDetailOpen={isDetailOpen}>
@@ -227,7 +232,7 @@ const MealDetail = ({
               )}
             </FlexWrapper>
 
-            <JoinButton>참여</JoinButton>
+            <JoinButton onClick={popProposal}>참여</JoinButton>
           </>
         ) : (
           <FlexWrapper>

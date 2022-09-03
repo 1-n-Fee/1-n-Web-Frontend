@@ -1,8 +1,14 @@
 import React from "react";
+import { useEffect } from "react";
 import styled from "styled-components";
 import { COLOR } from "./../../constants/colors";
 import CustomOauthBtn from "./CustomOauthBtn";
 const GoogleButton = ({ isSignUp = false, width, height, radius }) => {
+  useEffect(() => {
+    if (isSignUp) {
+      localStorage.setItem("isSignUp", "true");
+    }
+  }, []);
   return (
     <ButtonWrapper href="https://accounts.google.com/o/oauth2/v2/auth?client_id=63234602229-u49a73vg77uch12osuh9egbp6vmshsps.apps.googleusercontent.com&redirect_uri=http://localhost:3000/auth/google&response_type=code&scope=https://www.googleapis.com/auth/userinfo.profile">
       {isSignUp ? (

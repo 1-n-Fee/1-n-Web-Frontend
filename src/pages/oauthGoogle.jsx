@@ -16,6 +16,16 @@ const OauthGoogle = (props) => {
   //const auth = localStorage.getItem("user");
   useEffect(() => {
     // console.log(`코드:${code}`);
+
+    if (localStorage.getItem("isSignUp") === "true") {
+      setAuthCode(code);
+      localStorage.setItem("isSignUp", "false");
+      alert(
+        "구글 계정이 확인되었습니다. \n필수정보를 모두 입력해야 구글 계정으로 회원가입됩니다."
+      );
+      navigate("/signup/oauth/google");
+      return;
+    }
     const fetchId = async () => {
       try {
         await axios
@@ -37,7 +47,7 @@ const OauthGoogle = (props) => {
             alert(
               "가입되어있지 않은 회원입니다. 회원가입 페이지로 이동합니다."
             );
-            navigate("/signup/oauth/google");
+            navigate("/before-signup");
             break;
           default:
         }

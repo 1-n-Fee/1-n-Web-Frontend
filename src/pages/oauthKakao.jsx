@@ -15,6 +15,16 @@ const OauthKakao = (props) => {
   //const auth = localStorage.getItem("user");
   useEffect(() => {
     console.log(code);
+
+    if (localStorage.getItem("isSignUp") === "true") {
+      setAuthCode(code);
+      localStorage.setItem("isSignUp", "false");
+      alert(
+        "카카오 계정이 확인되었습니다. \n필수정보를 모두 입력해야 카카오 계정으로 회원가입됩니다."
+      );
+      navigate("/signup/oauth/kakao");
+      return;
+    }
     const fetchId = async () => {
       try {
         await axios
@@ -39,7 +49,7 @@ const OauthKakao = (props) => {
             break;
           default:
         }
-        navigate("/signup/oauth/kakao");
+        navigate("/before-signup");
       }
     };
     fetchId();
