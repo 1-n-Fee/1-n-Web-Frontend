@@ -3,11 +3,11 @@ import styled from "styled-components";
 import { COLOR } from "./../../constants/colors";
 import Icon from "./Icon";
 import { useSetRecoilState } from "recoil";
-import loginDataAtom from "../../recoil/isLogin/atom";
 import { useNavigate } from "react-router";
+import loginAndRoleDataAtom from "./../../recoil/loginAndRole/atom";
 
 const ManagerHeader = () => {
-  const setLoginData = useSetRecoilState(loginDataAtom);
+  const setLoginData = useSetRecoilState(loginAndRoleDataAtom);
   const navigate = useNavigate();
 
   const onLogout = () => {
