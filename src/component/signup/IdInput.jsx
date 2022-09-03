@@ -12,13 +12,13 @@ import {
   SignUpWarningStyle,
 } from "./../style/SignUpStyle";
 
-const IS_EMAIL_AVAIL = {
+const IS_CODE_AVAIL = {
   NOT_YET: 0,
   NOT_AVAIL: 1,
   AVAIL: 2,
 };
 
-Object.freeze(IS_EMAIL_AVAIL);
+Object.freeze(IS_CODE_AVAIL);
 
 const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
   const [id, setId] = useState("");
@@ -29,7 +29,7 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
   const [authLeftSecond, setAuthLeftSecond] = useState(15);
   const [hasEmailBeenChecked, setHasEmailBeenChecked] = useState(false); // 체크 여부만
   const [isIdDup, setIsIdDup] = useState(false); // 중복 여부
-  const [isAvailEmail, setIsAvailEmail] = useState(IS_EMAIL_AVAIL.NOT_YET); // 유효한 이메일 여부
+  const [isAvailCode, setIsAvailCode] = useState(IS_CODE_AVAIL.NOT_YET); // 유효한 이메일 여부
   const [isAuthCodeExpired, setIsAuthCodeExpired] = useState(false);
   const [showAuthSection, setShowAuthSection] = useState(false);
 
@@ -37,13 +37,13 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
     setData((curData) => ({
       ...curData,
       [idKey]: isOwner ? `${id}@${emailAddress}` : `${id}@konkuk.ac.kr`,
-      [authCheckKey]: isAvailEmail === IS_EMAIL_AVAIL.AVAIL,
+      [authCheckKey]: isAvailCode === IS_CODE_AVAIL.AVAIL,
     }));
-  }, [authCheckKey, id, idKey, isAvailEmail, setData, emailAddress, isOwner]);
+  }, [authCheckKey, id, idKey, isAvailCode, setData, emailAddress, isOwner]);
 
   const onIdChange = (e) => {
     setId(e.target.value);
-    setIsAvailEmail(IS_EMAIL_AVAIL.NOT_YET);
+    setIsAvailCode(IS_CODE_AVAIL.NOT_YET);
     setShowAuthSection(false);
     setIsIdDup(false);
     setIsAuthCodeExpired(false);
@@ -77,6 +77,7 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
     setIsLoading(true);
     setShowAuthSection(false);
     setIsAuthCodeExpired(false);
+    setIsAvailCode(IS_CODE_AVAIL.NOT_YET);
     setAuthCode("");
     clearInterval(timerId);
     try {
@@ -90,10 +91,15 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
       // 타이머 시작
       setTimerId(setInterval(countAuthCodeTimer, 1000));
     } catch (err) {
-      switch (err.response.data) {
+      console.log(err.response.data);
+      switch (err.response.data.errorCode) {
+        case "E003":
+          alert("유효하지 않은 이메일 입니다.");
+          break;
         case "E004":
           setIsIdDup(true);
           break;
+
         default:
       }
     } finally {
@@ -117,12 +123,12 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
 
       if (!result) {
         // 인증 통과 안했으면
-        setIsAvailEmail(IS_EMAIL_AVAIL.NOT_AVAIL);
+        setIsAvailCode(IS_CODE_AVAIL.NOT_AVAIL);
         return;
       }
 
       // 인증 통과했으면
-      setIsAvailEmail(IS_EMAIL_AVAIL.AVAIL);
+      setIsAvailCode(IS_CODE_AVAIL.AVAIL);
       setShowAuthSection(false); // 인증 section 안보여주기
     } catch (err) {
       console.log(err);
@@ -159,7 +165,7 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
       <SignUpCheckBtnStyle
         onClick={onAuthReqClick}
         disabled={
-          id.length === 0 || isLoading || isAvailEmail === IS_EMAIL_AVAIL.AVAIL
+          id.length === 0 || isLoading || isAvailCode === IS_CODE_AVAIL.AVAIL
         }
       >
         {showAuthSection ? "메일 재전송" : "인증하기"}
@@ -170,7 +176,7 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
         {hasEmailBeenChecked &&
           (isIdDup ? (
             <SignUpWarningStyle>이미 가입된 이메일입니다😮</SignUpWarningStyle>
-          ) : isAvailEmail === IS_EMAIL_AVAIL.AVAIL ? (
+          ) : isAvailCode === IS_CODE_AVAIL.AVAIL ? (
             <SignUpWarningStyle>인증 완료!✅</SignUpWarningStyle>
           ) : null)}
       </AuthCheckTextWrapper>
@@ -215,7 +221,7 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
               }`}</Timer>
             </SignUpWarningStyle>
           </AuthCodeWrapper>
-          {hasEmailBeenChecked && isAvailEmail === IS_EMAIL_AVAIL.NOT_AVAIL ? (
+          {hasEmailBeenChecked && isAvailCode === IS_CODE_AVAIL.NOT_AVAIL ? (
             <SignUpWarningStyle>
               <strong>⚠️ 올바른 인증번호가 아닙니다</strong>
             </SignUpWarningStyle>
@@ -234,7 +240,7 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
 
           {/* {hasEmailBeenChecked ? (
             <SignUpWarningStyle>
-              {isAvailEmail === IS_EMAIL_AVAIL.NOT_AVAIL ? (
+              {isAvailCode === IS_CODE_AVAIL.NOT_AVAIL ? (
                 <strong>⚠️ 올바른 인증번호가 아닙니다</strong>
               ) : isAuthCodeExpired ? (
                 <strong>🚫인증 코드가 만료되었습니다.</strong>
