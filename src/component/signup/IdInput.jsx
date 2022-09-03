@@ -97,14 +97,18 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
 
       setShowAuthSection(true);
       setAuthLeftSecond(180);
-      setHasEmailBeenChecked(true);
 
       // 타이머 시작
       timerId = setInterval(countAuthCodeTimer, 1000);
     } catch (err) {
-      console.log(err);
-      setIsIdDup(true);
+      switch (err.response.data) {
+        case "E004":
+          setIsIdDup(true);
+          break;
+        default:
+      }
     } finally {
+      setHasEmailBeenChecked(true);
       setIsLoading(false);
     }
   };
