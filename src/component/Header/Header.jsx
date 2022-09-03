@@ -89,7 +89,7 @@ const HeaderWrapper = styled.div`
   top: 0;
   width: 100vw;
   background-color: ${COLOR.HEADER_BG};
-  z-index: 99;
+  z-index: 97;
   height: 120px;
 `;
 
