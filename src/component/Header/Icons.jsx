@@ -1,10 +1,9 @@
 import React, { useCallback, useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import AlarmMenu from "./AlarmMenu";
+// import AlarmMenu from "./AlarmMenu";
 import Icon from "./Icon";
 import MyPageMenu from "./MyPageMenu";
-// import authTokenDataAtom from "./../../recoil/authToken/atom";
 import { useRecoilState } from "recoil";
 import axios from "axios";
 import loginAndRoleDataAtom from "./../../recoil/loginAndRole/atom";
@@ -14,7 +13,6 @@ Object.freeze(Key);
 
 const Icons = () => {
   const navigate = useNavigate();
-  // const [authToken, setAuthToken] = useRecoilState(authTokenDataAtom);
   const [loginData, setLoginData] = useRecoilState(loginAndRoleDataAtom);
   // const [isMenuOpened, setIsMenuOpened] = useState({
   //   [Key.ALARM]: false,
