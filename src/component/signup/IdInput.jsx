@@ -12,22 +12,6 @@ import {
   SignUpWarningStyle,
 } from "./../style/SignUpStyle";
 
-// 상태
-/**
- * [상태]
- * 인증하기 버튼 아직 안누름
- * 인증하기 버튼 누름
- * - 중복
- * 인증번호 전송버튼 누름 
- * - 인증번호 틀림 
- * - 유효한 인증번호임 
- * 
-//  */
-// const STATE = {
-//   BEFORE_CHECK_EMAIL: 0,
-
-// }
-
 const IS_EMAIL_AVAIL = {
   NOT_YET: 0,
   NOT_AVAIL: 1,
@@ -35,8 +19,6 @@ const IS_EMAIL_AVAIL = {
 };
 
 Object.freeze(IS_EMAIL_AVAIL);
-
-// let timerId = null;
 
 const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
   const [id, setId] = useState("");
@@ -100,7 +82,6 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
       setAuthLeftSecond(15);
 
       // 타이머 시작
-      // timerId = setInterval(countAuthCodeTimer, 1000);
       setTimerId(setInterval(countAuthCodeTimer, 1000));
     } catch (err) {
       switch (err.response.data) {
@@ -126,8 +107,6 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
         }
       );
 
-      console.log(authCode);
-      console.log(response.data);
       const result = response.data.result;
 
       if (!result) {
@@ -154,7 +133,6 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
       clearInterval(timerId, 0);
     }
   }, [authLeftSecond]);
-  const stopAuthCodeTimer = () => {};
 
   return (
     <div>
