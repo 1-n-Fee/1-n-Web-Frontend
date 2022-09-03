@@ -5,8 +5,12 @@ import { useRecoilState } from "recoil";
 import proposalPopupAtom from "../../recoil/proposalPopupData/atom";
 import styled from "styled-components";
 import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
+
 const Proposal = (props) => {
   const [proposalData, setProposalData] = useRecoilState(proposalPopupAtom);
+  const [sum, setSum] = useState(0);
   const { postId } = proposalData;
   const onDelClick = () => {
     setProposalData({
@@ -27,6 +31,8 @@ const Proposal = (props) => {
         if (menu.menuId && id && menu.menuId === id) {
           console.log(menu.menuId);
           console.log(id);
+          setSum((cur) => cur + menu.price);
+
           if (!menu.quantity) {
             return { ...menu, quantity: 1 };
           } else {
@@ -42,10 +48,12 @@ const Proposal = (props) => {
     setProposalData((cur) => ({
       ...cur,
       menus: menus.map((menu) => {
-        if (menu.menuId === id) {
+        if (menu.menuId && id && menu.menuId === id) {
           if (!menu.quantity) {
             return { ...menu, quantity: 0 };
           } else if (menu.quantity > 0) {
+            setSum((cur) => (cur - menu.price < 0 ? 0 : cur - menu.price));
+
             return { ...menu, quantity: menu.quantity - 1 };
           } else {
             return menu;
@@ -55,6 +63,47 @@ const Proposal = (props) => {
         }
       }),
     }));
+  };
+  const postProposal = async () => {
+    const auth = localStorage.getItem("Authorization");
+    const menus = proposalData.menus.map((menu) => {
+      let newObj = {};
+      newObj["menuId"] = menu.menuId;
+      newObj["quantity"] = menu.quantity;
+      console.log(newObj);
+      return newObj;
+    });
+    await axios
+      .post(
+        "http://localhost:8080/proposal",
+        {
+          postId,
+          menus: menus.filter((menu) => menu.quantity > 0),
+        },
+        {
+          headers: {
+            Authorization: auth,
+          },
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        alert("제안서가 접수되었습니다.");
+        setProposalData((cur) => ({
+          isOpen: false,
+          postId: "",
+          storeName: "",
+          menus: [],
+        }));
+      })
+      .catch((e) => console.log(e));
+  };
+  const submitProposal = () => {
+    if (sum <= 0) {
+      alert("메뉴를 선택하세요");
+      return;
+    }
+    postProposal();
   };
   useEffect(() => {
     const fetchMeal = async (postId) => {
@@ -77,7 +126,10 @@ const Proposal = (props) => {
         .catch((e) => console.log(e));
     };
     fetchMeal(postId);
-    //return () => onDelClick();
+    return () => {
+      onDelClick();
+      setSum(0);
+    };
   }, []);
 
   const { storeName, menus } = proposalData;
@@ -85,11 +137,15 @@ const Proposal = (props) => {
     <PopUpBackground>
       <PopUpWrapper>
         <DelBtnWrapper>
-          <DelBtn onClick={onDelClick}>❌</DelBtn>
+          <FontAwesomeIcon
+            onClick={onDelClick}
+            icon={solid("chevron-left")}
+            style={{ cursor: "pointer" }}
+          />
         </DelBtnWrapper>
         {proposalData && (
           <div>
-            <div>{storeName}</div>
+            <StoreWrapper>{storeName}</StoreWrapper>
             <div>
               <ul>
                 <MenuWrapper>
@@ -127,20 +183,21 @@ const Proposal = (props) => {
           </div>
         )}
 
-        <div>
+        <OrderWrapper>
           {proposalData.menus.map(
             (menu) =>
-              menu.quantity &&
               menu.quantity > 0 && (
-                <div>
-                  <div>{menu.name}</div>
-                  <div>{menu.quantity}</div>
-                  <div>{menu.price * menu.quantity}</div>
-                </div>
+                <FlexWrapper>
+                  <NameWrapper>{menu.name}</NameWrapper>
+                  <DefWrapper>{menu.quantity}</DefWrapper>
+                  <DefWrapper>{menu.price * menu.quantity}</DefWrapper>
+                </FlexWrapper>
               )
           )}
-          <div></div>
-        </div>
+          <SumWrapper>{sum}</SumWrapper>
+        </OrderWrapper>
+
+        <SubmitWrapper onClick={submitProposal}>제출하기</SubmitWrapper>
       </PopUpWrapper>
     </PopUpBackground>
   );
@@ -148,6 +205,44 @@ const Proposal = (props) => {
 
 export default Proposal;
 
+const SubmitWrapper = styled.button`
+  width: 70%;
+  padding: 0.5rem 0;
+  margin-top: 1rem;
+  border: none;
+  border-radius: 7px;
+  background-color: #b2acfa;
+  color: white;
+`;
+const StoreWrapper = styled.div`
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 1rem 0;
+`;
+const SumWrapper = styled.div`
+  width: 100%;
+  text-align: right;
+  margin-top: 5px;
+  border-top: solid rgba(0, 0, 0, 0.3) 2px;
+`;
+const DefWrapper = styled.div`
+  text-align: right;
+  width: 5rem;
+`;
+const NameWrapper = styled.div`
+  text-align: center;
+  width: 12rem;
+`;
+const OrderWrapper = styled.div`
+  width: 70%;
+  margin-top: 2rem;
+`;
+const FlexWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
 const QuantityWrapper = styled.div`
   display: flex;
   align-items: center;
@@ -167,7 +262,7 @@ const EntryWrapper = styled.div`
 `;
 const MenuWrapper = styled.ul`
   overflow-y: auto;
-  height: 70%;
+  height: 300px;
 `;
 const MealImgWrapper = styled.img`
   width: 140px;
@@ -198,8 +293,7 @@ const PopUpWrapper = styled.div`
   align-items: center;
   overflow: auto;
   position: relative;
-  padding: 0 5rem;
-  padding-bottom: 5rem;
+  padding: 3rem 5rem;
   z-index: 99;
 `;
 
@@ -217,12 +311,16 @@ const PopUpBackground = styled.div`
 `;
 
 const DelBtnWrapper = styled.div`
-  text-align: right;
+  font-size: 1.2rem;
+  text-align: left;
+  color: rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: flex-start;
   width: 100%;
   position: absolute;
+  left: 1rem;
+  top: 1rem;
 `;
 
 const DelBtn = styled.span`
