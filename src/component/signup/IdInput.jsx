@@ -77,6 +77,7 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
     setIsLoading(true);
     setShowAuthSection(false);
     setIsAuthCodeExpired(false);
+    setAuthCode("");
     try {
       await axios.post("http://localhost:8080/email", {
         userEmail: isOwner ? `${id}@${emailAddress}` : `${id}@konkuk.ac.kr`,
