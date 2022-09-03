@@ -1,21 +1,26 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useSetRecoilState } from "recoil";
 import loginAndRoleDataAtom from "./../../recoil/loginAndRole/atom";
+import isMenuOpenAtom from "./../../recoil/menu/atom";
 const menuName = ["참여 현황", "개인정보 변경하기", "로그아웃"];
 const MyPageMenu = () => {
   const navigate = useNavigate();
   const setLoginAndRole = useSetRecoilState(loginAndRoleDataAtom);
+  const setIsMenuOpen = useSetRecoilState(isMenuOpenAtom);
   const onHistoryClick = () => {
+    closeMyPageMenu();
     navigate("/history");
   };
 
   const onMyPageClick = () => {
+    closeMyPageMenu();
     navigate("/user");
   };
 
   const onLogoutClick = () => {
+    closeMyPageMenu();
     const answer = window.confirm("로그아웃 하시겠습니까?");
 
     if (!answer) return;
@@ -24,6 +29,10 @@ const MyPageMenu = () => {
     setLoginAndRole({ isLogin: false, role: "" });
     navigate("/");
   };
+
+  const closeMyPageMenu = useCallback(() => {
+    setIsMenuOpen({ myPage: false });
+  }, []);
   return (
     <MenuWrappper>
       <ul>
