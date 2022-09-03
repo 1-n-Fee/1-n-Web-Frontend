@@ -208,9 +208,11 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
             </SignUpCheckBtnStyle>
             <SignUpWarningStyle>
               남은 시간{" "}
-              <strong>{`0${parseInt(authLeftSecond / 60)}:${
-                (authLeftSecond % 60).toString().length === 1 ? "0" : ""
-              }${authLeftSecond % 60}`}</strong>
+              <Timer leftTime={authLeftSecond}>{`0${parseInt(
+                authLeftSecond / 60
+              )}:${(authLeftSecond % 60).toString().length === 1 ? "0" : ""}${
+                authLeftSecond % 60
+              }`}</Timer>
             </SignUpWarningStyle>
           </AuthCodeWrapper>
           {hasEmailBeenChecked && isAvailEmail === IS_EMAIL_AVAIL.NOT_AVAIL ? (
@@ -270,6 +272,11 @@ const AuthCodeInput = styled.input`
   border: none;
   font-size: 16px;
   text-align: center;
+`;
+
+const Timer = styled.strong`
+  color: ${({ leftTime }) =>
+    leftTime < 6 ? COLOR.DARK_RED : COLOR.DARKER_GRAY};
 `;
 
 const Pre = styled.pre`
