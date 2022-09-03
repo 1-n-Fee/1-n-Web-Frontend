@@ -58,14 +58,16 @@ const HistoryListHeader = ({
 
   const onClick = (e) => {
     getHistoryData();
-    setHistoryData((cur) => ({ ...cur, isPopUpOpen: true }));
+    setHistoryData((cur) => ({ ...cur, isPopUpOpen: true, clickedTab: 0 }));
   };
 
   const onTabClick = (e) => {
     setHistoryData((cur) => ({
       ...cur,
+      isPopUpOpen: true,
       clickedTab: parseInt(e.target.dataset.idx),
     }));
+    e.stopPropagation();
   };
 
   /**
