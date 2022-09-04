@@ -6,8 +6,10 @@ import { locData } from "../../locData";
 import { postIdAtom, userStatusAtom } from "../../recoil/meal/atom";
 import proposalPopupAtom from "../../recoil/proposalPopupData/atom";
 import { useRecoilState, useRecoilValue } from "recoil";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
+
 const MealDetail = ({
   id,
   meal,
@@ -104,12 +106,9 @@ const MealDetail = ({
         });
     }
   };
-
-
   const popProposal = () => {
     setProposalData((cur) => ({ isOpen: true, postId, menus: [] }));
   };
-  
   return (
     <DetailBar isDetailOpen={isDetailOpen}>
       <DetailHeader>
