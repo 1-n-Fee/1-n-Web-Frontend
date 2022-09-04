@@ -392,7 +392,7 @@ const PriceWrapper = styled.div`
   align-items: center;
   gap: 0.4rem;
 `;
-const SpanWrapper = styled.div`
+export const SpanWrapper = styled.div`
   width: 2rem;
   text-align: center;
   font-size: 0.7rem;
