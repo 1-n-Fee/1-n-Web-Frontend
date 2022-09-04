@@ -7,8 +7,6 @@ import { postIdAtom, userStatusAtom } from "../../recoil/meal/atom";
 import { useRecoilValue } from "recoil";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { useRef } from "react";
-import { useEffect } from "react";
 const MealDetail = ({
   id,
   meal,
@@ -105,7 +103,6 @@ const MealDetail = ({
     }
   };
 
-  useEffect(() => {}, []);
   return (
     <DetailBar isDetailOpen={isDetailOpen}>
       <DetailHeader>
