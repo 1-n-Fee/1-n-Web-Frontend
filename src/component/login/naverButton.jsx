@@ -1,8 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { COLOR } from "./../../constants/colors";
 import CustomOauthBtn from "./CustomOauthBtn";
 const NaverButton = ({ isSignUp = false, width, height, radius }) => {
+  useEffect(() => {
+    if (isSignUp) {
+      localStorage.setItem("isSignUp", "true");
+    }
+  }, []);
+
   return (
     <ButtonWrapper href="https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=uD5deNWJiPwEgGJY2FO7&redirect_uri=http://localhost:3000/auth/naver&state=1234">
       {isSignUp ? (

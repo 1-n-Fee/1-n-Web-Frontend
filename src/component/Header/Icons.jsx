@@ -1,10 +1,9 @@
 import React, { useCallback, useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import AlarmMenu from "./AlarmMenu";
+// import AlarmMenu from "./AlarmMenu";
 import Icon from "./Icon";
 import MyPageMenu from "./MyPageMenu";
-// import authTokenDataAtom from "./../../recoil/authToken/atom";
 import { useRecoilState } from "recoil";
 import axios from "axios";
 import loginAndRoleDataAtom from "./../../recoil/loginAndRole/atom";
@@ -14,7 +13,6 @@ Object.freeze(Key);
 
 const Icons = () => {
   const navigate = useNavigate();
-  // const [authToken, setAuthToken] = useRecoilState(authTokenDataAtom);
   const [loginData, setLoginData] = useRecoilState(loginAndRoleDataAtom);
   // const [isMenuOpened, setIsMenuOpened] = useState({
   //   [Key.ALARM]: false,
@@ -23,10 +21,10 @@ const Icons = () => {
   const [isMenuOpen, setIsMenuOpen] = useRecoilState(isMenuOpenAtom);
 
   const onAddRoomClick = () => {
-    navigate("creating-room");
+    goTo("/creating-room");
   };
   const onChatRoomClick = () => {
-    navigate("chat");
+    goTo("/chat");
   };
   // const onAlarmMenuClick = useCallback(() => {
   //   console.log("isAlarmClicked");
@@ -42,7 +40,6 @@ const Icons = () => {
     // }));
     setIsMenuOpen((cur) => ({ ...cur, myPage: !cur.myPage }));
     e.stopPropagation();
-    console.log(e.currentTarget.id);
   }, []);
 
   const onLoginClick = () => {
@@ -53,10 +50,30 @@ const Icons = () => {
     checkIsLogin();
   }, []);
 
+  // 클릭한 메뉴 - 사용할 수 있는지 판단하는 함수
+  const goTo = (url) => {
+    checkIsLogin();
+
+    console.log(loginData.isLogin);
+    if (loginData.isLogin) {
+      navigate(url);
+      return;
+    }
+
+    // 비로그인
+    const answer = window.confirm(
+      "로그인 후 이용가능합니다. 로그인 하시겠습니까?"
+    );
+    console.log(answer);
+    if (answer) {
+      navigate("/login");
+    }
+    return;
+  };
+
   const checkIsLogin = async () => {
     try {
       const token = window.localStorage.getItem("Authorization");
-      console.log(token); // Bearer ~~~
       const response = await axios.get("http://localhost:8080/user/isLogin", {
         headers: { Authorization: token },
       });
