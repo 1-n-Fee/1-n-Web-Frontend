@@ -105,9 +105,11 @@ const MealDetail = ({
     }
   };
 
+
   const popProposal = () => {
     setProposalData((cur) => ({ isOpen: true, postId, menus: [] }));
   };
+  
   return (
     <DetailBar isDetailOpen={isDetailOpen}>
       <DetailHeader>
@@ -160,13 +162,13 @@ const MealDetail = ({
             <UlWrapper>
               {meal.comments &&
                 meal.comments.map((comment, idx) => (
-                  <ReplyContainer key={idx}>
+                  <CommentContainer key={idx}>
                     <CommentFlex
                       onClick={() =>
                         setNewComment((cur) => ({
                           ...cur,
                           type: "reply",
-                          replyId: idx,
+                          replyId: comment.commentId,
                         }))
                       }
                     >
@@ -177,14 +179,20 @@ const MealDetail = ({
                     <DateWrapper>{comment.createDateTime}</DateWrapper>
                     <ul>
                       {comment.replies &&
-                        comment.replies.map((reply, idx) => {
-                          <li key={idx}>
-                            <div>{reply.content}</div>
-                            <div>{reply.createDateTime}</div>
-                          </li>;
-                        })}
+                        comment.replies.map((reply, idx) => (
+                          <CommentContainer key={idx}>
+                            <CommentFlex>
+                              <FontAwesomeIcon
+                                icon={solid("angles-right")}
+                              ></FontAwesomeIcon>
+                              <ReplyComment>{reply.content}</ReplyComment>
+                            </CommentFlex>
+
+                            <DateWrapper>{reply.createDateTime}</DateWrapper>
+                          </CommentContainer>
+                        ))}
                     </ul>
-                  </ReplyContainer>
+                  </CommentContainer>
                 ))}
             </UlWrapper>
           </li>
@@ -274,12 +282,17 @@ const MealDetail = ({
 };
 
 export default MealDetail;
-const ReplyContainer = styled.li`
+const CommentContainer = styled.li`
   border-bottom: solid rgba(0, 0, 0, 0.1) 1px;
-  padding: 0.2rem 0;
   cursor: pointer;
   &:hover {
     background-color: #f9d6a2;
+  }
+`;
+const ReplyContainer = styled(CommentContainer)`
+  display: flex;
+  &:hover {
+    background-color: #b2acfa;
   }
 `;
 const ReplyComment = styled.div`
