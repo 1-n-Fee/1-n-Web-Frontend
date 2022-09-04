@@ -7,6 +7,7 @@ import { SpanWrapper } from "../home/meal_detail";
 import { searchDetailAtom } from "../../recoil/search/atom";
 import { useRecoilState } from "recoil";
 import axios from "axios";
+import RequestStateTag from "../history/RequestStateTag";
 const SearchItem = ({ post }) => {
   const [searchDetail, setSearchDetail] = useRecoilState(searchDetailAtom);
   const getDetail = async () => {
@@ -37,8 +38,10 @@ const SearchItem = ({ post }) => {
           <FontAwesomeIcon icon={solid("user")} />
           {post.currentNumber}/{post.limitNumber}
         </CurrentWrapper>
-        {post.state === "OWNER" && <OwnerWrapper>{post.state}</OwnerWrapper>}
-        {!post.state && <StateWrapper>미참여</StateWrapper>}
+
+        <RequestStateTag state={post.state} />
+        {/*post.state === "OWNER" && <OwnerWrapper>{post.state}</OwnerWrapper>*/}
+        {/*!post.state && <StateWrapper>미참여</StateWrapper>*/}
       </DivWrapper>
       <InfoWrapper>
         <FlexRowDiv>

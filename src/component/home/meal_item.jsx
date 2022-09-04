@@ -6,6 +6,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { postIdAtom, userStatusAtom } from "../../recoil/meal/atom";
 import { SpanWrapper } from "./meal_detail";
 import { FlexRowDiv } from "../header/Header";
+import RequestStateTag from "../history/RequestStateTag";
 
 const MealItem = ({ meal, onMealClick, ToggleDetailBar, isDetailOpen }) => {
   const setUserState = useSetRecoilState(userStatusAtom);
@@ -30,8 +31,9 @@ const MealItem = ({ meal, onMealClick, ToggleDetailBar, isDetailOpen }) => {
           <FontAwesomeIcon icon={solid("user")} />
           {meal.currentNumber}/{meal.limitNumber}
         </CurrentWrapper>
-        {meal.state === "OWNER" && <OwnerWrapper>{meal.state}</OwnerWrapper>}
-        {!meal.state && <StateWrapper>미참여</StateWrapper>}
+        <RequestStateTag state={meal.state} />
+        {/*meal.state === "OWNER" && <OwnerWrapper>{meal.state}</OwnerWrapper>*/}
+        {/*!meal.state && <StateWrapper>미참여</StateWrapper>*/}
       </DivWrapper>
       <InfoWrapper>
         <FlexRowDiv>
