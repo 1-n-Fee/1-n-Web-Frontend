@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { postIdAtom, userStatusAtom } from "../../recoil/meal/atom";
+import { SpanWrapper } from "./meal_detail";
+import { FlexRowDiv } from "../header/Header";
 
 const MealItem = ({ meal, onMealClick, ToggleDetailBar, isDetailOpen }) => {
   const setUserState = useSetRecoilState(userStatusAtom);
@@ -32,8 +34,14 @@ const MealItem = ({ meal, onMealClick, ToggleDetailBar, isDetailOpen }) => {
         {!meal.state && <StateWrapper>미참여</StateWrapper>}
       </DivWrapper>
       <InfoWrapper>
-        <li>마감시간 : {meal.closeTime}</li>
-        <li>배달비: {meal.deliveryFee}</li>
+        <FlexRowDiv>
+          <InfoSpan>마감시간</InfoSpan>
+          <div>{meal.closeTime}</div>
+        </FlexRowDiv>
+        <FlexRowDiv>
+          <InfoSpan>배달비</InfoSpan>
+          <div> {meal.deliveryFee}</div>
+        </FlexRowDiv>
       </InfoWrapper>
     </LiWrapper>
   );
@@ -41,7 +49,10 @@ const MealItem = ({ meal, onMealClick, ToggleDetailBar, isDetailOpen }) => {
 
 export default MealItem;
 
-const InfoWrapper = styled.ul`
+const InfoSpan = styled(SpanWrapper)`
+  width: 3.5rem;
+`;
+const InfoWrapper = styled.div`
   padding: 0 7px;
   margin-top: 1rem;
 `;
