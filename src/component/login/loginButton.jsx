@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { COLOR } from "../../constants/colors";
 
 const LoginButton = ({ onClick }) => {
   return <LoginButtonWrapper onClick={onClick}>로그인</LoginButtonWrapper>;
@@ -13,6 +14,6 @@ const LoginButtonWrapper = styled.button`
   margin-bottom: 0.3rem;
   border: none;
   border-radius: 7px;
-  background-color: #b2acfa;
+  background-color: ${COLOR.RED_PINK};
   color: white;
 `;
