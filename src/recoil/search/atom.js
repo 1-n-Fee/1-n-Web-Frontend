@@ -7,5 +7,5 @@ export const searchResultAtom = atom({
 
 export const searchDetailAtom = atom({
   key: "searchDetailAtom",
-  default: { isOpen: false, data: {} },
+  default: { isOpen: false, postId: "", data: {} },
 });
