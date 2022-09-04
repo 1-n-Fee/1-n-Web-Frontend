@@ -1,13 +1,12 @@
-import React from "react";
 import axios from "axios";
+import React from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import oauthDataAtom from "./../recoil/oauthData/atom";
-import ROLE from "./../constants/role";
-import loginAndRoleDataAtom from "../recoil/loginAndRole/atom";
-
-const OauthGoogle = (props) => {
+import oauthDataAtom from "../../../recoil/oauthData/atom";
+import loginAndRoleDataAtom from "../../../recoil/loginAndRole/atom";
+import ROLE from "../../../constants/role";
+const OauthKakao = (props) => {
   const navigate = useNavigate();
   const setLoginRoleData = useSetRecoilState(loginAndRoleDataAtom);
   const setAuthCode = useSetRecoilState(oauthDataAtom);
@@ -15,21 +14,21 @@ const OauthGoogle = (props) => {
   let code = new URL(window.location.href).searchParams.get("code");
   //const auth = localStorage.getItem("user");
   useEffect(() => {
-    // console.log(`코드:${code}`);
+    console.log(code);
 
     if (localStorage.getItem("isSignUp") === "true") {
       setAuthCode(code);
       localStorage.setItem("isSignUp", "false");
       alert(
-        "구글 계정이 확인되었습니다. \n필수정보를 모두 입력해야 구글 계정으로 회원가입됩니다."
+        "카카오 계정이 확인되었습니다. \n필수정보를 모두 입력해야 카카오 계정으로 회원가입됩니다."
       );
-      navigate("/signup/oauth/google");
+      navigate("/signup/oauth/kakao");
       return;
     }
     const fetchId = async () => {
       try {
         await axios
-          .get(`http://localhost:8080/user/oauth/google?code=${code}`)
+          .get(`http://localhost:8080/user/oauth/kakao?code=${code}`)
           .then((res) => {
             console.log(res);
             localStorage.setItem("Authorization", res.headers.authorization);
@@ -39,7 +38,6 @@ const OauthGoogle = (props) => {
           });
       } catch (e) {
         const errorKey = e.response.data.errorCode;
-        console.log(e);
 
         setAuthCode(code);
         switch (errorKey) {
@@ -47,16 +45,17 @@ const OauthGoogle = (props) => {
             alert(
               "가입되어있지 않은 회원입니다. 회원가입 페이지로 이동합니다."
             );
-            navigate("/before-signup");
+            console.log(e.response);
             break;
           default:
         }
-        // navigate("/login");
+        navigate("/before-signup");
       }
     };
     fetchId();
   }, []);
-  return <h1>Waiting for GOOGLE Authorization...</h1>;
+
+  return <h1>Waiting for KAKAO Authorization...</h1>;
 };
 
-export default OauthGoogle;
+export default OauthKakao;

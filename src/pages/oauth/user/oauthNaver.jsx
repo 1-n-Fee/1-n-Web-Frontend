@@ -1,18 +1,21 @@
-import axios from "axios";
 import React from "react";
+import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import oauthDataAtom from "./../recoil/oauthData/atom";
-import loginAndRoleDataAtom from "../recoil/loginAndRole/atom";
-import ROLE from "../constants/role";
-const OauthKakao = (props) => {
+import oauthDataAtom from "../../../recoil/oauthData/atom";
+import loginAndRoleDataAtom from "../../../recoil/loginAndRole/atom";
+import ROLE from "../../../constants/role";
+
+const OauthNaver = (props) => {
   const navigate = useNavigate();
   const setLoginRoleData = useSetRecoilState(loginAndRoleDataAtom);
   const setAuthCode = useSetRecoilState(oauthDataAtom);
 
   let code = new URL(window.location.href).searchParams.get("code");
+  //let state = new URL(window.location.href).searchParams.get("state");
   //const auth = localStorage.getItem("user");
+
   useEffect(() => {
     console.log(code);
 
@@ -20,15 +23,17 @@ const OauthKakao = (props) => {
       setAuthCode(code);
       localStorage.setItem("isSignUp", "false");
       alert(
-        "카카오 계정이 확인되었습니다. \n필수정보를 모두 입력해야 카카오 계정으로 회원가입됩니다."
+        "네이버 계정이 확인되었습니다. \n필수정보를 모두 입력해야 네이버 계정으로 회원가입됩니다."
       );
-      navigate("/signup/oauth/kakao");
+      navigate("/signup/oauth/naver");
       return;
     }
+
     const fetchId = async () => {
       try {
         await axios
-          .get(`http://localhost:8080/user/oauth/kakao?code=${code}`)
+          .get(`http://localhost:8080/manager/oauth/naver?code=${code}`)
+          //.get(`http://localhost:8080/user/oauth/naver?code=${code}&state=1234`)
           .then((res) => {
             console.log(res);
             localStorage.setItem("Authorization", res.headers.authorization);
@@ -50,12 +55,14 @@ const OauthKakao = (props) => {
           default:
         }
         navigate("/before-signup");
+        // alert("로그인 실패");
+        // navigate("/login");
       }
     };
     fetchId();
   }, []);
 
-  return <h1>Waiting for KAKAO Authorization...</h1>;
+  return <h1>Waiting for NAVER Authorization...</h1>;
 };
 
-export default OauthKakao;
+export default OauthNaver;
