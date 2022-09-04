@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Icons from "./Icons";
 import SearchBar from "../common/SearchBar";
 import Tag from "../common/Tag";
 import { COLOR } from "./../../constants/colors";
-
+import axios from "axios";
+import { useRecoilState } from "recoil";
+import { searchDetailAtom, searchResultAtom } from "../../recoil/search/atom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
+import SearchItem from "./SearchItem";
+import SearchDetail from "./SearchDetail";
 const Header = () => {
   const navigate = useNavigate();
   const [tagData, setTagData] = useState([
@@ -16,7 +22,8 @@ const Header = () => {
     { name: "야식", isClicked: true },
     { name: "기타", isClicked: true },
   ]);
-
+  const [searchResult, setSearchResult] = useRecoilState(searchResultAtom);
+  const [searchDetail, setSearchDetail] = useRecoilState(searchDetailAtom);
   const onLogoClick = () => {
     navigate("/");
   };
@@ -27,12 +34,57 @@ const Header = () => {
     );
   };
 
-  const onSearch = (keyword) => {
-    // keyword 서버로 넘겨주기
+  const onSearch = async (keyword) => {
+    const auth = localStorage.getItem("Authorization");
+    /*await axios
+      .get("http://localhost:8080/store/all")
+      .then((res) => {
+        console.log(res);
+        setSearchResult({ isOpen: true, data: res.data });
+      })
+      .catch((e) => console.log(e));*/
+    await axios
+      .get(`http://localhost:8080/post/search?store=${keyword}`, {
+        headers: {
+          Authorization: auth,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        setSearchResult({ isOpen: true, data: res.data });
+      })
+      .catch((e) => console.log(e));
   };
-
   return (
     <div>
+      <TopBarDiv isOpen={searchResult.isOpen}>
+        <TitleWrapper>방 조회</TitleWrapper>
+        <CloseDiv>
+          <FontAwesomeIcon
+            icon={solid("x")}
+            onClick={() =>
+              setSearchResult((cur) => ({ ...cur, isOpen: false }))
+            }
+          ></FontAwesomeIcon>
+        </CloseDiv>
+        {searchResult && (
+          <ResultUl>
+            {searchDetail.isOpen && (
+              <BackButton>
+                <FontAwesomeIcon
+                  icon={solid("chevron-left")}
+                  onClick={() => setSearchDetail({ isOpen: false, data: {} })}
+                />
+              </BackButton>
+            )}
+            {searchDetail.isOpen ? (
+              <SearchDetail />
+            ) : (
+              searchResult.data.map((post) => <SearchItem post={post} />)
+            )}
+          </ResultUl>
+        )}
+      </TopBarDiv>
       <HeaderWrapper isHome={window.location.pathname === "/"}>
         <ImgWrapper onClick={onLogoClick}>
           <img src="/logo.png" width="160px" alt="logo" />
@@ -64,6 +116,74 @@ const Header = () => {
 
 export default Header;
 
+export const FlexRowDiv = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+`;
+export const FlexColDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+`;
+
+const BackButton = styled.div`
+  cursor: pointer;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+`;
+const ResultUl = styled.ul`
+  position: relative;
+  width: 520px;
+  height: 550px;
+  border: solid rgba(0, 0, 0, 0.4) 2px;
+  text-align: left;
+  overflow-y: auto;
+  padding: 10px 0;
+`;
+const TitleWrapper = styled.h2`
+  width: 100%;
+  text-align: center;
+`;
+const CloseDiv = styled.div`
+  width: 2rem;
+  height: 2rem;
+  border-radius: 5px;
+  background-color: ${COLOR.RED_PINK};
+  color: ${COLOR.WHITE};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: absolute;
+  right: 15px;
+  top: 5px;
+`;
+const TopBarDiv = styled.div`
+  width: 100%;
+  margin: 0;
+  padding-top: 1rem;
+  height: 650px;
+  position: absolute;
+  background-color: white;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 97;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.5s ease-out;
+  ${(props) =>
+    props.isOpen
+      ? css`
+          top: 120px;
+        `
+      : css`
+          top: -700px;
+        `}
+`;
 const ImgWrapper = styled.div`
   width: 20%;
   display: flex;
