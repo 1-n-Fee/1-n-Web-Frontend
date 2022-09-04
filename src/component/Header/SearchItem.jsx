@@ -2,59 +2,65 @@ import React from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { postIdAtom, userStatusAtom } from "../../recoil/meal/atom";
-import { SpanWrapper } from "./meal_detail";
-import { FlexRowDiv } from "../header/Header";
-
-const MealItem = ({ meal, onMealClick, ToggleDetailBar, isDetailOpen }) => {
-  const setUserState = useSetRecoilState(userStatusAtom);
-  const [postId, setPostId] = useRecoilState(postIdAtom);
+import { FlexRowDiv } from "./Header";
+import { SpanWrapper } from "../home/meal_detail";
+import { searchDetailAtom } from "../../recoil/search/atom";
+import { useRecoilState } from "recoil";
+import axios from "axios";
+const SearchItem = ({ post }) => {
+  const [searchDetail, setSearchDetail] = useRecoilState(searchDetailAtom);
+  const getDetail = async () => {
+    const auth = localStorage.getItem("Authorization");
+    await axios
+      .get(`http://localhost:8080/post/${post.postId}`, {
+        headers: {
+          Authorization: auth,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        setSearchDetail({ isOpen: true, postId: post.postId, data: res.data });
+      })
+      .catch((e) => console.log(e));
+  };
   return (
     <LiWrapper
       style={{ cursor: "pointer" }}
       onClick={() => {
-        console.log("onCLick");
-        setPostId(meal.postId);
-        onMealClick(meal.postId);
-        setUserState(meal.state);
-        if (!isDetailOpen) {
-          ToggleDetailBar();
-        }
-        console.log(postId);
+        console.log(post);
+        getDetail();
       }}
     >
       <DivWrapper>
-        <StoreWrapper>{meal.storeName}</StoreWrapper>
+        <StoreWrapper>{post.storeName}</StoreWrapper>
         <CurrentWrapper>
           <FontAwesomeIcon icon={solid("user")} />
-          {meal.currentNumber}/{meal.limitNumber}
+          {post.currentNumber}/{post.limitNumber}
         </CurrentWrapper>
-        {meal.state === "OWNER" && <OwnerWrapper>{meal.state}</OwnerWrapper>}
-        {!meal.state && <StateWrapper>미참여</StateWrapper>}
+        {post.state === "OWNER" && <OwnerWrapper>{post.state}</OwnerWrapper>}
+        {!post.state && <StateWrapper>미참여</StateWrapper>}
       </DivWrapper>
       <InfoWrapper>
         <FlexRowDiv>
           <InfoSpan>마감시간</InfoSpan>
-          <div>{meal.closeTime}</div>
+          <div>{post.closeTime}</div>
         </FlexRowDiv>
         <FlexRowDiv>
           <InfoSpan>배달비</InfoSpan>
-          <div> {meal.deliveryFee}</div>
+          <div> {post.deliveryFee}</div>
         </FlexRowDiv>
       </InfoWrapper>
     </LiWrapper>
   );
 };
-
-export default MealItem;
+export default SearchItem;
+const InfoWrapper = styled.ul`
+  padding: 0 7px;
+  margin-top: 1rem;
+`;
 
 const InfoSpan = styled(SpanWrapper)`
   width: 3.5rem;
-`;
-const InfoWrapper = styled.div`
-  padding: 0 7px;
-  margin-top: 1rem;
 `;
 const DivWrapper = styled.div`
   display: flex;

@@ -1,41 +1,44 @@
-import React from "react";
-import { useState } from "react";
-import styled, { css } from "styled-components";
 import axios from "axios";
-import { locData } from "../../locData";
-import { postIdAtom, userStatusAtom } from "../../recoil/meal/atom";
-import proposalPopupAtom from "../../recoil/proposalPopupData/atom";
+import React, { useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-
+import styled from "styled-components";
+import { searchDetailAtom } from "../../recoil/search/atom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
+import proposalPopupAtom from "../../recoil/proposalPopupData/atom";
+import { userStatusAtom } from "../../recoil/meal/atom";
 
-const MealDetail = ({
-  id,
-  meal,
-  isDetailOpen,
-  //setIsDetailOpen,
-  ToggleDetailBar,
-}) => {
-  // button 클릭 시 토글
-  // 사이드바 외부 클릭시 닫히는 함수
+const SearchDetail = (props) => {
+  const [searchDetail, setSearchDetail] = useRecoilState(searchDetailAtom);
+  const { postId, data } = searchDetail;
+  const [menu, setMenu] = useState([]);
+  const [detailType, setDetailType] = useState("info");
   const [newComment, setNewComment] = useState({
     type: "comment",
     replyId: "",
     content: "",
   });
-  const [isCommentActive, setIsCommentActive] = useState(false);
-  const [detailType, setDetailType] = useState("info");
-  const postId = useRecoilValue(postIdAtom);
   const userState = useRecoilValue(userStatusAtom);
+
+  const [isCommentActive, setIsCommentActive] = useState(false);
   const [propsalData, setProposalData] = useRecoilState(proposalPopupAtom);
 
   const getStoreMenu = async () => {
-    console.log(meal);
+    console.log(postId);
     await axios
       .get(`http://localhost:8080/store/detail/${postId}`)
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res.data);
+        setMenu(res.data);
+      })
       .catch((e) => console.log(e));
+  };
+  const popProposal = () => {
+    setProposalData((cur) => ({
+      isOpen: true,
+      postId: data.postId,
+      menus: [],
+    }));
   };
   const onChange = (e) => {
     setNewComment((cur) => ({ ...cur, content: e.target.value }));
@@ -50,13 +53,13 @@ const MealDetail = ({
       return;
     }
     const auth = localStorage.getItem("Authorization");
-    console.log(postId);
+    console.log(data.postId);
     if (newComment.type === "comment") {
       await axios
         .post(
           "http://localhost:8080/comment",
           {
-            postId,
+            postId: data.postId,
             content: newComment.content,
           },
           {
@@ -106,14 +109,10 @@ const MealDetail = ({
         });
     }
   };
-  const popProposal = () => {
-    setProposalData((cur) => ({ isOpen: true, postId, menus: [] }));
-  };
   return (
-    <DetailBar isDetailOpen={isDetailOpen}>
+    <DetailDiv>
       <DetailHeader>
-        <DetailButton onClick={ToggleDetailBar}>닫기</DetailButton>
-        {meal && <StoreWrapper>{meal.storeName}</StoreWrapper>}
+        {data && <StoreWrapper>{data.storeName}</StoreWrapper>}
       </DetailHeader>
       <TabContainer>
         <TabWrapper
@@ -137,30 +136,31 @@ const MealDetail = ({
 
       {detailType === "info" && (
         <InfoWrapper>
-          {meal && (
+          {data && (
             <li>
-              <TextWrapper>마감시간</TextWrapper> {meal.closeTime}
+              <TextWrapper>마감시간</TextWrapper> {data.closeTime}
             </li>
           )}
           <li>
-            <TextWrapper>참여현황</TextWrapper> {meal && meal.currentNumber}/
-            {meal && meal.limitNumber}
+            <TextWrapper>참여현황</TextWrapper> {data && data.currentNumber}/
+            {data && data.limitNumber}
           </li>
-          <li>
-            <TextWrapper>장소</TextWrapper> {id && locData[id - 1].loc}
-          </li>
+          {/*<li>
+            <TextWrapper>장소</TextWrapper>
+            {data && locData[data.spotId - 1].loc}
+          </li>*/}
           <li>
             <TextWrapper>설명</TextWrapper>
-            <DesWrapper>{meal && meal.content}</DesWrapper>
+            <DesWrapper>{data && data.content}</DesWrapper>
           </li>
           <li>
-            <TextWrapper>배달비</TextWrapper> {meal && meal.deliveryFee} 원
+            <TextWrapper>배달비</TextWrapper> {data && data.deliveryFee} 원
           </li>
           <li>
             <ReplyWrapper>댓글</ReplyWrapper>
             <UlWrapper>
-              {meal.comments &&
-                meal.comments.map((comment, idx) => (
+              {data.comments &&
+                data.comments.map((comment, idx) => (
                   <CommentContainer key={idx}>
                     <CommentFlex
                       onClick={() =>
@@ -200,7 +200,7 @@ const MealDetail = ({
       {detailType === "menu" && (
         <>
           <MenuWrapper>
-            {meal.menus.map((menu) => (
+            {menu.map((menu) => (
               <EntryWrapper>
                 <MenuInfoWrapper>
                   <div>{menu.name}</div>
@@ -210,7 +210,7 @@ const MealDetail = ({
                 </MenuInfoWrapper>
 
                 <MealImgWrapper
-                  src={`http://localhost:8080/image/menu/${menu.image}`}
+                  src={`http://localhost:8080/image/menu/${menu.imageUrl}`}
                   alt="menu"
                 />
               </EntryWrapper>
@@ -276,11 +276,12 @@ const MealDetail = ({
           </FlexWrapper>
         )}
       </ButtonContainer>
-    </DetailBar>
+    </DetailDiv>
   );
 };
 
-export default MealDetail;
+export default SearchDetail;
+
 const CommentContainer = styled.li`
   border-bottom: solid rgba(0, 0, 0, 0.1) 1px;
   cursor: pointer;
@@ -288,12 +289,7 @@ const CommentContainer = styled.li`
     background-color: #f9d6a2;
   }
 `;
-const ReplyContainer = styled(CommentContainer)`
-  display: flex;
-  &:hover {
-    background-color: #b2acfa;
-  }
-`;
+
 const ReplyComment = styled.div`
   font-size: 0.8rem;
 `;
@@ -450,21 +446,11 @@ const MealImgWrapper = styled.img`
   width: 140px;
   height: 100px;
 `;
-const DetailBar = styled.div`
-  width: 280px;
+const DetailDiv = styled.div`
+  width: 100%;
   height: 100%;
   box-shadow: 0px 4px 8px rgb(0 0 0 / 16%);
   background-color: #fff;
-  position: fixed;
-  top: 0;
-  left: -280px;
-  z-index: 95;
-  transition: 0.5s;
-  ${(props) =>
-    props.isDetailOpen &&
-    css`
-      left: 280px;
-    `};
 `;
 
 const StoreWrapper = styled.span`
@@ -479,12 +465,4 @@ const DetailHeader = styled.div`
   justify-content: space-between;
   padding: 10px;
   height: 15%;
-`;
-
-const DetailButton = styled.button`
-  background-color: #5a8dee;
-  border: none;
-  border-radius: 0.3em;
-  color: #fff;
-  padding: 0.5em;
 `;
