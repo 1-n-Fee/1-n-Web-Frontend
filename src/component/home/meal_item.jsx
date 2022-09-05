@@ -2,14 +2,20 @@ import React from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { postIdAtom, userStatusAtom } from "../../recoil/meal/atom";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  detailOpenAtom,
+  postIdAtom,
+  userStatusAtom,
+} from "../../recoil/meal/atom";
 import { SpanWrapper } from "./meal_detail";
 import { FlexRowDiv } from "../header/Header";
 
-const MealItem = ({ meal, onMealClick, ToggleDetailBar, isDetailOpen }) => {
+const MealItem = ({ meal, onMealClick, ToggleDetailBar }) => {
   const setUserState = useSetRecoilState(userStatusAtom);
+  const isDetailOpen = useRecoilValue(detailOpenAtom);
   const [postId, setPostId] = useRecoilState(postIdAtom);
+
   return (
     <LiWrapper
       style={{ cursor: "pointer" }}
