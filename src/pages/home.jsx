@@ -7,16 +7,30 @@ import { useRef } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { locData } from "../locData";
-import { postIdAtom } from "../recoil/meal/atom";
+import {
+  detailOpenAtom,
+  mealListEntryAtom,
+  openAtom,
+  openIdAtom,
+  originalMealListEntryAtom,
+  postIdAtom,
+  selectedMealAtom,
+} from "../recoil/meal/atom";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import proposalPopupAtom from "../recoil/proposalPopupData/atom";
 import Proposal from "../component/home/proposal";
-const Home = (props) => {
-  const [meals, setMeals] = useState([]);
-  const [mealListEntry, setMealListEntry] = useState([]);
-  const [selectedMeal, setSelectedMeal] = useState({});
-  const setPostId = useSetRecoilState(postIdAtom);
+const Home = () => {
+  const navigate = useNavigate();
+
+  const [mealListEntry, setMealListEntry] = useRecoilState(mealListEntryAtom);
+  const [selectedMeal, setSelectedMeal] = useRecoilState(selectedMealAtom);
   const [proposalData, setProposalData] = useRecoilState(proposalPopupAtom);
+  const [isOpen, setIsOpen] = useRecoilState(openAtom);
+  const [openId, setOpenId] = useRecoilState(openIdAtom);
+
+  const setPostId = useSetRecoilState(postIdAtom);
+  const setIsDetailOpen = useSetRecoilState(detailOpenAtom);
+  const setOriginalMealListEntry = useSetRecoilState(originalMealListEntryAtom);
 
   const fetchMeal = async (postId) => {
     const auth = localStorage.getItem("Authorization");
@@ -33,27 +47,7 @@ const Home = (props) => {
       })
       .catch((e) => console.log(e));
   };
-  const onMealClick = (postId) => {
-    setPostId(postId);
-    fetchMeal(postId);
-    setProposalData((cur) => ({
-      ...cur,
-      storeName: selectedMeal.storeName,
-      menus: selectedMeal.menus,
-    }));
-  };
-  const navigate = useNavigate();
-  //const [selectedMarker, setSelectedMarker] = useState(null);
-  const [isDetailOpen, setIsDetailOpen] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const [openId, setOpenId] = useState("");
-  const closeAll = () => {
-    setIsOpen(false);
-    setIsDetailOpen(false);
-  };
-  const toggleSidebar = () => {
-    isOpen ? closeAll() : setIsOpen(true);
-  };
+
   const fetchBySpotId = async (id) => {
     console.log(`fetch spot id`);
     const auth = localStorage.getItem("Authorization");
@@ -67,7 +61,8 @@ const Home = (props) => {
         console.log(`fetch spot ${id}`);
         console.log(res);
         console.log(res.data);
-        setMealListEntry(res.data);
+        setOriginalMealListEntry([...res.data]);
+        setMealListEntry([...res.data]);
         console.log(mealListEntry);
       })
       .catch((e) => {
@@ -84,33 +79,34 @@ const Home = (props) => {
       });
   };
   const findEntry = (id) => {
-    //const entry = { ...meals[id] };
     setOpenId(id);
     setIsOpen(true);
     fetchBySpotId(id);
-    //meals[id] ? setMealListEntry(meals[id]) : setMealListEntry(null);
-    //setMealListEntry(meals[id]);
-    //setIsDetailOpen(false);
+  };
+
+  const onMealClick = (postId) => {
+    setPostId(postId);
+    fetchMeal(postId);
+    setProposalData((cur) => ({
+      ...cur,
+      storeName: selectedMeal.storeName,
+      menus: selectedMeal.menus,
+    }));
+  };
+
+  const closeAll = () => {
+    setIsOpen(false);
+    setIsDetailOpen(false);
+  };
+  const toggleSidebar = () => {
+    isOpen ? closeAll() : setIsOpen(true);
   };
 
   return (
     <HomeWrapper>
-      <SideBar
-        meals={mealListEntry}
-        onMealClick={onMealClick}
-        selectedMeal={selectedMeal}
-        isDetailOpen={isDetailOpen}
-        setIsDetailOpen={setIsDetailOpen}
-        id={openId}
-        isOpen={isOpen}
-        toggle={toggleSidebar}
-      />
+      <SideBar onMealClick={onMealClick} id={openId} toggle={toggleSidebar} />
 
-      <Map
-        markers={locData}
-        //setSelectedMarker={setSelectedMarker}
-        onMarkerClick={findEntry}
-      />
+      <Map markers={locData} onMarkerClick={findEntry} />
       {proposalData.isOpen && <Proposal />}
     </HomeWrapper>
   );
