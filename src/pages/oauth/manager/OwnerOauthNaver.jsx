@@ -19,6 +19,7 @@ const OwnerOauthNaver = (props) => {
     if (localStorage.getItem("isSignUp") === "true") {
       setAuthCode(code);
       localStorage.setItem("isSignUp", "false");
+      console.log("사업자 네이버");
       alert(
         "카카오 계정이 확인되었습니다. \n필수정보를 모두 입력해야 카카오 계정으로 회원가입됩니다."
       );
@@ -55,7 +56,7 @@ const OwnerOauthNaver = (props) => {
     fetchId();
   }, []);
 
-  return <h1>Waiting for NAVER Authorization...</h1>;
+  return <h1>Waiting for MANAGER NAVER Authorization...</h1>;
 };
 
 export default OwnerOauthNaver;
