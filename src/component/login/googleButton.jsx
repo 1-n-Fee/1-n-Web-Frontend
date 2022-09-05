@@ -29,12 +29,22 @@ const GoogleButton = ({
                 color={COLOR.NAVY}
                 bgColor={COLOR.WHITE}
                 borderColor={COLOR.GOOGLE_SKYBLUE}
-                icon={"googleIcon.png"}
+                icon={"/googleIcon.png"}
                 iconWidth={"30px"}
               />
             </>
           ) : (
-            <ImgWrapper src="google_btn.png" />
+            <CustomOauthBtn
+              width="400px"
+              height="50px"
+              radius="8px"
+              text={"구글 로그인"}
+              color={COLOR.NAVY}
+              bgColor={COLOR.WHITE}
+              borderColor={COLOR.GOOGLE_SKYBLUE}
+              icon={"/googleIcon.png"}
+              iconWidth={"30px"}
+            />
           )}
         </ButtonWrapper>
       ) : (
@@ -54,7 +64,17 @@ const GoogleButton = ({
               />
             </>
           ) : (
-            <ImgWrapper src="google_btn.png" />
+            <CustomOauthBtn
+              width="400px"
+              height="50px"
+              radius="8px"
+              text={"구글 로그인"}
+              color={COLOR.NAVY}
+              bgColor={COLOR.WHITE}
+              borderColor={COLOR.GOOGLE_SKYBLUE}
+              icon={"/googleIcon.png"}
+              iconWidth={"30px"}
+            />
           )}
         </ButtonWrapper>
       )}

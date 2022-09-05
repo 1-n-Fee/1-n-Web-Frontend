@@ -27,11 +27,20 @@ const NaverButton = ({
               text={"네이버 회원가입"}
               color={COLOR.WHITE}
               bgColor={COLOR.NAVER_GREEN}
-              icon={"naverIcon.png"}
+              icon={"/naverIcon.png"}
               iconWidth={"40px"}
             />
           ) : (
-            <ImgWrapper src="naver_btn.png" />
+            <CustomOauthBtn
+              width="400px"
+              height="50px"
+              radius="8px"
+              text={"네이버 로그인"}
+              color={COLOR.WHITE}
+              bgColor={COLOR.NAVER_GREEN}
+              icon={"/naverIcon.png"}
+              iconWidth={"40px"}
+            />
           )}
         </ButtonWrapper>
       ) : (
@@ -44,11 +53,20 @@ const NaverButton = ({
               text={"네이버 회원가입"}
               color={COLOR.WHITE}
               bgColor={COLOR.NAVER_GREEN}
-              icon={"naverIcon.png"}
+              icon={"/naverIcon.png"}
               iconWidth={"40px"}
             />
           ) : (
-            <ImgWrapper src="naver_btn.png" />
+            <CustomOauthBtn
+              width="400px"
+              height="50px"
+              radius="8px"
+              text={"네이버 로그인"}
+              color={COLOR.WHITE}
+              bgColor={COLOR.NAVER_GREEN}
+              icon={"/naverIcon.png"}
+              iconWidth={"40px"}
+            />
           )}
         </ButtonWrapper>
       )}

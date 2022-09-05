@@ -30,11 +30,20 @@ const KakaoButton = ({
               text={"카카오 회원가입"}
               color={COLOR.KAKAO_BROWN}
               bgColor={COLOR.KAKAO_YELLOW}
-              icon={"kakaoIcon.png"}
+              icon={"/kakaoIcon.png"}
               iconWidth={"40px"}
             />
           ) : (
-            <ImgWrapper src="kakao_btn.png" />
+            <CustomOauthBtn
+              width="400px"
+              height="50px"
+              radius="8px"
+              text={"카카오 로그인"}
+              color={COLOR.KAKAO_BROWN}
+              bgColor={COLOR.KAKAO_YELLOW}
+              icon={"/kakaoIcon.png"}
+              iconWidth={"40px"}
+            />
           )}
         </ButtonWrapper>
       ) : (
@@ -51,11 +60,20 @@ const KakaoButton = ({
               text={"카카오 회원가입"}
               color={COLOR.KAKAO_BROWN}
               bgColor={COLOR.KAKAO_YELLOW}
-              icon={"kakaoIcon.png"}
+              icon={"/kakaoIcon.png"}
               iconWidth={"40px"}
             />
           ) : (
-            <ImgWrapper src="kakao_btn.png" />
+            <CustomOauthBtn
+              width="400px"
+              height="50px"
+              radius="8px"
+              text={"카카오 로그인"}
+              color={COLOR.KAKAO_BROWN}
+              bgColor={COLOR.KAKAO_YELLOW}
+              icon={"/kakaoIcon.png"}
+              iconWidth={"40px"}
+            />
           )}
         </ButtonWrapper>
       )}
