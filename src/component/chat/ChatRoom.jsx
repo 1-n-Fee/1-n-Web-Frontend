@@ -61,7 +61,7 @@ const ChatRoom = () => {
     navigate("/");
   };
   return (
-    <ChatRoomWrapper>
+    <>
       {roomId === undefined ? (
         <DefaultDivWrapper>
           <h2>참여할 채팅방을 선택해주세요🍔</h2>
@@ -70,7 +70,7 @@ const ChatRoom = () => {
           </SubmitBtn>
         </DefaultDivWrapper>
       ) : (
-        <>
+        <ChatMainWrapper>
           <ChatRoomHeader
             roomName={chatData.roomName}
             state={chatData.state}
@@ -81,33 +81,27 @@ const ChatRoom = () => {
             location={chatData.location}
             roomId={roomId}
           />
-          <ChatMainDiv>
-            <Chatting roomId={roomId} state={chatData.state} />
-          </ChatMainDiv>
-        </>
+          <Chatting roomId={roomId} state={chatData.state} />
+        </ChatMainWrapper>
       )}
-    </ChatRoomWrapper>
+    </>
   );
 };
 
 export default ChatRoom;
 
-const ChatRoomWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  flex: 1;
-`;
-
-const ChatMainDiv = styled.div`
-  flex-grow: 1;
-`;
+const ChatMainWrapper = styled.div`
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  height:100%;
+`
 
 const DefaultDivWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100%;
+  height: 80%;
   background-color: ${COLOR.DARK_YELLOW_BG};
 `;

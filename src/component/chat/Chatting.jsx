@@ -181,13 +181,12 @@ export default Chatting;
 
 const ChatSection = styled.div`
   background-color: #ecf0f1;
-  height: 100%;
   display: flex;
-  flex: 1;
+  height:90%;
   flex-direction: column;
-`;
-
-const BubbleWrapper = styled.div`
-  height: 400px;
+  `;
+  
+  const BubbleWrapper = styled.div`
+  height:100%;
   overflow: auto;
 `;
