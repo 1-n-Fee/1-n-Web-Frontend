@@ -21,9 +21,10 @@ const Chatting = ({ roomId, state }) => {
     }
 
     // console.log(` messages: ${messages}`);
+    setMessages([])
     getPastMessages();
     getSocketToken();
-  }, []);
+  }, [roomId]);
 
   const getSocketToken = async () => {
     try {
@@ -141,7 +142,7 @@ const Chatting = ({ roomId, state }) => {
 
   useEffect(() => {
     console.log(scrollRef);
-    if (scrollRef.current === undefined) return;
+    if (! scrollRef.current ) return;
     scrollRef.current.scrollIntoView({
       behavior: "smooth",
     });
