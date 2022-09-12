@@ -10,10 +10,7 @@ import {
 } from "../../recoil/meal/atom";
 import { SpanWrapper } from "./meal_detail";
 import { FlexRowDiv } from "../header/Header";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { postIdAtom, userStatusAtom } from "../../recoil/meal/atom";
-import { SpanWrapper } from "./meal_detail";
-import { FlexRowDiv } from "../header/Header";
+
 import RequestStateTag from "../history/RequestStateTag";
 
 const MealItem = ({ meal, onMealClick, ToggleDetailBar }) => {
