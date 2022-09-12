@@ -6,12 +6,18 @@ import SearchBar from "../common/SearchBar";
 import Tag from "../common/Tag";
 import { COLOR } from "./../../constants/colors";
 import axios from "axios";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { searchDetailAtom, searchResultAtom } from "../../recoil/search/atom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { solid } from "@fortawesome/fontawesome-svg-core/import.macro";
 import SearchItem from "./SearchItem";
 import SearchDetail from "./SearchDetail";
+import {
+  mealListEntryAtom,
+  openIdAtom,
+  originalMealListEntryAtom,
+} from "../../recoil/meal/atom";
+import { useEffect } from "react";
 const Header = () => {
   const navigate = useNavigate();
   const [tagData, setTagData] = useState([
@@ -24,6 +30,11 @@ const Header = () => {
   ]);
   const [searchResult, setSearchResult] = useRecoilState(searchResultAtom);
   const [searchDetail, setSearchDetail] = useRecoilState(searchDetailAtom);
+  const [mealListEntry, setMealListEntry] = useRecoilState(mealListEntryAtom);
+  const [originalMealListEntry, setOriginalMealListEntry] = useRecoilState(
+    originalMealListEntryAtom
+  );
+  let filter = [];
   const onLogoClick = () => {
     navigate("/");
   };
@@ -33,7 +44,70 @@ const Header = () => {
       cur.map((d, key) => (key === idx ? { ...d, isClicked: !d.isClicked } : d))
     );
   };
+  const filterCategory = () => {
+    filter = tagData
+      .map((tag) => {
+        if (tag.isClicked) {
+          switch (tag.name) {
+            case "한식":
+              return "KOREAN";
+            case "양식":
+              return "WESTERN";
+            case "중식":
+              return "CHINESE";
+            case "일식":
+              return "JAPANESE";
+            case "야식":
+              return "MIDNIGHT";
+            case "기타":
+              return "ETC";
+            default:
+          }
+        }
+      })
+      .filter((val) => val !== undefined);
+    //console.log(filter);
+  };
 
+  const filterMealList = () => {
+    if (mealListEntry) {
+      //setMealListEntry([...originalMealListEntry]);
+      console.log(mealListEntry);
+      console.log(filter);
+      setMealListEntry(
+        originalMealListEntry.filter((meal) => {
+          return filter.some((entry) => meal.category === entry);
+        })
+      );
+    }
+  };
+  useEffect(() => {
+    filterCategory();
+    filterMealList();
+  }, [tagData]);
+
+  const onSearch = async (keyword) => {
+    const auth = localStorage.getItem("Authorization");
+    /*await axios
+      .get("http://localhost:8080/store/all")
+      .then((res) => {
+        console.log(res);
+        setSearchResult({ isOpen: true, data: res.data });
+      })
+      .catch((e) => console.log(e));*/
+    await axios
+      .get(`http://localhost:8080/post/search?store=${keyword}`, {
+        headers: {
+          Authorization: auth,
+        },
+      })
+      .then((res) => {
+        console.log(res);
+        setSearchResult({ isOpen: true, data: res.data });
+      })
+      .catch((e) => console.log(e));
+  };
+=======
   const onSearch = async (keyword) => {
     const auth = localStorage.getItem("Authorization");
     /*await axios
@@ -85,6 +159,7 @@ const Header = () => {
           </ResultUl>
         )}
       </TopBarDiv>
+
       <HeaderWrapper isHome={window.location.pathname === "/"}>
         <ImgWrapper onClick={onLogoClick}>
           <img src="/logo.png" width="160px" alt="logo" />
