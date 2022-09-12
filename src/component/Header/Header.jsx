@@ -107,28 +107,7 @@ const Header = () => {
       })
       .catch((e) => console.log(e));
   };
-=======
-  const onSearch = async (keyword) => {
-    const auth = localStorage.getItem("Authorization");
-    /*await axios
-      .get("http://localhost:8080/store/all")
-      .then((res) => {
-        console.log(res);
-        setSearchResult({ isOpen: true, data: res.data });
-      })
-      .catch((e) => console.log(e));*/
-    await axios
-      .get(`http://localhost:8080/post/search?store=${keyword}`, {
-        headers: {
-          Authorization: auth,
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        setSearchResult({ isOpen: true, data: res.data });
-      })
-      .catch((e) => console.log(e));
-  };
+
   return (
     <div>
       <TopBarDiv isOpen={searchResult.isOpen}>
