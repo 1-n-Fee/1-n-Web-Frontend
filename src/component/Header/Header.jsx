@@ -34,7 +34,6 @@ const Header = () => {
   const [originalMealListEntry, setOriginalMealListEntry] = useRecoilState(
     originalMealListEntryAtom
   );
-  const openId = useRecoilValue(openIdAtom);
   let filter = [];
   const onLogoClick = () => {
     navigate("/");
@@ -67,16 +66,16 @@ const Header = () => {
         }
       })
       .filter((val) => val !== undefined);
-    console.log(filter);
+    //console.log(filter);
   };
 
   const filterMealList = () => {
     if (mealListEntry) {
-      setMealListEntry([...originalMealListEntry]);
+      //setMealListEntry([...originalMealListEntry]);
       console.log(mealListEntry);
-
+      console.log(filter);
       setMealListEntry(
-        mealListEntry.filter((meal) => {
+        originalMealListEntry.filter((meal) => {
           return filter.some((entry) => meal.category === entry);
         })
       );
