@@ -3,19 +3,19 @@ import LoginForm from "../component/login/loginForm";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { COLOR } from "./../constants/colors";
-const LoginPage = (props) => {
+const OwnerLoginPage = (props) => {
   return (
     <FlexWrapper>
-      <h2>학생 로그인</h2>
-      <LoginForm />
+      <h2>사업자 로그인</h2>
+      <LoginForm type="manager" />
       <ManagerLinkWrapper>
-        <Link to={"/login/manager"}>사업자이신가요?</Link>
+        <Link to={"/login"}>학생이신가요?</Link>
       </ManagerLinkWrapper>
     </FlexWrapper>
   );
 };
 
-export default LoginPage;
+export default OwnerLoginPage;
 const FlexWrapper = styled.div`
   margin-top: 3rem;
   display: flex;

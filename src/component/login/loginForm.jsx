@@ -11,8 +11,7 @@ import { useRecoilState } from "recoil";
 import loginDataAtom from "../../recoil/loginData/atom";
 import axios from "axios";
 import { Link } from "react-router-dom";
-
-const LoginForm = (props) => {
+const LoginForm = ({ type = "student" }) => {
   const navigate = useNavigate();
   const [loginData, setLoginData] = useRecoilState(loginDataAtom);
   const onFindIdClick = () => {
@@ -70,9 +69,19 @@ const LoginForm = (props) => {
         <IdInput />
         <PwInput />
         <LoginButton onClick={onLogin} />
-        <KakaoButton />
-        <NaverButton />
-        <GoogleButton />
+        {type === "student" ? (
+          <>
+            <KakaoButton />
+            <NaverButton />
+            <GoogleButton />
+          </>
+        ) : (
+          <>
+            <KakaoButton type={type} />
+            <NaverButton type={type} />
+            <GoogleButton type={type} />
+          </>
+        )}
       </FormContainer>
       <SpanContainer>
         <div>
@@ -91,7 +100,7 @@ const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 10rem;
+  margin-top: 3rem;
 `;
 const SpanContainer = styled.div`
   display: flex;

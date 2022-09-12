@@ -3,10 +3,10 @@ import React from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
-import oauthDataAtom from "./../recoil/oauthData/atom";
-import loginAndRoleDataAtom from "../recoil/loginAndRole/atom";
-import ROLE from "../constants/role";
-const OauthKakao = (props) => {
+import oauthDataAtom from "../../../recoil/oauthData/atom";
+import loginAndRoleDataAtom from "../../../recoil/loginAndRole/atom";
+import ROLE from "../../../constants/role";
+const OwnerOauthNaver = (props) => {
   const navigate = useNavigate();
   const setLoginRoleData = useSetRecoilState(loginAndRoleDataAtom);
   const setAuthCode = useSetRecoilState(oauthDataAtom);
@@ -19,6 +19,7 @@ const OauthKakao = (props) => {
     if (localStorage.getItem("isSignUp") === "true") {
       setAuthCode(code);
       localStorage.setItem("isSignUp", "false");
+      console.log("사업자 네이버");
       alert(
         "카카오 계정이 확인되었습니다. \n필수정보를 모두 입력해야 카카오 계정으로 회원가입됩니다."
       );
@@ -28,12 +29,12 @@ const OauthKakao = (props) => {
     const fetchId = async () => {
       try {
         await axios
-          .get(`http://localhost:8080/user/oauth/kakao?code=${code}`)
+          .get(`http://localhost:8080/manager/oauth/naver?code=${code}`)
           .then((res) => {
             console.log(res);
             localStorage.setItem("Authorization", res.headers.authorization);
             alert("로그인에 성공했습니다");
-            setLoginRoleData({ isLogin: true, role: ROLE.STUDENT });
+            setLoginRoleData({ isLogin: true, role: ROLE.MANAGER });
             navigate("/");
           });
       } catch (e) {
@@ -49,13 +50,13 @@ const OauthKakao = (props) => {
             break;
           default:
         }
-        navigate("/before-signup");
+        navigate("/before-signup/owner");
       }
     };
     fetchId();
   }, []);
 
-  return <h1>Waiting for KAKAO Authorization...</h1>;
+  return <h1>Waiting for MANAGER NAVER Authorization...</h1>;
 };
 
-export default OauthKakao;
+export default OwnerOauthNaver;
