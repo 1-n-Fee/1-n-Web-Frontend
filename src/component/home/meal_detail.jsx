@@ -167,6 +167,11 @@ const TabContainer = styled.div`
   justify-content: space-evenly;
 `;
 
+const PriceWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+`;
 export const SpanWrapper = styled.div`
   width: 2rem;
   text-align: center;

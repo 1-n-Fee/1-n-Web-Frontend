@@ -21,7 +21,7 @@ export default ChatPage;
 const ChatPageWrapper = styled.div`
   display: flex;
   flex-direction: row;
-  height: 80vh;
+  height:85vh;
 `;
 
 const SideNavWrapper = styled.div`
@@ -31,4 +31,5 @@ const SideNavWrapper = styled.div`
 
 const ChatRoomWrapper = styled.div`
   width: 70%;
+  height:100%;
 `;

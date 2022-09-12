@@ -5,6 +5,7 @@ const key = {
   WAITING: 0,
   ACCEPTED: 1,
   DENIED: 2,
+  OWNER: 3,
 };
 
 Object.freeze(key);
@@ -32,6 +33,13 @@ const RequestStateTag = ({ state }) => {
           string: "거절",
           color: "white",
           bg: "#c0392b",
+        });
+        break;
+      case key.OWNER:
+        setData({
+          string: "방장",
+          color: "white",
+          bg: "lightseagreen",
         });
         break;
       default:
