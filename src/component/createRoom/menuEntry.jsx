@@ -5,7 +5,7 @@ const MenuEntry = ({ menu }) => {
   const { imageUrl, menuId, name, price } = menu;
   return (
     <Menu className="box" key={menuId}>
-      <Img src={imageUrl} alt="default" />
+      <Img src={`http://localhost:8080/image/menu/${imageUrl}`} alt="default" />
       <InfoWrapper>
         <span>{name}</span>
         <span>{price}원</span>

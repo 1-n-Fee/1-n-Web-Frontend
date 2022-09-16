@@ -1,40 +1,26 @@
 import React from "react";
 import MealDetail from "./meal_detail";
 import MealItem from "./meal_item";
-//import MealDetail from "./meal_detail";
 import styled from "styled-components";
-const MealList = ({
-  meals,
-  id,
-  onMealClick,
-  selectedMeal,
-  isDetailOpen,
-  setIsDetailOpen,
-  ToggleDetailBar,
-}) => {
+import { useRecoilState, useRecoilValue } from "recoil";
+import { mealListEntryAtom } from "../../recoil/meal/atom";
+const MealList = ({ id, onMealClick, ToggleDetailBar }) => {
+  const [mealListEntry] = useRecoilState(mealListEntryAtom);
   return (
     <>
       <MealListWrapper>
         <ul>
-          {meals &&
-            meals.map((meal) => (
+          {mealListEntry &&
+            mealListEntry.map((meal) => (
               <MealItem
                 meal={meal}
-                isDetailOpen={isDetailOpen}
-                setIsDetailOpen={setIsDetailOpen}
                 onMealClick={onMealClick}
                 ToggleDetailBar={ToggleDetailBar}
               />
             ))}
         </ul>
       </MealListWrapper>
-      <MealDetail
-        meal={selectedMeal}
-        isDetailOpen={isDetailOpen}
-        setIsDetailOpen={setIsDetailOpen}
-        ToggleDetailBar={ToggleDetailBar}
-        id={id}
-      />
+      <MealDetail ToggleDetailBar={ToggleDetailBar} id={id} />
     </>
   );
 };

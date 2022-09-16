@@ -9,15 +9,15 @@ import { COLOR } from "./../constants/colors";
 const width = "400px";
 const height = "50px";
 const radius = "8px";
-const BeforeSignUpPage = () => {
+const OwnerBeforeSignUpPage = () => {
   const navigate = useNavigate();
   const onSelfSignUpClick = () => {
-    navigate("/signup");
+    navigate("/signup/owner");
   };
 
   return (
     <BeforeSignUpWrapper>
-      <Title>학생 회원가입</Title>
+      <Title>사업자 회원가입</Title>
       <ExplainSpan>간단히 회원가입 하고 싶다면?</ExplainSpan>
       {/* <SubTitle>간편 회원가입</SubTitle> */}
       <KakaoButton
@@ -53,14 +53,14 @@ const BeforeSignUpPage = () => {
       </SelfSignUpBtn>
 
       <ManagerLinkWrapper>
-        <Link to={"/before-signup/owner"}>사업자이신가요?</Link>
+        <Link to={"/before-signup"}>학생이신가요?</Link>
       </ManagerLinkWrapper>
       {/* <Link> 사업자이신가요? </Link> */}
     </BeforeSignUpWrapper>
   );
 };
 
-export default BeforeSignUpPage;
+export default OwnerBeforeSignUpPage;
 
 const BeforeSignUpWrapper = styled.div`
   display: flex;

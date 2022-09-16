@@ -2,21 +2,13 @@ import React from "react";
 import MealList from "./meal_list";
 import styled, { css } from "styled-components";
 import { locData } from "../../locData";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { detailOpenAtom, openAtom } from "../../recoil/meal/atom";
 
-const SideBar = ({
-  meals,
-  onMealClick,
-  selectedMeal,
-  isDetailOpen,
-  setIsDetailOpen,
-  isOpen,
-  toggle,
-  id,
-}) => {
-  //const [isOpen, setIsOpen] = useState(false);
-  /*const ToggleSidebar = () => {
-    isOpen === true ? setIsOpen(false) : setIsOpen(true);
-  };*/
+const SideBar = ({ onMealClick, toggle, id }) => {
+  const isOpen = useRecoilValue(openAtom);
+  const [isDetailOpen, setIsDetailOpen] = useRecoilState(detailOpenAtom);
+
   const ToggleDetailBar = () => {
     isDetailOpen === true ? setIsDetailOpen(false) : setIsDetailOpen(true);
   };
@@ -31,13 +23,9 @@ const SideBar = ({
           {id && <SpotWrapper>{locData[id - 1].loc}</SpotWrapper>}
         </SideBarHeader>
         <MealList
-          meals={meals}
           id={id}
-          isDetailOpen={isDetailOpen}
-          setIsDetailOpen={setIsDetailOpen}
           ToggleDetailBar={ToggleDetailBar}
           onMealClick={onMealClick}
-          selectedMeal={selectedMeal}
         />
       </SideBarWrapper>
     </>
