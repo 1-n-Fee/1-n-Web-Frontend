@@ -221,8 +221,7 @@ const IdInput = ({ idKey, authCheckKey, setData, isOwner = false }) => {
               }`}</Timer>
             </SignUpWarningStyle>
           </AuthCodeWrapper>
-          {hasEmailBeenChecked &&
-          isAvailCode === IS_CODE_AVAIL.NOT_AVAIL &&
+          {(hasEmailBeenChecked && isAvailCode === IS_CODE_AVAIL.NOT_AVAIL) ||
           isAuthCodeExpired ? (
             <SignUpWarningStyle>
               <strong>⚠️ 올바른 인증번호가 아닙니다</strong>
