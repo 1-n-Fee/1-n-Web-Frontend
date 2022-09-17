@@ -62,6 +62,7 @@ const HistoryListHeader = ({
   };
 
   const onTabClick = (e) => {
+    getHistoryData();
     setHistoryData((cur) => ({
       ...cur,
       isPopUpOpen: true,
@@ -73,10 +74,10 @@ const HistoryListHeader = ({
   /**
    * 제안서 요청 취소 시 서버에 요청 취소 보내는 함수
    */
-  const onRequestCancelClick = async () => {
+  const onRequestCancelClick = async (e) => {
+    e.stopPropagation();
     try {
-      // 임시
-      await axios.post(`http://localhost:8080/proposal/1`, {
+      await axios.delete(`http://localhost:8080/proposal/${roomId}`, {
         headers: { Authorization: localStorage.getItem("Authorization") },
       });
     } catch (err) {
@@ -84,7 +85,8 @@ const HistoryListHeader = ({
     }
   };
 
-  const onDeleteRoomClick = async () => {
+  const onDeleteRoomClick = async (e) => {
+    e.stopPropagation();
     try {
       if (isChief) {
         await axios.delete(`http://localhost:8080/post/${roomId}`, {
@@ -155,7 +157,7 @@ const HistoryListHeader = ({
             <TabButton data-idx={1} onClick={onTabClick}>
               🍕
             </TabButton>
-            {isChief && (
+            {state !== STATE.DENIED && (
               <TabButton data-idx={2} onClick={onTabClick}>
                 {state === "ORDERING" ||
                 state === "ORDER_COMPLETED" ||
@@ -169,11 +171,21 @@ const HistoryListHeader = ({
             {isOrderedState && <TabButton onClick={onChatClick}>💬</TabButton>}
           </TabBtnWrapper>
 
+          {/* 방장 - 모집중일 때 취소 / 비방장 - 요청 수락 후 취소 */}
           <div>
-            {(state === "RECRUITING" || state === "AWAITING") && (
-              <button onClick={onDeleteRoomClick}>
+            {state === "RECRUITING" && (
+              <button
+                onClick={isChief ? onDeleteRoomClick : onRequestCancelClick}
+              >
                 {isChief ? "방 삭제하기" : "취소하기"}
               </button>
+            )}
+          </div>
+
+          {/* 요청 대기중일 때 취소 */}
+          <div>
+            {state === STATE.REQ_WAITING && !isChief && (
+              <button onClick={onRequestCancelClick}>취소하기</button>
             )}
           </div>
         </TitleWrapper>
@@ -183,15 +195,10 @@ const HistoryListHeader = ({
           >{` 🍔1인당 배달비 : ${feePerOne.toLocaleString()}원`}</SubInfoSpan>
           <SubInfoSpan
             width={"30%"}
-          >{` 💵전체 금액 : ${totalFee.toLocaleString()}원`}</SubInfoSpan>
+          >{` 💵나의 금액 : ${totalFee.toLocaleString()}원`}</SubInfoSpan>
 
           <SubInfoSpan width={"40%"}>{`📍${location}`}</SubInfoSpan>
         </AlarmSubInfoStyle>
-      </div>
-      <div>
-        {state === STATE.REQ_WAITING && !isChief && (
-          <button onClick={onRequestCancelClick}>요청 취소하기</button>
-        )}
       </div>
     </HistoryHeaderWrapper>
   );
