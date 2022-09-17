@@ -130,7 +130,7 @@ const Chatting = ({ roomId, state }) => {
       body: JSON.stringify({
         content: "",
         type: "ENTER",
-        postId: 1,
+        postId: roomId,
         nickname: nickname,
       }),
     });
@@ -147,7 +147,7 @@ const Chatting = ({ roomId, state }) => {
       const payLoad = {
         content: msg,
         type: "TALK",
-        postId: 1,
+        postId: roomId,
         nickname: nickname,
       };
 
