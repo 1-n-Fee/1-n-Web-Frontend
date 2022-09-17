@@ -42,7 +42,6 @@ const ChatRoom = () => {
         }
       );
       const data = response.data;
-      console.log(data);
       setChatData({
         roomName: `${data.storeName}-${data.postId}`,
         state: data.postState,
@@ -52,7 +51,6 @@ const ChatRoom = () => {
         location: data.spotId,
         isChief: data.owner,
       });
-      console.log(response.data.owner);
     } catch (err) {
       console.log(err);
     }
@@ -91,11 +89,11 @@ const ChatRoom = () => {
 export default ChatRoom;
 
 const ChatMainWrapper = styled.div`
-  display:flex;
-  flex-direction:column;
-  width:100%;
-  height:100%;
-`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+`;
 
 const DefaultDivWrapper = styled.div`
   display: flex;
