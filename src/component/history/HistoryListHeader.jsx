@@ -62,6 +62,7 @@ const HistoryListHeader = ({
   };
 
   const onTabClick = (e) => {
+    getHistoryData();
     setHistoryData((cur) => ({
       ...cur,
       isPopUpOpen: true,
