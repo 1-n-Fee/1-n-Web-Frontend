@@ -6,55 +6,23 @@ import ChatBubbleWrapper from "./ChatBubbleWrapper";
 import styled from "styled-components";
 import ChattingInput from "./ChattingInput";
 
-// let client = new Client();
-
 const Chatting = ({ roomId, state }) => {
   const [nickname, setNickname] = useState("");
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
 
-  const testRef = useRef({ roomId: parseInt(roomId) }); // 초깃값을 지정하면 최초 렌더링시 의 값으로 고정되는 듯
-  const testRef2 = useRef(roomId);
-  const testRef3 = useRef();
   const client = useRef(new Client());
   const subscription = useRef();
   const scrollRef = useRef();
 
-  // test
-  // useEffect(() => {
-  //   // console.log(testRef);
-  //   console.log(messages);
-  // }, [messages]);
-
   useEffect(() => {
-    // if (client.current.state === ActivationState.ACTIVE) {
-    // }
-    // client.current = new Client();
-    // console.log("새로렌더링");
-    console.log(client.current);
-    // testRef3.current = 100;
-    // console.log(testRef3);
-    // testRef3.current = 200;
-    // console.log(testRef3);
-
-    // console.log(` messages: ${messages}`);
     setMessages([]);
     getPastMessages();
     getSocketToken();
-    // console.log(roomId);
-    // console.log(testRef.current);
-    // console.log(testRef2.current);
-    // testRef2.current = 1000;
-    // console.log(testRef2.current);
 
-    testRef.current.roomId = roomId * 100;
-    console.log(testRef.current);
     return () => {
-      // console.log("이건 ...안되니?");
       subscription.current.unsubscribe();
       client.current.deactivate();
-      // client.current.state = ActivationState.INACTIVE;
-      // console.log(client.current.connected);
     };
   }, [roomId]);
 
@@ -88,8 +56,6 @@ const Chatting = ({ roomId, state }) => {
         }
       );
 
-      // console.log(response.data);
-
       setMessages(
         response.data
           .filter((message) => message.type !== "ENTER")
@@ -110,7 +76,6 @@ const Chatting = ({ roomId, state }) => {
     try {
       client.current.brokerURL = `ws://localhost:8080/ws/chat?token=${socketToken}`;
 
-      console.log(client.current.connected);
       // 소켓 연결 후 실행되는 콜백 함수
       client.current.onConnect = (frame) => {
         // 채팅방 입장
@@ -121,8 +86,6 @@ const Chatting = ({ roomId, state }) => {
           `/sub/chat/room/${roomId}`,
           (data) => {
             const newMessage = JSON.parse(data.body);
-            console.log("구독 안된듯?");
-            // 왜 구독이 안될까
             if (newMessage.type === "ENTER") return;
             setMessages((cur) => [
               ...cur,
@@ -137,7 +100,6 @@ const Chatting = ({ roomId, state }) => {
         );
       };
 
-      // console.log(client.current.onConnect);
       // 연결 실패할 경우 실행되는 콜백 함수
       client.current.onStompError = (frame) => {
         console.log("Broker reported error: " + frame.headers["message"]);
@@ -146,7 +108,6 @@ const Chatting = ({ roomId, state }) => {
 
       // 소켓 활성화
       client.current.activate();
-      console.log("isConnected: ", client.current.connected);
     } catch (err) {
       console.log(err);
     }
@@ -192,7 +153,6 @@ const Chatting = ({ roomId, state }) => {
 
   // 메세지 생성 시 마다 아래로 스크롤 하는 함수
   useEffect(() => {
-    // console.log(scrollRef);
     if (!scrollRef.current) return;
     scrollRef.current.scrollIntoView({
       behavior: "smooth",
@@ -219,8 +179,6 @@ const Chatting = ({ roomId, state }) => {
             />
           </div>
         ))}
-        {/* <button onClick={enterChatRoom}>참가하깃</button>
-      <button onClick={onSampleClick}>채팅 보내깃</button> */}
       </BubbleWrapper>
       <ChattingInput
         isDelivered={state && state === "DELIVERY_COMPLETE"}

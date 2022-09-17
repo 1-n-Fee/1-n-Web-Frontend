@@ -20,11 +20,9 @@ const ChattingInput = ({ isDelivered, setMessage }) => {
       const doesReallyExit = window.confirm("정말 나가시겠습니까?");
       if (!doesReallyExit) return;
 
-      const response = await axios.delete(
-        `http://localhost:8080/post/${roomId}`,
-        { headers: { Authorization: localStorage.getItem("Authorization") } }
-      );
-      console.log(response);
+      await axios.delete(`http://localhost:8080/post/${roomId}`, {
+        headers: { Authorization: localStorage.getItem("Authorization") },
+      });
 
       setIsChatDataChanged(true);
       navigate("/chat");
@@ -33,33 +31,16 @@ const ChattingInput = ({ isDelivered, setMessage }) => {
     }
   }, [isDelivered]);
 
-  // const exitRoom = async () => {
-  //   try {
-  //     const response = await axios.delete(
-  //       `http://localhost:8080/post/${roomId}`,
-  //       { headers: { Authorization: localStorage.getItem("Authorization") } }
-  //     );
-  //     console.log(response);
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
   const onSend = () => {
     setMessage(chatText);
     setChatText("");
   };
 
   const onKeyUp = (e) => {
-    console.log(e);
     if (e.code === "Enter") {
-      // setChatText((cur)=> cur.substring(0, cur.length))
       onSend();
     }
   };
-
-  useEffect(() => {
-    console.log(chatText);
-  }, [chatText]);
 
   return (
     <ChatInputWrapper>
