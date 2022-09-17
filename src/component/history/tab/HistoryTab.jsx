@@ -6,7 +6,8 @@ import { useRecoilState } from "recoil";
 import { historyDataAtom } from "../../../recoil/historyData/atom";
 import styled from "styled-components";
 import { COLOR } from "./../../../constants/colors";
-const tabName = ["세부 정보", "주문 내역", "참여 인원"];
+import { STATE } from "../../../constants/states";
+const tabName = ["세부 정보", "내 주문 내역", "참여 인원"];
 Object.freeze(tabName);
 
 const HistoryTab = () => {
@@ -21,16 +22,18 @@ const HistoryTab = () => {
   return (
     <HistoryTabWrapper>
       <TabWrapper>
-        {tabName.map((tName, key) => (
-          <Tab
-            key={`historyTab_${key}`}
-            data-idx={key}
-            onClick={onTabClick}
-            isSelected={historyData.clickedTab === key}
-          >
-            {tName}
-          </Tab>
-        ))}
+        {tabName.map((tName, key) =>
+          historyData.state === STATE.DENIED && key === 2 ? null : (
+            <Tab
+              key={`historyTab_${key}`}
+              data-idx={key}
+              onClick={onTabClick}
+              isSelected={historyData.clickedTab === key}
+            >
+              {tName}
+            </Tab>
+          )
+        )}
       </TabWrapper>
       <div>
         {historyData.clickedTab === 0 && <HistoryDetailInfoTab />}
