@@ -97,9 +97,11 @@ const ChatMainWrapper = styled.div`
 
 const DefaultDivWrapper = styled.div`
   display: flex;
+
+  height: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 80%;
+  height: 100%;
   background-color: ${COLOR.DARK_YELLOW_BG};
 `;
