@@ -11,11 +11,13 @@ const Chatting = ({ roomId, state }) => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState("");
 
-  const client = useRef(new Client());
+  const client = useRef();
   const subscription = useRef();
   const scrollRef = useRef();
 
   useEffect(() => {
+    client.current = new Client();
+
     setMessages([]);
     getPastMessages();
     getSocketToken();
