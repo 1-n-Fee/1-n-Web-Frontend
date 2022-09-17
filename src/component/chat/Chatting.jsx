@@ -170,9 +170,8 @@ const Chatting = ({ roomId, state }) => {
     <ChatSection>
       <BubbleWrapper>
         {messages.map((m, key) => (
-          <div ref={scrollRef}>
+          <div ref={scrollRef} key={`chat_bubble_${key}`}>
             <ChatBubbleWrapper
-              key={`chat_bubble_${key}`}
               nickname={m.nickname}
               icon=""
               content={m.content}
