@@ -1,0 +1,31 @@
+export const PHONE_FIRST_NUM = [
+  "010",
+  "011",
+  "016",
+  "017",
+  "02",
+  "031",
+  "032",
+  "033",
+  "041",
+  "042",
+  "043",
+  "044",
+  "051",
+  "052",
+  "053",
+  "054",
+  "055",
+  "061",
+  "062",
+  "064",
+];
+
+export const FOOD_CATEGORY = [
+  { KOR: "한식", ENG: "korean" },
+  { KOR: "양식", ENG: "western" },
+  { KOR: "중식", ENG: "chinese" },
+  { KOR: "일식", ENG: "japanese" },
+  { KOR: "야식", ENG: "midnight" },
+  { KOR: "기타", ENG: "etc" },
+];
